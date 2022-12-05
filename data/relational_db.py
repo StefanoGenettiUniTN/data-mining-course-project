@@ -57,8 +57,7 @@ def generate_person_database(numPerson):
 
         autoincrement_id += 1
 
-    for d in data:
-        print(d)
+    writer.writerows(data)
 
     # close the file
     f.close()
