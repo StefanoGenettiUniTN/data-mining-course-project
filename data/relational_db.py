@@ -98,5 +98,42 @@ def load_addresses():
         output.append(a.strip())
     return output
 
+########################################################
 
-generate_person_database(10)
+def generate_mock_database():
+    '''
+    Create a CSV file populated with data about
+    people. We reproduce a mock example we have
+    invented for test.
+    '''
+
+    # open the file in the write mode
+    f = open('relational_db.csv', 'w')
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    header = ['id', 'name', 'address', 'age', 'occupation']
+
+    # write the header
+    writer.writerow(header)
+    
+    # generate tuples
+    data = []
+    data.append([0, "ste", "via1", 19, "imp1"])
+    data.append([1, "ste", "via2", 22, "sar"])
+    data.append([2, "ste", "via3", 21, "tec"])
+    data.append([3, "pie", "via1", 30, "imp1"])
+    data.append([4, "pie", "via4", 19, "sar"])
+    data.append([5, "fab", "via1", 22, "imp1"])
+    data.append([6, "fab", "via2", 53, "sar"])
+    data.append([7, "ero", "via4", 80, "imp1"])
+    data.append([8, "vit", "via3", 20, "imp1"])
+    data.append([9, "mat", "via5", 20, "imp1"])
+
+    writer.writerows(data)
+
+    # close the file
+    f.close()
+
+generate_mock_database()

@@ -27,7 +27,7 @@ def generate_user_set(numUsers):
     autoincrement_id = 0
     for i in range(numUsers):
         csv_row = []
-        csv_row.append("U"+str(autoincrement_id))
+        csv_row.append("u"+str(autoincrement_id))
         data.append(csv_row)
         autoincrement_id += 1
 
