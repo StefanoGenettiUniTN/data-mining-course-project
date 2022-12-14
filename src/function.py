@@ -3,6 +3,7 @@ In this file we implement some useful functions
 '''
 
 import numpy as np
+import math
 from numpy.linalg import norm
 
 def retriveQuerySearchAttributes(query):
@@ -197,3 +198,24 @@ def cosToVote(cosine_distance):
     '''
     x = (cosine_distance+1)/2
     return round(4*x+1)
+
+
+def rmse(u1, u2):
+    '''
+    Input: utility matrix u1, utility matrix u2
+    Output: root mean squared error between the two
+            utility matrixes. Typically the comparison
+            is between the groundtruth and the predicted
+            utility matrix
+    '''
+    rmse = 0
+    card_votes = 0
+    for query in u1:
+        for index, vote in u1[query].items():
+            vote_u1 = vote
+            vote_u2 = u2.at[index, query]
+            
+            rmse += (vote_u1-vote_u2)**2
+            card_votes += 1
+    
+    return math.sqrt(rmse/card_votes)

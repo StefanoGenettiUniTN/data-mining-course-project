@@ -15,6 +15,7 @@ from function import getPersonProfile
 from function import cosineDistance
 from function import featureDict_to_featureList
 from function import cosToVote
+from function import rmse
 import itertools
 
 from sklearn.datasets import make_blobs
@@ -550,5 +551,15 @@ for u in unfrequent_voters:
         if math.isnan(v) and q in high_voted_query:
             print(f"vote({u},{q}) = {high_voted_query[q]}")
 
+###
 
+### Evaluate algorithm performance
+
+for bo in utilityMatrix:
+    for i, v in utilityMatrix[bo].items():
+        if math.isnan(v):
+            utilityMatrix.at[i, bo] = 1
+
+rmse = rmse(utilityMatrix, utilityMatrix)
+print("RMSE = "+str(rmse))
 ###
