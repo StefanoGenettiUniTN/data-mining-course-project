@@ -138,7 +138,7 @@ for index, row in person.table.iterrows():
 
     p = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
     
-    print(row)
+    #print(row)
 
     f = 0
 
@@ -283,7 +283,9 @@ kmeans.fit(people)
 ###Count number of votes of each user to partition users according to their voting rate
 voters = dict()             #voters[i] = list of queries voted by user i
 frequent_voters = list()    #users who voted a lot
+unfrequent_voters = list()  #users who voted really few (or zero) queries
 high_voters_threshold = 4
+low_voters_threshold = 2
 
 for index, v in utilityMatrix.iterrows():
     if index not in voters:
@@ -297,6 +299,9 @@ for u in voters:
     num_votes = len(voters[u])
     if num_votes >= high_voters_threshold:
         frequent_voters.append(u)
+    
+    if num_votes <= low_voters_threshold:
+        unfrequent_voters.append(u)
 ###
 
 ###Complete utility matrix of frequent users with collaborative filtering
@@ -328,7 +333,7 @@ for u in frequent_voters:
         target_user_profile["f4"+str(c)] = 0
         featureCardinality["f4"+str(c)] = 0
 
-    print(target_user_profile)
+    #print(target_user_profile)
 
     #...end initialization
 
@@ -414,7 +419,7 @@ for u in frequent_voters:
             for oc in observed_clusters:
                 featureCardinality["f4"+str(oc)] += 1
 
-            print(target_user_profile)
+            #print(target_user_profile)
 
     #complete the target_user_profile
     #computing the avg vote for each query feature
@@ -422,12 +427,12 @@ for u in frequent_voters:
         if featureCardinality[f]>0:
             target_user_profile[f] = target_user_profile[f]/featureCardinality[f]
 
-    print("final user profile")
-    print(target_user_profile)
+    #print("final user profile")
+    #print(target_user_profile)
 
     queryFile.close()
 
-    print(f"complete utilitiy matrix row of user {target_user_index} using content based recommendation")
+    #print(f"complete utilitiy matrix row of user {target_user_index} using content based recommendation")
     queryWithoutVote = []       #assumption:
                                 #   1) there are few queries without vote;
                                 #   2) the utility matrix and the query file are huge, it is better to read them only one time
@@ -448,7 +453,7 @@ for u in frequent_voters:
 
             target_query_profile = dict()   #feature vector for the current query [importantTuple1, importantTuple2, ..., importantTupleN, frequentAttribute1, frequentAttribute2, ..., frequentAttributeN, frequentValue1, frequentValue2, ..., frequentValueN, cluster1, cluster2, ..., clusterK]
             
-            print(f"predicting opinion of user {target_user_index} about query {query_id}")
+            #print(f"predicting opinion of user {target_user_index} about query {query_id}")
             
             #for each feature, initialize target_query_profile data structure
             # i. important tuples
@@ -507,12 +512,43 @@ for u in frequent_voters:
                 tuple_cluster = kmeans.predict([tuple_profile])
                 target_query_profile["f4"+str(tuple_cluster[0])] += (1/len(queryResult.index))
             
-            print(f"query profile[{query_id}]")
-            print(target_query_profile)
+            #print(f"query profile[{query_id}]")
+            #print(target_query_profile)
 
             cosine_distance = cosineDistance(featureDict_to_featureList(target_user_profile), featureDict_to_featureList(target_query_profile))
-            print(f"cosine distance({target_user_index},{query_id}) = {cosine_distance}")
+            #print(f"cosine distance({target_user_index},{query_id}) = {cosine_distance}")
             print(f"vote({target_user_index},{query_id}) = {cosToVote(cosine_distance)}")
 
     queryFile.close()        
+###
+
+###Complete utility matrix of unfrequent users with collaborative filtering
+
+#print(unfrequent_voters)
+
+high_voted_query = dict()       #dictionary of queries which have a lot of votes: high_voted_query[i] = average of the votes of query i
+low_voted_query = dict()        #(non sono ancora sicuro di questa) dictionary of queries which have few votes: low_voted_query[i] = cluster where query i belongs to
+high_voted_query_threshold = 4  #only queries with a number of votes largen than high_voted_query_threshold can be considered high_voted_query
+
+for q in query_identifiers:
+    query_num_votes = 0
+    query_avg_votes = 0
+    query_variance_votes = 0
+    for user_id, vote in utilityMatrix[q].items():
+        if not math.isnan(vote):
+            query_num_votes += 1
+            query_avg_votes += vote
+            query_variance_votes += vote**2
+
+    if query_num_votes >= high_voted_query_threshold:
+        query_variance_votes = (query_variance_votes/query_num_votes)-((query_avg_votes/query_num_votes)**2)
+        high_voted_query[q] = query_avg_votes/query_num_votes
+        #print(f"variance query {q}: {query_variance_votes}")
+
+for u in unfrequent_voters:
+    for q, v in utilityMatrix.loc[u].items():
+        if math.isnan(v) and q in high_voted_query:
+            print(f"vote({u},{q}) = {high_voted_query[q]}")
+
+
 ###
