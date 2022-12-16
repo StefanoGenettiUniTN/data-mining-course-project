@@ -9,6 +9,9 @@ import database as db
 import query as queryClass
 import pandas as pd
 import math
+import itertools
+from pathlib import Path
+
 from function import retriveQuerySearchAttributes
 from function import retriveQueryId
 from function import getPersonProfile
@@ -16,16 +19,16 @@ from function import cosineDistance
 from function import featureDict_to_featureList
 from function import cosToVote
 from function import rmse
-import itertools
+from function import frequent_value
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = "../../data/relational_db.csv"
-utilityMatrixFileName = "../../data/utility_matrix.csv"
-queryFileName = "../../data/queries.csv"
+databaseFileName = Path("../../data/relational_db.csv")
+utilityMatrixFileName = Path("../../data/utility_matrix.csv")
+queryFileName = Path("../../data/queries.csv")
 
 #Read database
 person = db.Person(databaseFileName)
@@ -37,6 +40,9 @@ utilityMatrix = pd.read_csv(utilityMatrixFileName)
 queryFile = open(queryFileName, "r")
 
 ###
+# 
+# Preprocessing
+#
 # Search most important tuples
 # Search frequently search attributes
 # Search values which appear frequently in the resultsets of the queries
@@ -122,6 +128,10 @@ for a in frequenceAddressValue:
 for o in frequenceOccupationValue:
     if frequenceOccupationValue[o]>=3:
         frequentValues.add(o)
+
+
+frequentValues = set()
+frequentValues = frequent_value(person, queryFileName)
 
 ###
 
@@ -305,7 +315,7 @@ for u in voters:
         unfrequent_voters.append(u)
 ###
 
-###Complete utility matrix of frequent users with collaborative filtering
+###Complete utility matrix of frequent users with content based filtering
 for u in frequent_voters:
     target_user_profile = dict()    #feature vector for the current user [importantTuple1, importantTuple2, ..., importantTupleN, frequentAttribute1, frequentAttribute2, ..., frequentAttributeN, frequentValue1, frequentValue2, ..., frequentValueN, cluster1, cluster2, ..., clusterK]
     featureCardinality = dict()     #featureCardinality[i] represents how many times the target user voted the feature i
@@ -523,35 +533,7 @@ for u in frequent_voters:
     queryFile.close()        
 ###
 
-###Complete utility matrix of unfrequent users with collaborative filtering
 
-#print(unfrequent_voters)
-
-high_voted_query = dict()       #dictionary of queries which have a lot of votes: high_voted_query[i] = average of the votes of query i
-low_voted_query = dict()        #(non sono ancora sicuro di questa) dictionary of queries which have few votes: low_voted_query[i] = cluster where query i belongs to
-high_voted_query_threshold = 4  #only queries with a number of votes largen than high_voted_query_threshold can be considered high_voted_query
-
-for q in query_identifiers:
-    query_num_votes = 0
-    query_avg_votes = 0
-    query_variance_votes = 0
-    for user_id, vote in utilityMatrix[q].items():
-        if not math.isnan(vote):
-            query_num_votes += 1
-            query_avg_votes += vote
-            query_variance_votes += vote**2
-
-    if query_num_votes >= high_voted_query_threshold:
-        query_variance_votes = (query_variance_votes/query_num_votes)-((query_avg_votes/query_num_votes)**2)
-        high_voted_query[q] = query_avg_votes/query_num_votes
-        #print(f"variance query {q}: {query_variance_votes}")
-
-for u in unfrequent_voters:
-    for q, v in utilityMatrix.loc[u].items():
-        if math.isnan(v) and q in high_voted_query:
-            print(f"vote({u},{q}) = {high_voted_query[q]}")
-
-###
 
 ### Evaluate algorithm performance
 

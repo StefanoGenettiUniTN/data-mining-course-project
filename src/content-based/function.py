@@ -6,6 +6,30 @@ import numpy as np
 import math
 from numpy.linalg import norm
 
+def ageGroup(age):
+    #Example:
+    # input: 12
+    # output: "baby"
+    #
+    # input: 25
+    # output: "young"
+    #
+    # input: 50
+    # output: "medium"
+    #     
+    # input: 70
+    # output: "old"
+
+    baby_upper_bound = 15
+    young_upper_bound = 40
+    medium_upper_bound = 60
+    
+    if age <= baby_upper_bound: return "baby"
+    if age <= young_upper_bound: return "young"
+    if age <= medium_upper_bound: return "medium"
+    return "old"
+
+
 def retriveQuerySearchAttributes(query):
     #Example:
     # input: q3,address=via1,occupation=imp1
@@ -219,3 +243,53 @@ def rmse(u1, u2):
             card_votes += 1
     
     return math.sqrt(rmse/card_votes)
+
+
+def frequent_value(db, queryFile):
+    '''
+    Return the counts of the values which appear frequently in the
+    result sets of the query
+    '''
+
+    print("START frequent_value mining")
+
+    num_query = 0           #number of queries
+
+    l = dict()              #set of frequent singleton; l[attr] = how many times the frequent itemset attr appears in all the query sets
+    c = dict()              #c[attr] = number of times that the singleton attr appears in a query result
+
+    ##frequent singleton
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+
+        num_query += 1
+
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_id = int(tuple['id'])
+            tuple_name = tuple['name']
+            tuple_address = tuple['address']
+            tuple_occupation = tuple['occupation']
+            tuple_age = ageGroup(tuple['age'])
+            
+            #update count for each singleton attribute
+            c[tuple_name] = c.get(tuple_name, 0) + 1
+            c[tuple_address] = c.get(tuple_address, 0) + 1
+            c[tuple_occupation] = c.get(tuple_occupation, 0) + 1
+            c[tuple_age] = c.get(tuple_age, 0) + 1
+
+    queryFile.close()
+
+    #define s as the 1% of the basket
+    s = num_query - ((1/100)*num_query)
+
+    #fill l with all the singleton attr which are frequent
+    for singleton in c:
+        if c[singleton] >= s:
+            l[singleton] = c[singleton]
+    ##end frequent singleton
+
+    print("END frequent_value mining")
+
+    return l
