@@ -20,6 +20,9 @@ from function import featureDict_to_featureList
 from function import cosToVote
 from function import rmse
 from function import frequent_value
+from function import important_tuples
+from function import frequent_attribute
+from function import k_means_clustering
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -36,259 +39,34 @@ person = db.Person(databaseFileName)
 #Utility matrix
 utilityMatrix = pd.read_csv(utilityMatrixFileName)
 
-#Query set: set of queries posed in the past
-queryFile = open(queryFileName, "r")
-
 ###
 # 
 # Preprocessing
 #
+###
+
 # Search most important tuples
+# Tuples which appear more then the others in the resultset of queries
+mostFrequentTuples = important_tuples(person, queryFileName)
+
 # Search frequently search attributes
+# Attribute combinations searched by users which appear more then a specified threshold
+frequentAttributes = frequent_attribute(queryFileName)
+
 # Search values which appear frequently in the resultsets of the queries
-###
-mostFrequentTuples = list()                 #tuples which appear more then the others in the resultset of queries
-tupleFrequency = dict()                     #tupleFrequency[x] = how many times tuple with id x appears in the resultset of queries
-querySetSize = 0                            #number of queries which have been posed in the past
-frequentAttributes = set()                  #attribute combination searched by users which appear more then a specified threshold
-frequentAttributesSingleton = dict()        #frequentAttributeSingleton[(x)] how many times attribute (x) appears
-frequentValues = set()                      #values that appear frequently in query result sets
-frequenceNameValue = dict()                 #frequenceNameValue[x] = how many times attribute name have x as a value in the query resultset
-frequenceAddressValue = dict()              #frequenceAddressValue[x] = how many times attribute address have x as a value in the query resultset
-frequenceOccupationValue = dict()           #frequenceOccupationValue[x] = how many times attribute occupation have x as a value in the query resultset
-query_identifiers = list()                  #list of existing query identifiers
+# Values that appear frequently in query result sets
+frequentValues = frequent_value(person, queryFileName)                 
 
-for query in queryFile:
-    query = query[:-1] #otherwise each query ends with \n
+print("Most frequent tuple: "+str(mostFrequentTuples))
+print("")
+print("Most frequent attributes: "+str(frequentAttributes))
+print("")
+print("Most frequent values: "+str(frequentValues))
+print("")
 
-    queryAttibuteSet = retriveQuerySearchAttributes(query)
-    for attr in queryAttibuteSet:
-        if attr in frequentAttributesSingleton:
-            frequentAttributesSingleton[attr] += 1
-        else:
-            frequentAttributesSingleton[attr] = 1
-
-    query_identifiers.append(retriveQueryId(query))
-
-    queryResult = person.query(query)
-    for index, tuple in queryResult.iterrows():
-        tuple_id = int(tuple['id'])
-        tuple_name = tuple['name']
-        tuple_address = tuple['address']
-        tuple_occupation = tuple['occupation']
-        
-        if tuple_id in tupleFrequency:
-            tupleFrequency[tuple_id]+=1
-        else:
-            tupleFrequency[tuple_id]=1
-
-        if tuple_name in frequenceNameValue:
-            frequenceNameValue[tuple_name] += 1
-        else:
-            frequenceNameValue[tuple_name] = 1
-
-        if tuple_address in frequenceAddressValue:
-            frequenceAddressValue[tuple_address] += 1
-        else:
-            frequenceAddressValue[tuple_address] = 1
-
-        if tuple_occupation in frequenceOccupationValue:
-            frequenceOccupationValue[tuple_occupation] += 1
-        else:
-            frequenceOccupationValue[tuple_occupation] = 1
-
-    querySetSize += 1
-
-queryFile.close()
-
-#Select frequent tuples which appear in more thant 40% of the query results
-threshold = (40*querySetSize)/100
-for tuple in tupleFrequency:
-    if tupleFrequency[tuple]>=threshold:
-        mostFrequentTuples.append(tuple)
-
-#Retrive frequent attributes
-frequentAttributesThreshold = 2
-
-for sing in frequentAttributesSingleton:
-    if frequentAttributesSingleton[sing] >= frequentAttributesThreshold:
-        frequentAttributes.add((sing))
-
-
-#Retrive frequent attribute values in the resultset
-frequentValueThreshold = 3
-for n in frequenceNameValue:
-    if frequenceNameValue[n]>=3:
-        frequentValues.add(n)
-
-for a in frequenceAddressValue:
-    if frequenceAddressValue[a]>=3:
-        frequentValues.add(a)
-
-for o in frequenceOccupationValue:
-    if frequenceOccupationValue[o]>=3:
-        frequentValues.add(o)
-
-
-frequentValues = set()
-frequentValues = frequent_value(person, queryFileName)
-
-###
-
-###Clustering of data in Person
-people = []
-young_max_age = 20
-medium_max_age = 60
-old_max_age = 150 
-
-for index, row in person.table.iterrows():
-    #each people must be a set of features
-    #for the moment features are constant
-    #[ste, pie, fab, ero, vit, mat, via1, via2, via3, via4, via5, giovane, medio, anziano, imp1, sar, tec]
-    #in futuro potrei ad esempio considerare la top 10 dei nomi più frequenti e cosi via
-
-    p = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17]
-    
-    #print(row)
-
-    f = 0
-
-    if row["name"]=="ste":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["name"]=="pie":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["name"]=="fab":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["name"]=="ero":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["name"]=="vit":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["name"]=="mat":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["address"]=="via1":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["address"]=="via2":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["address"]=="via3":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["address"]=="via4":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["address"]=="via5":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["age"]<=young_max_age:
-        p[f] = 1
-    else:
-        p[f] = 0
-    
-    f += 1
-
-    if row["age"]>young_max_age and row["age"]<=medium_max_age:
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["age"]>medium_max_age:
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["occupation"]=="imp1":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["occupation"]=="sar":
-        p[f] = 1
-    else:
-        p[f] = 0
-
-    f += 1
-
-    if row["occupation"]=="tec":
-        p[f] = 1
-    else:
-        p[f] = 0
-    
-
-    #print(f"id: {row['id']} - name: {row['name']} - address: {row['address']} - age: {row['age']} - occupation: {row['occupation']}")
-    #print(p)
-
-    people.append(p)
-
-n_cluster_k = 2 #number of clusters
-kmeans = KMeans(
-    init="random",
-    n_clusters=n_cluster_k,
-    n_init=10,
-    max_iter=300,
-    random_state=42
-)
-
-kmeans.fit(people)
-#print(kmeans.labels_)
-#print(kmeans.inertia_)
-#print(kmeans.predict([[1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0]]))
+# Clustering of data in Person
+person = k_means_clustering(person)
+print(person)
 ###
 
 ###Count number of votes of each user to partition users according to their voting rate

@@ -3,8 +3,11 @@ In this file we implement some useful functions
 '''
 
 import numpy as np
-import math
 from numpy.linalg import norm
+from sklearn import preprocessing
+from sklearn.cluster import KMeans
+import pandas as pd
+import math
 
 def ageGroup(age):
     #Example:
@@ -245,6 +248,44 @@ def rmse(u1, u2):
     return math.sqrt(rmse/card_votes)
 
 
+def card_query(queryFile):
+    '''
+    Return the number of queries in the queryFile
+    '''
+    queryFile = open(queryFile, "r")
+    num_query = len(queryFile.readlines())
+    queryFile.close()
+    return num_query
+
+def important_tuples(db, queryFile):
+    '''
+    Return the tuples which are more frequent in the
+    result set of the queries and so more important
+    '''
+
+    tuple_frequency = dict()    #tuple_frequency[t] = how many times tuple t appears in any query
+    f_tuple = set()             #tuples which are frequent according to the given threshold
+    num_query = 0               #number of queries
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+        num_query += 1
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_id = int(tuple['id'])
+            tuple_frequency[tuple_id] = tuple_frequency.get(tuple_id, 0) + 1
+    queryFile.close()
+
+    #define s as the x% of the basket
+    s = (50/100)*num_query
+
+    for t in tuple_frequency:
+        if tuple_frequency[t]>=s:
+            f_tuple.add(t)
+
+    return f_tuple
+
+
 def frequent_value(db, queryFile):
     '''
     Return the counts of the values which appear frequently in the
@@ -281,8 +322,8 @@ def frequent_value(db, queryFile):
 
     queryFile.close()
 
-    #define s as the 1% of the basket
-    s = num_query - ((1/100)*num_query)
+    #define s as the x% of the basket
+    s = (50/100)*num_query
 
     #fill l with all the singleton attr which are frequent
     for singleton in c:
@@ -293,3 +334,91 @@ def frequent_value(db, queryFile):
     print("END frequent_value mining")
 
     return l
+
+def frequent_attribute(queryFile):
+    '''
+    Return a set of attribute which have been frequently used
+    as search parameters
+    '''
+    attribute_counts = dict()       #attribute_counts[attr] how many times users used search parameter "attr"
+    fa = set()                      #set of attributes which are frequent according to a given threshold
+    num_query = 0                   #number of queries
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+        num_query += 1
+        queryAttibuteSet = retriveQuerySearchAttributes(query)
+        for attr in queryAttibuteSet:
+            attribute_counts[attr] = attribute_counts.get(attr, 0) + 1
+    queryFile.close()
+
+    #define s as the x% of the basket
+    s = (30/100)*num_query
+
+    for a in attribute_counts:
+        if attribute_counts[a] >= s:
+            fa.add(a)
+    
+    return fa
+
+
+def k_means_clustering(person_db):
+    '''
+    Cluster person in the Person database.
+    Return a cluster classifier.
+    '''
+
+    person_table = person_db.table
+    scaled_person_table = person_table.copy()
+
+    #normalize continuous features: age of the people
+    scaler = preprocessing.MinMaxScaler()
+    scaled_person_table[['age']] = scaler.fit_transform(person_table[['age']])
+
+    #remove id column since it is irrelevant for the purpose of clustering
+    scaled_person_table.drop('id', axis=1, inplace=True)
+
+    #define one hot encoding for each categorical value in the dataset.
+    scaled_person_table = pd.get_dummies(scaled_person_table, columns=['name','address','occupation'])
+
+    #we can not consider all the categorical features when clustering
+    #otherwise we have the curse of dimensionality problem
+    #we take into account only the top 5 of frequent categorical features
+    attr_values = dict()    #attr_values["name_ste"] = how many time value "name_ste" appears in database Person
+    person_columns = scaled_person_table.columns
+    for c in person_columns:
+        if c != 'age':
+            for r in scaled_person_table[c]:
+                if r==1:
+                    attr_values[c] = attr_values.get(c, 0)+1
+
+    attr_values_keys = list(attr_values.keys())
+    attr_values_keys.sort(key=lambda x: attr_values[x], reverse=True)
+
+    selected_features = {'age'}
+    for i in range(min(5, len(attr_values_keys))):
+        selected_features.add(attr_values_keys[i])
+    
+    #drop all columns which do not correspond to a relevant feature
+    for c in person_columns:
+        if c not in selected_features:
+            scaled_person_table.drop(c, axis=1, inplace=True)
+    
+    #now we can cluster the people who populate the table Person in a
+    #reasonable way
+    kmeans = KMeans(
+        init="random",
+        n_clusters=2,
+        n_init=10,
+        max_iter=300,
+        random_state=42
+    )
+
+    clusters = kmeans.fit_predict(scaled_person_table)
+    labels = pd.DataFrame(clusters)
+    labeledPeople = pd.concat((person_table,labels),axis=1)
+    labeledCustomers = labeledPeople.rename({0:'cluster'},axis=1)
+
+    return labeledCustomers
+
+
