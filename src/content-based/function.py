@@ -397,7 +397,7 @@ def k_means_clustering(person_db, k):
     attr_values_keys.sort(key=lambda x: attr_values[x], reverse=True)
 
     selected_features = {'age'}
-    for i in range(min(10, len(attr_values_keys))):
+    for i in range(min(5, len(attr_values_keys))):
         selected_features.add(attr_values_keys[i])
     
     #drop all columns which do not correspond to a relevant feature

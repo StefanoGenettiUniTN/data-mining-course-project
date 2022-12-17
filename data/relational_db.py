@@ -254,6 +254,88 @@ def generate_mock_database1(num_people):
     # close the file
     f.close()
 
+def generate_university_database(num_people):
+    '''
+    Create a CSV file populated with data about
+    people according to some probability distribution.
+    We set probabilities simulating a university
+    social environment
+    '''
+
+    #p(person1.name == person2.name)
+    p_equal_name = 0.02
+    card_names = (2/p_equal_name)-1
+    name_set = load_names(int(card_names))
+    
+    #p(person1.address == person2.address)
+    p_equal_address = 0.005
+    card_address = (2/p_equal_address)-1
+    address_set = load_addresses(int(card_address))
+
+    #p(person1.occupation == person2.occupation)
+    p_equal_occupation = 0.6
+    card_occupation = (2/p_equal_occupation)-1
+    occupation_set = load_occupations(int(card_occupation))
+
+    # age ranges
+    baby_min = 0
+    baby_max = 15
+    young_min = 16
+    young_max= 40
+    medium_min = 41
+    medium_max = 60
+    old_min = 61
+    old_max = 100
+
+
+    # open the file in the write mode
+    f = open('relational_db.csv', 'w')
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    header = ['id', 'name', 'address', 'age', 'occupation']
+
+    # write the header
+    writer.writerow(header)
+
+    # generate num_people tuples
+    data = []
+    autoincrement_id = 0
+    for i in range(num_people):
+        tuple = []
+        p_name = random.sample(name_set, 1)[0]
+        p_address = random.sample(address_set, 1)[0]
+        p_occupation = random.sample(occupation_set, 1)[0]
+        
+        age_cat = ["baby", "young", "medium", "old"]
+        age_cat_probability = [0., 0.6, 0.3, 0.1]
+        p_age_category = random.choices(age_cat, age_cat_probability)[0]
+        if p_age_category == "baby":
+            p_age = random.randint(baby_min, baby_max)
+        if p_age_category == "young":
+            p_age = random.randint(young_min, young_max)
+        if p_age_category == "medium":
+            p_age = random.randint(medium_min, medium_max)
+        if p_age_category == "old":
+            p_age = random.randint(old_min, old_max)        
+
+        p_id = autoincrement_id
+        
+        tuple.append(p_id)
+        tuple.append(p_name)
+        tuple.append(p_address)
+        tuple.append(p_age)
+        tuple.append(p_occupation)
+
+        data.append(tuple)
+
+        autoincrement_id += 1
+
+    writer.writerows(data)
+
+    # close the file
+    f.close()
     
 
-generate_mock_database1(100)
+generate_university_database(100)

@@ -66,7 +66,7 @@ print("Most frequent values: "+str(frequentValues))
 print("")
 
 # Clustering of data in Person
-num_cluster_person = 3
+num_cluster_person = 2
 person.table = k_means_clustering(person, num_cluster_person)
 print(person.table)
 plot_people_cluster(person.table, num_cluster_person)
