@@ -4,6 +4,7 @@ In this file we implement some useful functions
 
 import numpy as np
 from numpy.linalg import norm
+import matplotlib.pyplot as plt
 from sklearn import preprocessing
 from sklearn.cluster import KMeans
 import pandas as pd
@@ -362,7 +363,7 @@ def frequent_attribute(queryFile):
     return fa
 
 
-def k_means_clustering(person_db):
+def k_means_clustering(person_db, k):
     '''
     Cluster person in the Person database.
     Return a cluster classifier.
@@ -408,7 +409,7 @@ def k_means_clustering(person_db):
     #reasonable way
     kmeans = KMeans(
         init="random",
-        n_clusters=2,
+        n_clusters=k,
         n_init=10,
         max_iter=300,
         random_state=42
@@ -417,8 +418,145 @@ def k_means_clustering(person_db):
     clusters = kmeans.fit_predict(scaled_person_table)
     labels = pd.DataFrame(clusters)
     labeledPeople = pd.concat((person_table,labels),axis=1)
-    labeledCustomers = labeledPeople.rename({0:'cluster'},axis=1)
+    labeledPeople = labeledPeople.rename({0:'cluster'},axis=1)
 
-    return labeledCustomers
+    return labeledPeople
 
+def plot_people_cluster(labeledPeople, numCluster):
 
+    #name
+    plt.title("People clustering - name", loc='left')
+
+    for i in range(numCluster):
+        x_name = list()
+        y_name = list()
+
+        overlaps = dict()
+
+        for index, row in labeledPeople.iterrows():
+            cluster = row['cluster']
+            if cluster == i:
+                name = row["name"]
+
+                x_name.append(name)
+                y_name.append(i)
+
+                overlaps[(name, i)] = overlaps.get((name, i), 0)+1
+    
+        x_name_np = np.array(x_name)
+        y_name_np = np.array(y_name)
+
+        weight = list()
+        for point in range(len(x_name)):
+            point_x = x_name[point]
+            point_y = y_name[point]
+            
+            weight.append(overlaps[(point_x, point_y)]*100)
+
+        plt.scatter(x_name_np, y_name_np, label=i, s=weight)
+
+    plt.legend()
+    plt.show()
+    #===
+
+    #address
+    plt.title("People clustering - address", loc='left')
+
+    for i in range(numCluster):
+        x_address = list()
+        y_address = list()
+
+        overlaps = dict()
+
+        for index, row in labeledPeople.iterrows():
+            cluster = row['cluster']
+            if cluster == i:
+                address = row["address"]
+
+                x_address.append(address)
+                y_address.append(i)
+
+                overlaps[(address, i)] = overlaps.get((address, i), 0)+1
+    
+        x_address_np = np.array(x_address)
+        y_address_np = np.array(y_address)
+
+        weight = list()
+        for point in range(len(x_address)):
+            point_x = x_address[point]
+            point_y = y_address[point]
+            
+            weight.append(overlaps[(point_x, point_y)]*100)
+
+        plt.scatter(x_address_np, y_address_np, label=i, s=weight)
+    
+    plt.legend()
+    plt.show()
+    #===
+
+    #age
+    plt.title("People clustering - age", loc='left')
+
+    x_offset = -5.0
+
+    for i in range(numCluster):
+        x_age = list()
+        y_age = list()
+
+        for index, row in labeledPeople.iterrows():
+            cluster = row['cluster']
+            if cluster == i:
+                age = row["age"]
+
+                x_age.append(x_offset)
+                x_offset+=0.1
+                y_age.append(age)
+    
+        x_age_np = np.array(x_age)
+        y_age_np = np.array(y_age)
+
+        plt.scatter(x_age_np, y_age_np, label=i)
+    
+    plt.legend()
+    plt.show()
+    #===
+
+    #occupation
+    plt.title("People clustering - occupation", loc='left')   
+
+    for i in range(numCluster):
+        x_occupation = list()
+        y_occupation = list()
+
+        overlaps = dict()
+
+        for index, row in labeledPeople.iterrows():
+            cluster = row['cluster']
+            if cluster == i:
+                occupation = row["occupation"]
+
+                x_occupation.append(occupation)
+                y_occupation.append(i)
+
+                overlaps[(occupation, i)] = overlaps.get((occupation, i), 0)+1
+    
+        x_occupation_np = np.array(x_occupation)
+        y_occupation_np = np.array(y_occupation)
+
+        weight = list()
+        for point in range(len(x_occupation)):
+            point_x = x_occupation[point]
+            point_y = y_occupation[point]
+            
+            weight.append(overlaps[(point_x, point_y)]*100)
+
+        plt.scatter(x_occupation_np, y_occupation_np, label=i, s=weight)
+    
+    plt.legend()
+    plt.show()
+    #===
+
+    for column in labeledPeople:
+        print(column)
+
+    ###

@@ -23,6 +23,7 @@ from function import frequent_value
 from function import important_tuples
 from function import frequent_attribute
 from function import k_means_clustering
+from function import plot_people_cluster
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -65,8 +66,10 @@ print("Most frequent values: "+str(frequentValues))
 print("")
 
 # Clustering of data in Person
-person = k_means_clustering(person)
-print(person)
+num_cluster_person = 3
+person.table = k_means_clustering(person, num_cluster_person)
+print(person.table)
+plot_people_cluster(person.table, num_cluster_person)
 ###
 
 ###Count number of votes of each user to partition users according to their voting rate
