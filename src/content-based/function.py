@@ -397,7 +397,7 @@ def k_means_clustering(person_db, k):
     attr_values_keys.sort(key=lambda x: attr_values[x], reverse=True)
 
     selected_features = {'age'}
-    for i in range(min(5, len(attr_values_keys))):
+    for i in range(min(10, len(attr_values_keys))):
         selected_features.add(attr_values_keys[i])
     
     #drop all columns which do not correspond to a relevant feature
@@ -405,8 +405,34 @@ def k_means_clustering(person_db, k):
         if c not in selected_features:
             scaled_person_table.drop(c, axis=1, inplace=True)
     
+    print(scaled_person_table)
+
     #now we can cluster the people who populate the table Person in a
     #reasonable way
+
+    ######
+    ## ELBOW METHOD EVALUATION
+    ######
+    inertias = []
+
+    for i in range(1,10):
+        kmeans = KMeans(
+            init="random",
+            n_clusters=i,
+            n_init=10,
+            max_iter=300,
+            random_state=42
+        )
+        clusters = kmeans.fit_predict(scaled_person_table)
+        inertias.append(kmeans.inertia_)
+
+    plt.plot(range(1,10), inertias, marker='o')
+    plt.title('Elbow method')
+    plt.xlabel('Number of clusters')
+    plt.ylabel('Inertia')
+    plt.show()
+    #######
+
     kmeans = KMeans(
         init="random",
         n_clusters=k,
