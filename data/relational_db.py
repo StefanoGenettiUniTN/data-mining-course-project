@@ -272,10 +272,9 @@ def generate_university_database(num_people):
     card_address = (2/p_equal_address)-1
     address_set = load_addresses(int(card_address))
 
-    #p(person1.occupation == person2.occupation)
-    p_equal_occupation = 0.6
-    card_occupation = (2/p_equal_occupation)-1
-    occupation_set = load_occupations(int(card_occupation))
+    #we consider this occupations
+    occupation_cat = ["student", "professor", "researcher", "other"]
+    occupation_cat_probability = [0.45, 0.05, 0.2, 0.3]
 
     # age ranges
     baby_min = 0
@@ -306,10 +305,23 @@ def generate_university_database(num_people):
         tuple = []
         p_name = random.sample(name_set, 1)[0]
         p_address = random.sample(address_set, 1)[0]
-        p_occupation = random.sample(occupation_set, 1)[0]
+        p_occupation = random.choices(occupation_cat, occupation_cat_probability)[0]
         
         age_cat = ["baby", "young", "medium", "old"]
-        age_cat_probability = [0., 0.6, 0.3, 0.1]
+
+        #age probability depends on the occupation
+        if p_occupation == "student":
+            age_cat_probability = [0., 0.98, 0.02, 0.]
+        
+        if p_occupation == "professor":
+            age_cat_probability = [0., 0.2, 0.6, 0.2]
+
+        if p_occupation == "researcher":
+            age_cat_probability = [0., 0.45, 0.5, 0.05]
+
+        if p_occupation == "other":
+            age_cat_probability = [0., 0.4, 0.55, 0.05]
+
         p_age_category = random.choices(age_cat, age_cat_probability)[0]
         if p_age_category == "baby":
             p_age = random.randint(baby_min, baby_max)

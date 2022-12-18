@@ -373,14 +373,20 @@ def k_means_clustering(person_db, k):
     scaled_person_table = person_table.copy()
 
     #normalize continuous features: age of the people
-    scaler = preprocessing.MinMaxScaler()
-    scaled_person_table[['age']] = scaler.fit_transform(person_table[['age']])
+    #scaler = preprocessing.MinMaxScaler()
+    #scaled_person_table[['age']] = scaler.fit_transform(person_table[['age']])
+
+    #replace each "age" data with a categorical classification {baby, young, medium, old}
+    for index, row in scaled_person_table.iterrows():
+        a = row["age"]
+        scaled_person_table.at[index, "age"] = ageGroup(a)
 
     #remove id column since it is irrelevant for the purpose of clustering
     scaled_person_table.drop('id', axis=1, inplace=True)
 
     #define one hot encoding for each categorical value in the dataset.
-    scaled_person_table = pd.get_dummies(scaled_person_table, columns=['name','address','occupation'])
+    #scaled_person_table = pd.get_dummies(scaled_person_table, columns=['name','address','occupation'])
+    scaled_person_table = pd.get_dummies(scaled_person_table, columns=['name','address','occupation','age'])
 
     #we can not consider all the categorical features when clustering
     #otherwise we have the curse of dimensionality problem
@@ -388,16 +394,17 @@ def k_means_clustering(person_db, k):
     attr_values = dict()    #attr_values["name_ste"] = how many time value "name_ste" appears in database Person
     person_columns = scaled_person_table.columns
     for c in person_columns:
-        if c != 'age':
-            for r in scaled_person_table[c]:
-                if r==1:
-                    attr_values[c] = attr_values.get(c, 0)+1
+        #if c != 'age':
+        for r in scaled_person_table[c]:
+            if r==1:
+                attr_values[c] = attr_values.get(c, 0)+1
 
     attr_values_keys = list(attr_values.keys())
     attr_values_keys.sort(key=lambda x: attr_values[x], reverse=True)
 
-    selected_features = {'age'}
-    for i in range(min(5, len(attr_values_keys))):
+    #selected_features = {'age'}
+    selected_features = set()
+    for i in range(min(6, len(attr_values_keys))):
         selected_features.add(attr_values_keys[i])
     
     #drop all columns which do not correspond to a relevant feature
@@ -521,6 +528,7 @@ def plot_people_cluster(labeledPeople, numCluster):
     #===
 
     #age
+    '''
     plt.title("People clustering - age", loc='left')
 
     x_offset = -5.0
@@ -545,6 +553,41 @@ def plot_people_cluster(labeledPeople, numCluster):
     
     plt.legend()
     plt.show()
+    '''    
+    
+    plt.title("People clustering - age", loc='left')
+
+    for i in range(numCluster):
+        x_age = list()
+        y_age = list()
+
+        overlaps = dict()
+
+        for index, row in labeledPeople.iterrows():
+            cluster = row['cluster']
+            if cluster == i:
+                age = ageGroup(row["age"])
+
+                x_age.append(age)
+                y_age.append(i)
+
+                overlaps[(age, i)] = overlaps.get((age, i), 0)+1
+    
+        x_age_np = np.array(x_age)
+        y_age_np = np.array(y_age)
+
+        weight = list()
+        for point in range(len(x_age)):
+            point_x = x_age[point]
+            point_y = y_age[point]
+            
+            weight.append(overlaps[(point_x, point_y)]*100)
+
+        plt.scatter(x_age_np, y_age_np, label=i, s=weight)
+    
+    plt.legend()
+    plt.show()
+    
     #===
 
     #occupation
