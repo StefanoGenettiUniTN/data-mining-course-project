@@ -7,7 +7,6 @@ single relational table called Person.
 
 import pandas as pd
 
-
 class Person:
 
     def __init__(self, fileName):
