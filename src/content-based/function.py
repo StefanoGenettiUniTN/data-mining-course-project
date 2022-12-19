@@ -417,27 +417,8 @@ def k_means_clustering(person_db, k):
     #now we can cluster the people who populate the table Person in a
     #reasonable way
 
-    ######
     ## ELBOW METHOD EVALUATION
-    ######
-    inertias = []
-
-    for i in range(1,10):
-        kmeans = KMeans(
-            init="random",
-            n_clusters=i,
-            n_init=10,
-            max_iter=300,
-            random_state=42
-        )
-        clusters = kmeans.fit_predict(scaled_person_table)
-        inertias.append(kmeans.inertia_)
-
-    plt.plot(range(1,10), inertias, marker='o')
-    plt.title('Elbow method')
-    plt.xlabel('Number of clusters')
-    plt.ylabel('Inertia')
-    plt.show()
+    elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(
@@ -629,3 +610,40 @@ def plot_people_cluster(labeledPeople, numCluster):
         print(column)
 
     ###
+
+def elbow_evaluation(validation_set):
+    '''
+    This functions print the quality of the clusters
+    with respect to the value of k. This is useful
+    to set k appropriately.
+
+    The input parameter validation_set is a dataframe
+    with a structure like:
+
+        occupation_other  occupation_professor  age_medium
+    0                  0                     1            1
+    1                  1                     0            1
+    2                  0                     1            0
+    3                  0                     1            0
+    4                  0                     0            1
+
+    '''
+
+    inertias = []
+
+    for i in range(1,10):
+        kmeans = KMeans(
+            init="random",
+            n_clusters=i,
+            n_init=10,
+            max_iter=300,
+            random_state=42
+        )
+        clusters = kmeans.fit_predict(validation_set)
+        inertias.append(kmeans.inertia_)
+
+    plt.plot(range(1,10), inertias, marker='o')
+    plt.title('Elbow method')
+    plt.xlabel('Number of clusters')
+    plt.ylabel('Inertia')
+    plt.show()
