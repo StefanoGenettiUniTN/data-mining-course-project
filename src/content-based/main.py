@@ -24,6 +24,7 @@ from function import important_tuples
 from function import frequent_attribute
 from function import k_means_clustering
 from function import plot_people_cluster
+from function import clusterFrequency
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -66,10 +67,15 @@ print("Most frequent values: "+str(frequentValues))
 print("")
 
 # Clustering of data in Person
-num_cluster_person = 2
+num_cluster_person = 5
 person.table = k_means_clustering(person, num_cluster_person)
-print(person.table)
-plot_people_cluster(person.table, num_cluster_person)
+#plot_people_cluster(person.table, num_cluster_person)
+
+# count the cardinality of each cluster
+# (cluster_card[i] = how many times a tuple belonging to cluster i
+#  appears in the result set of an interrogation)
+cluster_card = clusterFrequency(person, num_cluster_person, queryFileName)
+print(cluster_card)
 ###
 
 ###Count number of votes of each user to partition users according to their voting rate

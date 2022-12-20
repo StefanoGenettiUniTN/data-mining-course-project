@@ -278,7 +278,7 @@ def important_tuples(db, queryFile):
     queryFile.close()
 
     #define s as the x% of the basket
-    s = (50/100)*num_query
+    s = (20/100)*num_query
 
     for t in tuple_frequency:
         if tuple_frequency[t]>=s:
@@ -354,7 +354,7 @@ def frequent_attribute(queryFile):
     queryFile.close()
 
     #define s as the x% of the basket
-    s = (30/100)*num_query
+    s = (10/100)*num_query
 
     for a in attribute_counts:
         if attribute_counts[a] >= s:
@@ -390,7 +390,7 @@ def k_means_clustering(person_db, k):
 
     #we can not consider all the categorical features when clustering
     #otherwise we have the curse of dimensionality problem
-    #we take into account only the top 5 of frequent categorical features
+    #we take into account only the top 6 of frequent categorical features
     attr_values = dict()    #attr_values["name_ste"] = how many time value "name_ste" appears in database Person
     person_columns = scaled_person_table.columns
     for c in person_columns:
@@ -412,13 +412,13 @@ def k_means_clustering(person_db, k):
         if c not in selected_features:
             scaled_person_table.drop(c, axis=1, inplace=True)
     
-    print(scaled_person_table)
+    #print(scaled_person_table)
 
     #now we can cluster the people who populate the table Person in a
     #reasonable way
 
     ## ELBOW METHOD EVALUATION
-    elbow_evaluation(scaled_person_table)
+    #elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(
@@ -647,3 +647,33 @@ def elbow_evaluation(validation_set):
     plt.xlabel('Number of clusters')
     plt.ylabel('Inertia')
     plt.show()
+
+def clusterFrequency(db, num_cluster_person, queryFileName):
+    '''
+    Output how many times each cluster appears in the result
+    set of the queries.
+    The output of the function is a dictionary s.t.:
+    key = cluster id
+    value = number of times the cluster appears in the result
+            set of the queries
+    '''
+    output = dict()
+
+    for i in range(num_cluster_person):
+        output[i] = 0
+    
+    queryFile = open(queryFileName, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            cluster = int(tuple['cluster'])
+            output[cluster] += 1
+    queryFile.close()
+
+    return output
+    
+
+
+
