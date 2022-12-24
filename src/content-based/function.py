@@ -203,6 +203,13 @@ def cosineDistance(item1_profile, item2_profile):
     '''
     item1_profile, item2_profile are two 1-D vectors
     '''
+
+    #iff one of item1_profile or item2_profile is a null vectors
+    #then we can't compute a meaningful value of the cosine distance
+    if sum(item1_profile)==0 or sum(item2_profile)==0:
+        print("Error cosineDistance: cannot compute cosine distance with zero vector")
+        return -1
+
     print("cosineDistance")
     print("item1: "+str(item1_profile))
     print("item2: "+str(item2_profile))
@@ -221,12 +228,27 @@ def cosToVote(cosine_distance):
         x = (val - min)/(max-min)
         x = (cosine_distance+1)/(1+1)
     
-    ii) Then we scale x in range [1,5]
+    ii) Then we scale x in range [1,100]
         mark = 4x + 1
     '''
     x = (cosine_distance+1)/2
-    return round(4*x+1)
+    return round(99*x+1)
 
+
+def tf(n, d):
+    '''
+    compute time frequency of a entity E which
+    apperars n in a document D of length d
+    '''
+    return n/d
+
+def idf(n, d):
+    '''
+    compute the inverse document frequency of a term
+    which appears in n documents of a collection of
+    d documents
+    '''
+    return math.log(d/n,10)
 
 def rmse(u1, u2):
     '''
@@ -285,6 +307,24 @@ def important_tuples(db, queryFile):
             f_tuple.add(t)
 
     return f_tuple
+
+def tuples_frequencies(db, queryFile):
+    '''
+    Return the frequency of the tuples which appear
+    in the result set of the queries
+    '''
+
+    tuple_frequency = dict()    #tuple_frequency[t] = how many times tuple t appears in any query
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_id = int(tuple['id'])
+            tuple_frequency[tuple_id] = tuple_frequency.get(tuple_id, 0) + 1
+    queryFile.close()
+
+    return tuple_frequency
 
 
 def frequent_value(db, queryFile):
@@ -361,6 +401,24 @@ def frequent_attribute(queryFile):
             fa.add(a)
     
     return fa
+
+
+def attribute_frequency(queryFile):
+    '''
+    Return the frequency of the attributes
+    which have been used
+    as search parameters
+    '''
+    attribute_counts = dict()       #attribute_counts[attr] how many times users used search parameter "attr"
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+        queryAttibuteSet = retriveQuerySearchAttributes(query)
+        for attr in queryAttibuteSet:
+            attribute_counts[attr] = attribute_counts.get(attr, 0) + 1
+    queryFile.close()
+    
+    return attribute_counts
 
 
 def k_means_clustering(person_db, k):

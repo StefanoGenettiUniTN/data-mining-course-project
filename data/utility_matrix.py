@@ -116,28 +116,28 @@ def generate_university_utility_matrix():
             if occupation=="researcher":
                 researcherSize += 1
             
-            if id == "87":
+            if id == 87:
                 professorRoise = True
 
-            if id == "51":
+            if id == 51:
                 professorDebralee = True
 
-            if id == "53":
+            if id == 53:
                 researcherArisa = True
 
-            if id == "75":
+            if id == 75:
                 studentRakia = True
             
-            if id == "72":
+            if id == 72:
                 studentTelina = True
             
-            if id == "62":
+            if id == 62:
                 professorDerryl = True
 
-            if id == "23":
+            if id == 23:
                 professorWill = True
             
-            if id == "98":
+            if id == 98:
                 professorTalmage = True
         
         user_id = 0
@@ -148,7 +148,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 1
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = random.randint(1, low_votes_upper_bound)
             vote = vote-40*(professorDebralee/len(query_result))
             
@@ -182,7 +182,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 3
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 50 + 30*(studentSize/len(query_result)) + 40*professorRoise/len(query_result) - 15 * (otherSize/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty
@@ -202,7 +202,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 4
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 50 + 60*professorDebralee/len(query_result) - 32*(studentSize/len(query_result)) -32*((professorSize-professorDebralee)/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty            
@@ -219,7 +219,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 5
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 50 - 60*professorRoise + 35*(researcherSize/len(query_result)) + 60*researcherArisa/len(query_result)
             uncertainty = random.randint(-5, 5)
             vote += uncertainty
@@ -259,7 +259,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 7
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 5 + 60*(otherSize/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty
@@ -279,7 +279,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 8
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 50 + 35*((studentSize-studentTelina-studentRakia)/len(query_result)) - 40*studentRakia/len(query_result) - 40*studentTelina/len(query_result) -40*professorDerryl/len(query_result) -40*professorWill/len(query_result) -40*professorTalmage + 35*((professorSize-professorDerryl-professorWill-professorTalmage)/len(query_result)) + 32*(otherSize/len(query_result)) - 32*(researcherSize/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty
@@ -299,7 +299,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 9
-        if random.random() < 0.1:
+        if random.random() < 0.2:
             vote = 5 + 40*(researcherSize/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty
@@ -319,7 +319,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 10
-        if random.random() < 0.9:
+        if random.random() < 0.8:
             vote = 50 - 35*((professorSize-professorRoise)/len(query_result)) - 35*((researcherSize-researcherArisa)/len(query_result)) + 35*professorRoise/len(query_result) + 35*researcherArisa/len(query_result) + 32*(studentSize/len(query_result))
             uncertainty = random.randint(-5, 5)
             vote += uncertainty

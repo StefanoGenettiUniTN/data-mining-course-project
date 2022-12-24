@@ -7,6 +7,7 @@ Pietro Fronza
 '''
 import database as db
 import query as queryClass
+import user as userClass
 import pandas as pd
 import math
 import itertools
@@ -25,6 +26,11 @@ from function import frequent_attribute
 from function import k_means_clustering
 from function import plot_people_cluster
 from function import clusterFrequency
+from function import ageGroup
+from function import tuples_frequencies
+from function import attribute_frequency
+
+from file import getQueryDefinition
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -51,9 +57,15 @@ utilityMatrix = pd.read_csv(utilityMatrixFileName)
 # Tuples which appear more then the others in the resultset of queries
 mostFrequentTuples = important_tuples(person, queryFileName)
 
+# how many times each tuple appears
+tupleFrequency = tuples_frequencies(person, queryFileName)
+
 # Search frequently search attributes
 # Attribute combinations searched by users which appear more then a specified threshold
 frequentAttributes = frequent_attribute(queryFileName)
+
+# how many times each attribute appear
+attributeFrequency = attribute_frequency(queryFileName)
 
 # Search values which appear frequently in the resultsets of the queries
 # Values that appear frequently in query result sets
@@ -66,6 +78,9 @@ print("")
 print("Most frequent values: "+str(frequentValues))
 print("")
 
+print("Tuple frequency: "+str(tupleFrequency))
+print("Attribute frequency: "+str(attributeFrequency))
+
 # Clustering of data in Person
 num_cluster_person = 5
 person.table = k_means_clustering(person, num_cluster_person)
@@ -75,251 +90,180 @@ person.table = k_means_clustering(person, num_cluster_person)
 # (cluster_card[i] = how many times a tuple belonging to cluster i
 #  appears in the result set of an interrogation)
 cluster_card = clusterFrequency(person, num_cluster_person, queryFileName)
+print("Cluster cardinality")
 print(cluster_card)
 ###
 
-###Count number of votes of each user to partition users according to their voting rate
-voters = dict()             #voters[i] = list of queries voted by user i
-frequent_voters = list()    #users who voted a lot
-unfrequent_voters = list()  #users who voted really few (or zero) queries
-high_voters_threshold = 4
-low_voters_threshold = 2
-
+### Initialize user profiles and complete utility matrix with
+### content based filtering
 for index, v in utilityMatrix.iterrows():
-    if index not in voters:
-        voters[index] = []
+    user_obj = userClass.User(index)
+    query_def = dict()  #query_def[q] = the definition of the query with id q
+    sum_vote = 0
 
-    for q in query_identifiers:
-        if math.isnan(v[q])==False:
-            voters[index].append((q,v[q]))
+    print("")
+    print("========================")
+    print("USER "+user_obj.getId())
 
-for u in voters:
-    num_votes = len(voters[u])
-    if num_votes >= high_voters_threshold:
-        frequent_voters.append(u)
+    for q in v.keys():
+        if math.isnan(v[q]):
+            #add the query which the target user did not vote to the unvoted query list
+            user_obj.addUnVotedQuery(q)
+            query_def[q] = getQueryDefinition(queryFileName, q)
+        else:
+            #add the query which the target user voted to the voted query list
+            user_obj.addVotedQuery(q, v[q])
+            sum_vote += v[q]
+            query_def[q] = getQueryDefinition(queryFileName, q)
+
+    #compute vote average
+    num_votes = len(user_obj.getVotedQueries())
+    if num_votes > 0:
+        user_obj.setAvgVote(sum_vote/num_votes)
+    else:
+        user_obj.setAvgVote(-1)
+   
+    user_obj.computeUserProfile(person, query_def, tupleFrequency, attributeFrequency)
+    print("")
+    print("Print user: "+str(user_obj.getId()))
+    print("ft_tuple")
+    print(user_obj.get_ft_tuple())
+    print("ft_attribute")
+    print(user_obj.get_ft_attribute())
+    print("ft_value")
+    print(user_obj.get_ft_value())
+    print("ft_cluster")
+    print(user_obj.get_ft_cluster())
+    print("end print user "+str(user_obj.getId()))
+    print("")
+
+    #compute query profile of the unvoted queries
+    query_to_be_voted = list()
+    for q in user_obj.getUnVotedQueries():
+        #get query definition
+        qdef = query_def[q]
+        
+        #instantiate query object
+        qobj = queryClass.Query(qdef)
+
+        #computer query profile
+        qobj.computeQueryProfile(person, tupleFrequency, attributeFrequency, user_obj)
+
+        query_to_be_voted.append(qobj)
+
+        #print("")
+        #print("Print query: "+str(qobj.getId()))
+        #print("ft_tuple")
+        #print(qobj.get_ft_tuple())
+        #print("ft_attribute")
+        #print(qobj.get_ft_attribute())
+        #print("ft_value")
+        #print(qobj.get_ft_value())
+        #print("ft_cluster")
+        #print(qobj.get_ft_cluster())
+        #print("ft_tuple_user")
+        #print(qobj.get_ft_tuple_user())
+        #print("ft_attribute_user")
+        #print(qobj.get_ft_attribute_user())
+        #print("ft_value_user")
+        #print(qobj.get_ft_value_user())
+        #print("ft_cluster_user")
+        #print(qobj.get_ft_cluster_user())
+
+        #print("end print query "+str(qobj.getId()))
+        #print("")
+
+    predictedVotes = user_obj.queryContentBasedEvaluation(person, query_def, query_to_be_voted)
+
+    print("")
+    print(f"USER[{user_obj.getId()}] predicted vote to unvoted queries")
+    print(predictedVotes)
+    print("")
+
+    #initialize user profile's features
+    #user_obj.ft_init_tuple(mostFrequentTuples)
+    #user_obj.ft_init_attribute(frequentAttributes)
+    #user_obj.ft_init_values(frequentValues)
+    #user_obj.ft_init_cluster(num_cluster_person)
+
+    #iterate through voted queries to complete the
+    #target user profile
+    '''
+    for q in user_obj.getVotedQueries():
+        #get query definition
+        qdef = query_def[q]
+        
+        #get vote and subtruct avg vote of the target user
+        vote = utilityMatrix.at[user_obj.getId(), q] - user_obj.getAvgVote()
+
+        #read search attributes
+        search_attr = retriveQuerySearchAttributes(qdef)
+        for a in search_attr:
+            if a in frequentAttributes:
+                user_obj.ft_add_vote_attribute(a, vote)
+        
+        qresult = person.query(qdef)
+        for tuple_index, tuple_value in qresult.iterrows():
+            tuple_id = int(tuple_value['id'])
+            tuple_name = tuple_value['name']
+            tuple_address = tuple_value['address']
+            tuple_occupation = tuple_value['occupation']
+            tuple_age = ageGroup(tuple_value['age'])
+            tuple_cluster = tuple_value['cluster']
+
+            #read important tuple
+            if tuple_id in mostFrequentTuples:
+                user_obj.ft_add_vote_tuple(tuple_id, vote)
+
+            #read frequent values
+            if tuple_name in frequentValues:
+                user_obj.ft_add_vote_value(tuple_name, vote)
+
+            if tuple_address in frequentValues:
+                user_obj.ft_add_vote_value(tuple_address, vote)
+                
+            if tuple_occupation in frequentValues:
+                user_obj.ft_add_vote_value(tuple_occupation, vote)
+            
+            if tuple_age in frequentValues:
+                user_obj.ft_add_vote_value(tuple_age, vote)
+            
+            #read cluster
+            user_obj.ft_add_vote_cluster(tuple_cluster, vote)
     
-    if num_votes <= low_voters_threshold:
-        unfrequent_voters.append(u)
+    print("user profile")
+    print(user_obj)
+    '''
+
+    #if the user_obj is null vector we can not
+    #complete the utility matrix following
+    #a content based approach
+    '''
+    if sum(user_obj.computerProfileVector())!=0:
+        #iterate through queries  without vote to complete the
+        #uitility matrix
+        for q in user_obj.getUnVotedQueries():
+            #get query definition
+            qdef = query_def[q]
+            
+            #instantiate query object
+            qobj = queryClass.Query(qdef)
+
+            qprofile = qobj.getQueryProfile(person, mostFrequentTuples, frequentAttributes, frequentValues, num_cluster_person)
+
+            #we can complete the utility matrix iff the query profile is not the null vector
+            if sum(qprofile)!=0:
+                cosine_distance = cosineDistance(user_obj.computerProfileVector(), qprofile)
+                #print(f"cosine distance({target_user_index},{query_id}) = {cosine_distance}")
+                print("cosine distance = "+str(cosine_distance))
+                print(f"vote({user_obj.getId()},{qobj.getId()}) = {cosToVote(cosine_distance)}")
+            else:
+                print(f"Warning - the query profile of {qobj.getId()} is empty, impossible to complete the utility matrix entry following a content based approach")
+    else:
+        print(f"Warning - the user profile of {user_obj.getId()} is empty, impossible to complete the utility matrix of the target user following a content based approach")
+    '''
+
 ###
-
-###Complete utility matrix of frequent users with content based filtering
-for u in frequent_voters:
-    target_user_profile = dict()    #feature vector for the current user [importantTuple1, importantTuple2, ..., importantTupleN, frequentAttribute1, frequentAttribute2, ..., frequentAttributeN, frequentValue1, frequentValue2, ..., frequentValueN, cluster1, cluster2, ..., clusterK]
-    featureCardinality = dict()     #featureCardinality[i] represents how many times the target user voted the feature i
-    target_user_index = u           #id of the current user
-    
-    print("studying user: "+str(target_user_index))
-    
-    #for each feature, initialize target_user_profile data structure
-    # i. important tuples
-    for t in mostFrequentTuples:
-        target_user_profile["f1"+str(t)] = 0
-        featureCardinality["f1"+str(t)] = 0
-
-    # ii. frequent attributes
-    for fa in frequentAttributes:
-        target_user_profile["f2"+str(fa)] = 0
-        featureCardinality["f2"+str(fa)] = 0
-
-    # iii. frequent values
-    for fv in frequentValues:
-        target_user_profile["f3"+str(fv)] = 0
-        featureCardinality["f3"+str(fv)] = 0
-
-    # iv. cluster
-    for c in range(n_cluster_k):
-        target_user_profile["f4"+str(c)] = 0
-        featureCardinality["f4"+str(c)] = 0
-
-    #print(target_user_profile)
-
-    #...end initialization
-
-    query_votes = dict()            #query_votes[i] = vote assigned by the target user to query i
-    target_user_queries = list()    #list of Query objects: the list contains the query voted by the target user
-    normalized_query_votes = dict() #same as query_votes but we subtract the average of the user
-    vote_sum = 0
-
-    #retrive query votes
-    for q in voters[target_user_index]:
-        query_votes[q[0]] = q[1]
-        vote_sum += q[1]
-
-    avg_vote = vote_sum/len(query_votes)    #normalization
-    
-    for q in query_votes:
-        normalized_query_votes[q] = query_votes[q]-avg_vote
-
-    queryFile = open(queryFileName, "r")
-    for query in queryFile:
-        query = query[:-1] #otherwise each query ends with \n
-
-        query_id = retriveQueryId(query)
-
-        if query_id in query_votes: #O(1) the target user voted query query_id
-
-            query_obj = queryClass.Query(query_id)  #the query structure is described by a query object
-            
-            #add research attributes to the query object
-            queryAttibuteSet = retriveQuerySearchAttributes(query)
-            for attr in queryAttibuteSet:
-                query_obj.addParameter(attr)
-                # update target user profile with information about frequent attributes
-                if attr in frequentAttributes:
-                    target_user_profile["f2"+str(attr)] += normalized_query_votes[query_obj.getId()]
-                    featureCardinality["f2"+str(attr)] += 1
-
-            #retrive query result
-            queryResult = person.query(str(query_obj))
-
-            cluster_frequency = dict()          #cluster_frequency[i] = number_of_tuples_belonging_to_cluster_i / tot_tuples
-            observed_frequent_values = set()    #the set contains the frequent values which have been seen in the query result set
-            observed_clusters = set()           #the set contains the clusters which have been seen in the query result set
-            for index, tuple in queryResult.iterrows():
-                tuple_id = int(tuple['id'])
-                tuple_name = tuple['name']
-                tuple_address = tuple['address']
-                tuple_occupation = tuple['occupation']
-
-                #update target_user_profile
-                # important tuples
-                if tuple_id in mostFrequentTuples:
-                    target_user_profile["f1"+str(tuple_id)] += normalized_query_votes[query_obj.getId()]
-                    featureCardinality["f1"+str(tuple_id)] += 1
-
-                # frequent values
-                if tuple_name in frequentValues:
-                    target_user_profile["f3"+str(tuple_name)] += (1/len(queryResult.index))*normalized_query_votes[query_obj.getId()]
-                    observed_frequent_values.add(tuple_name)
-                if tuple_address in frequentValues:
-                    target_user_profile["f3"+str(tuple_address)] += (1/len(queryResult.index))*normalized_query_votes[query_obj.getId()]
-                    observed_frequent_values.add(tuple_address)
-                if tuple_occupation in frequentValues:
-                    target_user_profile["f3"+str(tuple_occupation)] += (1/len(queryResult.index))*normalized_query_votes[query_obj.getId()]
-                    observed_frequent_values.add(tuple_occupation)
-                #...end update target_user_profile
-
-                #update cluster frequency
-                tuple_profile = getPersonProfile(tuple)
-                tuple_cluster = kmeans.predict([tuple_profile])
-                target_user_profile["f4"+str(tuple_cluster[0])] += (1/len(queryResult.index))*normalized_query_votes[query_obj.getId()]
-                observed_clusters.add(tuple_cluster[0])
-
-            #update the counter about how many times user[i] voted a frequent value
-            #(  this information is useful for the computation of the average mark
-            #   assigned by the user to the frequent value)
-            for ofv in observed_frequent_values:
-                featureCardinality["f3"+str(ofv)] += 1
-
-            #update the counter about how many times user[i] voted a cluster
-            #(  this information is useful for the computation of the average mark
-            #   assigned by the user to the cluster)
-            for oc in observed_clusters:
-                featureCardinality["f4"+str(oc)] += 1
-
-            #print(target_user_profile)
-
-    #complete the target_user_profile
-    #computing the avg vote for each query feature
-    for f in featureCardinality:
-        if featureCardinality[f]>0:
-            target_user_profile[f] = target_user_profile[f]/featureCardinality[f]
-
-    #print("final user profile")
-    #print(target_user_profile)
-
-    queryFile.close()
-
-    #print(f"complete utilitiy matrix row of user {target_user_index} using content based recommendation")
-    queryWithoutVote = []       #assumption:
-                                #   1) there are few queries without vote;
-                                #   2) the utility matrix and the query file are huge, it is better to read them only one time
-    for q in utilityMatrix:
-        if math.isnan(utilityMatrix.loc[target_user_index][q]):
-            #query q has no vote assigned by the target user --> we estimate user preference for query q
-            #with a content based approach
-            queryWithoutVote.append(q)
-    
-    queryFile = open(queryFileName, "r")
-    for query in queryFile:
-        query = query[:-1] #otherwise each query ends with \n
-
-        query_id = retriveQueryId(query)
-
-        if query_id in queryWithoutVote:            #O(1) the target user DID NOT vote query query_id
-            query_obj = queryClass.Query(query_id)  #the query structure is described by a query object
-
-            target_query_profile = dict()   #feature vector for the current query [importantTuple1, importantTuple2, ..., importantTupleN, frequentAttribute1, frequentAttribute2, ..., frequentAttributeN, frequentValue1, frequentValue2, ..., frequentValueN, cluster1, cluster2, ..., clusterK]
-            
-            #print(f"predicting opinion of user {target_user_index} about query {query_id}")
-            
-            #for each feature, initialize target_query_profile data structure
-            # i. important tuples
-            for t in mostFrequentTuples:
-                target_query_profile["f1"+str(t)] = 0
-
-            # ii. frequent attributes
-            for fa in frequentAttributes:
-                target_query_profile["f2"+str(fa)] = 0
-
-            # iii. frequent values
-            for fv in frequentValues:
-                target_query_profile["f3"+str(fv)] = 0
-
-            # iv. cluster
-            for c in range(n_cluster_k):
-                target_query_profile["f4"+str(c)] = 0
-
-            print(target_query_profile)
-
-            #add research attributes to the query object
-            queryAttibuteSet = retriveQuerySearchAttributes(query)
-            for attr in queryAttibuteSet:
-                query_obj.addParameter(attr)
-                # update target query profile with information about frequent attributes
-                if attr in frequentAttributes:
-                    target_query_profile["f2"+str(attr)] += 1
-
-            #retrive query result
-            queryResult = person.query(str(query_obj))
-
-            cluster_frequency = dict()          #cluster_frequency[i] = number_of_tuples_belonging_to_cluster_i / tot_tuples
-
-            for index, tuple in queryResult.iterrows():
-                tuple_id = int(tuple['id'])
-                tuple_name = tuple['name']
-                tuple_address = tuple['address']
-                tuple_occupation = tuple['occupation']
-
-                #update target_query_profile
-                # important tuples
-                if tuple_id in mostFrequentTuples:
-                    target_query_profile["f1"+str(tuple_id)] += 1
-
-                # frequent values
-                if tuple_name in frequentValues:
-                    target_query_profile["f3"+str(tuple_name)] += (1/len(queryResult.index))
-                if tuple_address in frequentValues:
-                    target_query_profile["f3"+str(tuple_address)] += (1/len(queryResult.index))
-                if tuple_occupation in frequentValues:
-                    target_query_profile["f3"+str(tuple_occupation)] += (1/len(queryResult.index))
-                #...end update target_user_profile
-
-                #update cluster frequency
-                tuple_profile = getPersonProfile(tuple)
-                tuple_cluster = kmeans.predict([tuple_profile])
-                target_query_profile["f4"+str(tuple_cluster[0])] += (1/len(queryResult.index))
-            
-            #print(f"query profile[{query_id}]")
-            #print(target_query_profile)
-
-            cosine_distance = cosineDistance(featureDict_to_featureList(target_user_profile), featureDict_to_featureList(target_query_profile))
-            #print(f"cosine distance({target_user_index},{query_id}) = {cosine_distance}")
-            print(f"vote({target_user_index},{query_id}) = {cosToVote(cosine_distance)}")
-
-    queryFile.close()        
-###
-
 
 
 ### Evaluate algorithm performance
