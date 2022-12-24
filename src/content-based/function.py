@@ -9,6 +9,7 @@ from sklearn import preprocessing
 from sklearn.cluster import KMeans
 import pandas as pd
 import math
+import hash_table as hashTableClass
 
 def ageGroup(age):
     #Example:
@@ -375,6 +376,60 @@ def frequent_value(db, queryFile):
     print("END frequent_value mining")
 
     return l
+
+def value_frequency(db, queryFile):
+    num_query = 0           #number of queries
+
+    l = dict()              #set of frequent singleton; l[attr] = how many times the frequent itemset attr appears in all the query sets
+    c = dict()              #c[attr] = number of times that the singleton attr appears in a query result
+
+    ##frequent singleton
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+
+        num_query += 1
+
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_id = int(tuple['id'])
+            tuple_name = tuple['name']
+            tuple_address = tuple['address']
+            tuple_occupation = tuple['occupation']
+            tuple_age = ageGroup(tuple['age'])
+            
+            #update count for each singleton attribute
+            c[tuple_name] = c.get(tuple_name, 0) + 1
+            c[tuple_address] = c.get(tuple_address, 0) + 1
+            c[tuple_occupation] = c.get(tuple_occupation, 0) + 1
+            c[tuple_age] = c.get(tuple_age, 0) + 1
+
+    queryFile.close()
+
+    return c
+
+def expected_value_frequency(db, queryFile):
+    hashTable = hashTableClass.HashTable()
+
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_name = tuple['name']
+            tuple_address = tuple['address']
+            tuple_occupation = tuple['occupation']
+            tuple_age = ageGroup(tuple['age'])
+            
+            hashTable.insertValue(tuple_name)
+            hashTable.insertValue(tuple_address)
+            hashTable.insertValue(tuple_occupation)
+            hashTable.insertValue(tuple_age)
+
+    queryFile.close()
+
+    return hashTable
 
 def frequent_attribute(queryFile):
     '''

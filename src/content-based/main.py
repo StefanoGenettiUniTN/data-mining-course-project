@@ -8,6 +8,8 @@ Pietro Fronza
 import database as db
 import query as queryClass
 import user as userClass
+import hash_table as hashTableClass
+
 import pandas as pd
 import math
 import itertools
@@ -29,6 +31,8 @@ from function import clusterFrequency
 from function import ageGroup
 from function import tuples_frequencies
 from function import attribute_frequency
+from function import value_frequency
+from function import expected_value_frequency
 
 from file import getQueryDefinition
 
@@ -37,9 +41,9 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = Path("../../data/relational_db.csv")
-utilityMatrixFileName = Path("../../data/utility_matrix.csv")
-queryFileName = Path("../../data/queries.csv")
+databaseFileName = Path("data/relational_db.csv")
+utilityMatrixFileName = Path("data/utility_matrix.csv")
+queryFileName = Path("data/queries.csv")
 
 #Read database
 person = db.Person(databaseFileName)
@@ -71,6 +75,18 @@ attributeFrequency = attribute_frequency(queryFileName)
 # Values that appear frequently in query result sets
 frequentValues = frequent_value(person, queryFileName)                 
 
+valueFrequencyTrue = value_frequency(person, queryFileName)
+expectedValueFrequency = expected_value_frequency(person, queryFileName)
+
+counter = 0
+avg_error = 0
+for v in valueFrequencyTrue:
+    print(f"True frequency of {v} = {valueFrequencyTrue[v]}")
+    print(f"Expected frequency of {v} = {expectedValueFrequency.getValue(v)}")
+    avg_error += abs(valueFrequencyTrue[v] - expectedValueFrequency.getValue(v))
+    counter += 1
+print("Avg error = "+str(avg_error/counter))
+
 print("Most frequent tuple: "+str(mostFrequentTuples))
 print("")
 print("Most frequent attributes: "+str(frequentAttributes))
@@ -92,6 +108,8 @@ person.table = k_means_clustering(person, num_cluster_person)
 cluster_card = clusterFrequency(person, num_cluster_person, queryFileName)
 print("Cluster cardinality")
 print(cluster_card)
+###
+#end preprocessing
 ###
 
 ### Initialize user profiles and complete utility matrix with
@@ -178,90 +196,7 @@ for index, v in utilityMatrix.iterrows():
     print("")
     print(f"USER[{user_obj.getId()}] predicted vote to unvoted queries")
     print(predictedVotes)
-    print("")
-
-    #initialize user profile's features
-    #user_obj.ft_init_tuple(mostFrequentTuples)
-    #user_obj.ft_init_attribute(frequentAttributes)
-    #user_obj.ft_init_values(frequentValues)
-    #user_obj.ft_init_cluster(num_cluster_person)
-
-    #iterate through voted queries to complete the
-    #target user profile
-    '''
-    for q in user_obj.getVotedQueries():
-        #get query definition
-        qdef = query_def[q]
-        
-        #get vote and subtruct avg vote of the target user
-        vote = utilityMatrix.at[user_obj.getId(), q] - user_obj.getAvgVote()
-
-        #read search attributes
-        search_attr = retriveQuerySearchAttributes(qdef)
-        for a in search_attr:
-            if a in frequentAttributes:
-                user_obj.ft_add_vote_attribute(a, vote)
-        
-        qresult = person.query(qdef)
-        for tuple_index, tuple_value in qresult.iterrows():
-            tuple_id = int(tuple_value['id'])
-            tuple_name = tuple_value['name']
-            tuple_address = tuple_value['address']
-            tuple_occupation = tuple_value['occupation']
-            tuple_age = ageGroup(tuple_value['age'])
-            tuple_cluster = tuple_value['cluster']
-
-            #read important tuple
-            if tuple_id in mostFrequentTuples:
-                user_obj.ft_add_vote_tuple(tuple_id, vote)
-
-            #read frequent values
-            if tuple_name in frequentValues:
-                user_obj.ft_add_vote_value(tuple_name, vote)
-
-            if tuple_address in frequentValues:
-                user_obj.ft_add_vote_value(tuple_address, vote)
-                
-            if tuple_occupation in frequentValues:
-                user_obj.ft_add_vote_value(tuple_occupation, vote)
-            
-            if tuple_age in frequentValues:
-                user_obj.ft_add_vote_value(tuple_age, vote)
-            
-            #read cluster
-            user_obj.ft_add_vote_cluster(tuple_cluster, vote)
-    
-    print("user profile")
-    print(user_obj)
-    '''
-
-    #if the user_obj is null vector we can not
-    #complete the utility matrix following
-    #a content based approach
-    '''
-    if sum(user_obj.computerProfileVector())!=0:
-        #iterate through queries  without vote to complete the
-        #uitility matrix
-        for q in user_obj.getUnVotedQueries():
-            #get query definition
-            qdef = query_def[q]
-            
-            #instantiate query object
-            qobj = queryClass.Query(qdef)
-
-            qprofile = qobj.getQueryProfile(person, mostFrequentTuples, frequentAttributes, frequentValues, num_cluster_person)
-
-            #we can complete the utility matrix iff the query profile is not the null vector
-            if sum(qprofile)!=0:
-                cosine_distance = cosineDistance(user_obj.computerProfileVector(), qprofile)
-                #print(f"cosine distance({target_user_index},{query_id}) = {cosine_distance}")
-                print("cosine distance = "+str(cosine_distance))
-                print(f"vote({user_obj.getId()},{qobj.getId()}) = {cosToVote(cosine_distance)}")
-            else:
-                print(f"Warning - the query profile of {qobj.getId()} is empty, impossible to complete the utility matrix entry following a content based approach")
-    else:
-        print(f"Warning - the user profile of {user_obj.getId()} is empty, impossible to complete the utility matrix of the target user following a content based approach")
-    '''
+    print("")   
 
 ###
 
