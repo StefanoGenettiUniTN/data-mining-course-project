@@ -211,9 +211,9 @@ def cosineDistance(item1_profile, item2_profile):
         print("Error cosineDistance: cannot compute cosine distance with zero vector")
         return -1
 
-    print("cosineDistance")
-    print("item1: "+str(item1_profile))
-    print("item2: "+str(item2_profile))
+    #print("cosineDistance")
+    #print("item1: "+str(item1_profile))
+    #print("item2: "+str(item2_profile))
     item1 = np.array(item1_profile)
     item2 = np.array(item2_profile)
 
@@ -250,27 +250,6 @@ def idf(n, d):
     d documents
     '''
     return math.log(d/n,10)
-
-def rmse(u1, u2):
-    '''
-    Input: utility matrix u1, utility matrix u2
-    Output: root mean squared error between the two
-            utility matrixes. Typically the comparison
-            is between the groundtruth and the predicted
-            utility matrix
-    '''
-    rmse = 0
-    card_votes = 0
-    for query in u1:
-        for index, vote in u1[query].items():
-            vote_u1 = vote
-            vote_u2 = u2.at[index, query]
-            
-            rmse += (vote_u1-vote_u2)**2
-            card_votes += 1
-    
-    return math.sqrt(rmse/card_votes)
-
 
 def card_query(queryFile):
     '''
@@ -326,6 +305,22 @@ def tuples_frequencies(db, queryFile):
     queryFile.close()
 
     return tuple_frequency
+
+def expected_tuple_frequency(db, queryFile):
+    hashTable = hashTableClass.HashTable()
+
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+
+        queryResult = db.query(query)
+        for index, tuple in queryResult.iterrows():
+            tuple_id = int(tuple['id'])
+            hashTable.insertValue(tuple_id)
+
+    queryFile.close()
+
+    return hashTable
 
 
 def frequent_value(db, queryFile):
@@ -475,6 +470,22 @@ def attribute_frequency(queryFile):
     
     return attribute_counts
 
+def expected_attribute_frequency(queryFile):
+    '''
+    Return the expected frequency of the attributes
+    which have been used as search parameters
+    '''
+    hashTable = hashTableClass.HashTable()
+    
+    queryFile = open(queryFile, "r")
+    for query in queryFile:
+        query = query[:-1] #otherwise each query ends with \n
+        queryAttibuteSet = retriveQuerySearchAttributes(query)
+        for attr in queryAttibuteSet:
+            hashTable.insertValue(attr)
+    queryFile.close()
+    
+    return hashTable
 
 def k_means_clustering(person_db, k):
     '''

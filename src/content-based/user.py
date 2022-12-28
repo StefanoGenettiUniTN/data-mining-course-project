@@ -76,15 +76,13 @@ class User:
         for q in self.votedQueries:
             self.normalizedVotedQueries[q] = self.votedQueries[q]-avg_vote
 
-    def computeUserProfile(self, db, query_def, tuple_frequency, attribute_frequency):
+    def computeUserProfile(self, db, query_def):
         '''
         Compute a dictionary which describe the relevance of the
         most important features which characterize the given user
 
         db = relational table
         query_def: dictionary such that query_def[q] = definition of query q
-        tuple_frequency: dictionary such that tuple_frequency[t] = how many times tuple t appears in the result set of a query
-        attribute_frequency: dictionary such that attribute_frequency[t] = how many times attribute t appears in the result set of a query
         '''
 
         #consider only the |num_queries| which are characterized by
@@ -96,22 +94,22 @@ class User:
         for i in range(0, min(num_queries, len(votedQueries_keys))):
             self.mostImportantQueries.append(votedQueries_keys[i])
 
-        print(votedQueries_keys)
-        print(f"Most important query user [{self.getId()}] = {str(self.mostImportantQueries)}")
+        #print(votedQueries_keys)
+        #print(f"Most important query user [{self.getId()}] = {str(self.mostImportantQueries)}")
 
-        attribute_importance = dict()           #attribute_importance[a] = avg TF.IDF of attribute a
+        attribute_importance = dict()           #attribute_importance[a] = avg TF of attribute a
         attribute_importance_size = dict()      #attribute_importance_size[a] = number of occurences of attribute a
         attribute_avg_vote = dict()             #attribute_avg_vote[a] = avg vote of attribute a
 
-        tuple_importance = dict()               #tuple_importance[t] = avg TF.IDF of tuple t
+        tuple_importance = dict()               #tuple_importance[t] = avg TF of tuple t
         tuple_importance_size = dict()          #tuple_importance_size[t] = number of occurences of tuple t
         tuple_avg_vote = dict()                 #tuple_avg_vote[t] = avg vote of tuple t
 
-        value_importance = dict()               #value_importance[v] = avg TF.IDF of value v
+        value_importance = dict()               #value_importance[v] = avg TF of value v
         value_importance_size = dict()          #value_importance_size[v] = number of occurences of value v
         value_avg_vote = dict()                 #value_avg_vote[v] = avg vote of value v
 
-        cluster_importance = dict()             #cluster_importance[c] = avg TF.IDF of cluster c
+        cluster_importance = dict()             #cluster_importance[c] = avg TF of cluster c
         cluster_importance_size = dict()        #cluster_importance_size[c] = number of occurences of cluster c
         cluster_avg_vote = dict()               #cluster_avg_vote[c] = avg vote of cluster c
 
@@ -126,8 +124,7 @@ class User:
             search_attr = retriveQuerySearchAttributes(qdef)
             for a in search_attr:
                 a_tf = tf(1, len(search_attr))
-                a_idf = idf(attribute_frequency[a], len(self.votedQueries.keys())+len(self.unvotedQueries))
-                attribute_importance[a] = attribute_importance.get(a, 0)+((a_tf*a_idf)*abs(vote))
+                attribute_importance[a] = attribute_importance.get(a, 0)+(a_tf*abs(vote))
                 attribute_importance_size[a] = attribute_importance_size.get(a, 0)+1
                 attribute_avg_vote[a] = attribute_avg_vote.get(a,0)+vote
 
@@ -156,15 +153,14 @@ class User:
             #update tuple_importance
             for t in tuple_list:
                 t_tf = tf(1, len(query_result))
-                t_idf = idf(tuple_frequency[t], len(self.votedQueries.keys())+len(self.unvotedQueries))
-                tuple_importance[t] = tuple_importance.get(t, 0)+((t_tf*t_idf)*abs(vote))
+                tuple_importance[t] = tuple_importance.get(t, 0)+(t_tf*abs(vote))
                 tuple_importance_size[t] = tuple_importance_size.get(t, 0)+1
                 tuple_avg_vote[t] = tuple_avg_vote.get(t, 0)+vote 
             
             #update value_importance
             for v in values_card:
                 v_tf = tf(values_card[v], len(query_result))
-                value_importance[v] = value_importance.get(v, 0)+v_tf*abs(vote)
+                value_importance[v] = value_importance.get(v, 0)+(v_tf*abs(vote))
                 value_importance_size[v] = value_importance_size.get(v, 0)+1
                 value_avg_vote[v] = value_avg_vote.get(v, 0)+vote
 
@@ -370,15 +366,13 @@ class User:
                 user_vector.append(ft_cluster_query[c])
                 query_vector.append(query_obj.ft_cluster[c])
 
-            print("length user vector = "+str(len(user_vector)))
-            print("length query vector = "+str(len(query_vector)))
-
             cosine_distance = cosineDistance(user_vector, query_vector)
-            output[query_obj.getId()] = cosToVote(cosine_distance)
+            #print(f"user {self.getId()} avg vote = {self.getAvgVote()}")
+            notScaledVote = cosToVote(cosine_distance)
+            #print(f"user {self.getId()} not scaled vote query {query_obj.getId()} = {notScaledVote}")
+            output[query_obj.getId()] = (notScaledVote-50)+self.getAvgVote()
 
         return output
-
-
 
     def get_ft_tuple(self):
         return self.ft_tuple
@@ -391,129 +385,3 @@ class User:
 
     def get_ft_cluster(self):
         return self.ft_cluster
-
-    '''
-    def ft_init_tuple(self, importantTuples):
-        
-        #initialize the features about
-        #important tuples
-        
-        for t in importantTuples:
-            self.ft_tuple[t] = []
-    
-    def ft_add_vote_tuple(self, tuple, vote):
-        self.ft_tuple[tuple].append(vote)
-
-    def ft_init_attribute(self, frequentAttributes):
-        
-        #initialize the features about
-        #frequently searched attributes
-        
-        for a in frequentAttributes:
-            self.ft_attribute[a] = []
-    
-    def ft_add_vote_attribute(self, attr, vote):
-        self.ft_attribute[attr].append(vote)
-    
-    def ft_init_values(self, frequentValues):
-        
-        #initialize the features about
-        #the values which appear frequently
-        #in the result set of the queries
-        
-        for v in frequentValues:
-            self.ft_value[v] = []
-
-    def ft_add_vote_value(self, value, vote):
-        self.ft_value[value].append(vote)
-
-    def ft_init_cluster(self, numCluster):
-        
-        #initialize the features about the
-        #clusters which have been selected
-        
-        for c in range(numCluster):
-            self.ft_cluster[c] = []
-
-    def ft_add_vote_cluster(self, cluster, vote):
-        self.ft_cluster[cluster].append(vote)
-    '''
-
-    '''
-    def computerProfileDictionary(self):
-        
-        #return a dictionary such that:
-        # - key is the feature
-        # - value is the avg vote of the user for that feature
-        
-        user_profile_dict = dict()
-        
-        #important tuples
-        for t in self.ft_tuple:
-            if len(self.ft_tuple[t])>0:
-                user_profile_dict[t] = sum(self.ft_tuple[t]) / len(self.ft_tuple[t])
-            else:
-                user_profile_dict[t] = 0
-
-        #frequent attributes
-        for a in self.ft_attribute:
-            if len(self.ft_attribute[a])>0:
-                user_profile_dict[a] = sum(self.ft_attribute[a]) / len(self.ft_attribute[a])
-            else:
-                user_profile_dict[a] = 0
-
-        #frequent values
-        for v in self.ft_value:
-            if len(self.ft_value[v])>0:
-                user_profile_dict[v] = sum(self.ft_value[v]) / len(self.ft_value[v])
-            else:
-                user_profile_dict[v] = 0
-
-        #cluster
-        for c in self.ft_cluster:
-            if len(self.ft_cluster[c])>0:
-                user_profile_dict[c] = sum(self.ft_cluster[c]) / len(self.ft_cluster[c])
-            else:
-                user_profile_dict[c] = 0
-        
-        return user_profile_dict
-
-    def computerProfileVector(self):
-        
-        #return a list such that each position
-        #corresponds to the avg vote of the user
-        #for a certain feature
-        
-        user_profile = list()
-        
-        #important tuples
-        for t in self.ft_tuple:
-            if len(self.ft_tuple[t])>0:
-                user_profile.append(sum(self.ft_tuple[t]) / len(self.ft_tuple[t]))
-            else:
-                user_profile.append(0)
-
-        #frequent attributes
-        for a in self.ft_attribute:
-            if len(self.ft_attribute[a])>0:
-                user_profile.append(sum(self.ft_attribute[a]) / len(self.ft_attribute[a]))
-            else:
-                user_profile.append(0)
-
-        #frequent values
-        for v in self.ft_value:
-            if len(self.ft_value[v])>0:
-                user_profile.append(sum(self.ft_value[v]) / len(self.ft_value[v]))
-            else:
-                user_profile.append(0)
-
-        #cluster
-        for c in self.ft_cluster:
-            if len(self.ft_cluster[c])>0:
-                user_profile.append(sum(self.ft_cluster[c]) / len(self.ft_cluster[c]))
-            else:
-                user_profile.append(0)
-        
-        return user_profile
-    '''    
-

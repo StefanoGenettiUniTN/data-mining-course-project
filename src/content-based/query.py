@@ -8,15 +8,6 @@ from function import ageGroup
 
 class Query:
 
-    '''
-    def __init__(self, _id):
-        # _id --> id of the query
-        
-        self.id = _id
-        self.parameter = []
-        self.resultLength = 0
-    '''
-
     def __init__(self, queryDefinition):
         self.id = retriveQueryId(queryDefinition)
 
@@ -75,107 +66,14 @@ class Query:
     def getParameters(self):
         return self.parameter
 
-    '''
-    def getQueryProfile(self, db, importantTuple, frequentAttribute, frequentValue, numCluster):
-        query_def = str(self)
-        query_result = db.query(query_def)
-
-        #init important tuple
-        self.ft_tuple = dict()
-        for t in importantTuple:
-            self.ft_tuple[t] = 0
-
-        #init frequently searched attributes
-        self.ft_attribute = dict()
-        for a in frequentAttribute:
-            self.ft_attribute[a] = 0
-
-        #init frequent value
-        self.ft_value = dict()
-        for v in frequentValue:
-            self.ft_value[v] = 0
-
-        #init cluster
-        self.ft_cluster = dict()
-        for c in range(numCluster):
-            self.ft_cluster[c] = 0
-        
-        #assign attribute feature values
-        for a in self.parameter:
-            if a in frequentAttribute:
-                self.ft_attribute[a]+=1
-
-        for tuple_index, tuple_value in query_result.iterrows():
-            tuple_id = int(tuple_value['id'])
-            tuple_name = tuple_value['name']
-            tuple_address = tuple_value['address']
-            tuple_occupation = tuple_value['occupation']
-            tuple_age = ageGroup(tuple_value['age'])
-            tuple_cluster = tuple_value['cluster']
-
-            #read important tuple
-            if tuple_id in importantTuple:
-                self.ft_tuple[tuple_id] += 1
-
-            #read frequent values
-            if tuple_name in frequentValue:
-                self.ft_value[tuple_name] += 1
-
-            if tuple_address in frequentValue:
-                self.ft_value[tuple_address] += 1
-                
-            if tuple_occupation in frequentValue:
-                self.ft_value[tuple_occupation] += 1
-            
-            if tuple_age in frequentValue:
-                self.ft_value[tuple_age] += 1
-            
-            #read cluster
-            self.ft_cluster[tuple_cluster] += 1
-
-            self.resultLength += 1
-
-        queryProfile = list()
-
-        #important tuples
-        for t in self.ft_tuple:
-            if self.ft_tuple[t]>0:
-                queryProfile.append(self.ft_tuple[t]/self.resultLength)
-            else:
-                queryProfile.append(0)
-
-        #frequent attributes
-        for a in self.ft_attribute:
-            if self.ft_attribute[a]>0:
-                queryProfile.append(self.ft_attribute[a]/self.resultLength)
-            else:
-                queryProfile.append(0)
-
-        #frequent values
-        for v in self.ft_value:
-            if self.ft_value[v]>0:
-                queryProfile.append(self.ft_value[v]/self.resultLength)
-            else:
-                queryProfile.append(0)
-
-        #cluster
-        for c in self.ft_cluster:
-            if self.ft_cluster[c]>0:
-                queryProfile.append(self.ft_cluster[c]/self.resultLength)
-            else:
-                queryProfile.append(0)
-
-        return queryProfile
-    '''
-
     def computeQueryProfile(self, db, tuple_frequency, attribute_frequency, target_user_profile):
         '''
         Compute a dictionary which describe the relevance of the
         most important features which characterize the given query
 
         db = relational table
-        tuple_frequency: dictionary such that tuple_frequency[t] = how many times tuple t appears in the result set of a query
-        attribute_frequency: dictionary such that attribute_frequency[t] = how many times attribute t appears in the result set of a query
+        tuple_frequency: hash table such that tuple_frequency.getValue(t) = expected number of times tuple t appears in the result set of a query
+        attribute_frequency: hash table such that attribute_frequency.getValue(t) = expected number of times attribute t appears in the result set of a query
         target_user_profile: the profile of the user which did not vote the target query
         '''
         query_def = str(self)
@@ -190,7 +88,7 @@ class Query:
             exit(-1)
 
         #compute important search attribute for the target query
-        self.parameter.sort(key=lambda x: attribute_frequency[x], reverse=True)
+        self.parameter.sort(key=lambda x: attribute_frequency.getValue(x), reverse=True)
         self.ft_attribute[self.parameter[0]] = 1/len(self.parameter)
 
         for tuple_index, tuple_value in query_result.iterrows():
@@ -218,7 +116,7 @@ class Query:
 
         #sort tuples for importance
         if len(self.tuples)>0:
-            self.tuples.sort(key=lambda x: tuple_frequency[x], reverse=True)
+            self.tuples.sort(key=lambda x: tuple_frequency.getValue(x), reverse=True)
             self.ft_tuple[self.tuples[0]] = 1/self.resultLength
 
         #sort values for importance
@@ -264,15 +162,13 @@ class Query:
         #complete the features about the important values of the current user
         for v in user_important_values:
             if v in self.values:
-                self.ft_value_user[v] = self.values[query_value_keys[i]]/self.resultLength
+                self.ft_value_user[v] = self.values[v]/self.resultLength
 
         #complete the features about the important clusters of the current user
         for c in user_important_clusters:
             if c in self.clusters:
-                self.ft_cluster_user[c] = self.clusters[query_cluster_keys[i]]/self.resultLength
+                self.ft_cluster_user[c] = self.clusters[c]/self.resultLength
         #---
-
-
 
     def get_ft_tuple(self):
         return self.ft_tuple

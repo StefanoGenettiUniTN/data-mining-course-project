@@ -21,7 +21,6 @@ from function import getPersonProfile
 from function import cosineDistance
 from function import featureDict_to_featureList
 from function import cosToVote
-from function import rmse
 from function import frequent_value
 from function import important_tuples
 from function import frequent_attribute
@@ -33,8 +32,18 @@ from function import tuples_frequencies
 from function import attribute_frequency
 from function import value_frequency
 from function import expected_value_frequency
+from function import expected_tuple_frequency
+from function import expected_attribute_frequency
+
+from evaluation import rmse
+from evaluation import me
+from evaluation import me_unvoted
+from evaluation import rmse_unvoted
+from evaluation import query_avg_error
+from evaluation import user_avg_error
 
 from file import getQueryDefinition
+from file import writeOutputUtilityMatrix
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -43,6 +52,8 @@ from sklearn.preprocessing import StandardScaler
 
 databaseFileName = Path("data/relational_db.csv")
 utilityMatrixFileName = Path("data/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/output.csv")
 queryFileName = Path("data/queries.csv")
 
 #Read database
@@ -51,66 +62,20 @@ person = db.Person(databaseFileName)
 #Utility matrix
 utilityMatrix = pd.read_csv(utilityMatrixFileName)
 
-###
-# 
-# Preprocessing
-#
-###
+#user_recommendation[u] = dictionary such that user_recommendation[u][q1] is the
+#vote recommended by the system for the user-query couple (u,q1)
+user_recommendation = dict()
 
-# Search most important tuples
-# Tuples which appear more then the others in the resultset of queries
-mostFrequentTuples = important_tuples(person, queryFileName)
+#Compute tuple importance, a tuple is important if it appears in a lot of results
+expectedTupleFrequency = expected_tuple_frequency(person, queryFileName)
 
-# how many times each tuple appears
-tupleFrequency = tuples_frequencies(person, queryFileName)
-
-# Search frequently search attributes
-# Attribute combinations searched by users which appear more then a specified threshold
-frequentAttributes = frequent_attribute(queryFileName)
-
-# how many times each attribute appear
-attributeFrequency = attribute_frequency(queryFileName)
-
-# Search values which appear frequently in the resultsets of the queries
-# Values that appear frequently in query result sets
-frequentValues = frequent_value(person, queryFileName)                 
-
-valueFrequencyTrue = value_frequency(person, queryFileName)
-expectedValueFrequency = expected_value_frequency(person, queryFileName)
-
-counter = 0
-avg_error = 0
-for v in valueFrequencyTrue:
-    print(f"True frequency of {v} = {valueFrequencyTrue[v]}")
-    print(f"Expected frequency of {v} = {expectedValueFrequency.getValue(v)}")
-    avg_error += abs(valueFrequencyTrue[v] - expectedValueFrequency.getValue(v))
-    counter += 1
-print("Avg error = "+str(avg_error/counter))
-
-print("Most frequent tuple: "+str(mostFrequentTuples))
-print("")
-print("Most frequent attributes: "+str(frequentAttributes))
-print("")
-print("Most frequent values: "+str(frequentValues))
-print("")
-
-print("Tuple frequency: "+str(tupleFrequency))
-print("Attribute frequency: "+str(attributeFrequency))
+#Compute search attribute importance, an attribute is important if it appears in a lot of queries
+expectedAttributeFrequency = expected_attribute_frequency(queryFileName)
 
 # Clustering of data in Person
 num_cluster_person = 5
 person.table = k_means_clustering(person, num_cluster_person)
 #plot_people_cluster(person.table, num_cluster_person)
-
-# count the cardinality of each cluster
-# (cluster_card[i] = how many times a tuple belonging to cluster i
-#  appears in the result set of an interrogation)
-cluster_card = clusterFrequency(person, num_cluster_person, queryFileName)
-print("Cluster cardinality")
-print(cluster_card)
-###
-#end preprocessing
-###
 
 ### Initialize user profiles and complete utility matrix with
 ### content based filtering
@@ -119,9 +84,11 @@ for index, v in utilityMatrix.iterrows():
     query_def = dict()  #query_def[q] = the definition of the query with id q
     sum_vote = 0
 
-    print("")
-    print("========================")
-    print("USER "+user_obj.getId())
+    #print("")
+    #print("========================")
+    #print("USER "+user_obj.getId())
+
+    user_recommendation[user_obj.getId()] = dict()
 
     for q in v.keys():
         if math.isnan(v[q]):
@@ -141,19 +108,22 @@ for index, v in utilityMatrix.iterrows():
     else:
         user_obj.setAvgVote(-1)
    
-    user_obj.computeUserProfile(person, query_def, tupleFrequency, attributeFrequency)
-    print("")
-    print("Print user: "+str(user_obj.getId()))
-    print("ft_tuple")
-    print(user_obj.get_ft_tuple())
-    print("ft_attribute")
-    print(user_obj.get_ft_attribute())
-    print("ft_value")
-    print(user_obj.get_ft_value())
-    print("ft_cluster")
-    print(user_obj.get_ft_cluster())
-    print("end print user "+str(user_obj.getId()))
-    print("")
+    #compute user profile
+    user_obj.computeUserProfile(person, query_def)
+
+    #print("")
+    #print("Print user: "+str(user_obj.getId()))
+    #print("ft_tuple")
+    #print(user_obj.get_ft_tuple())
+    #print("ft_attribute")
+    #print(user_obj.get_ft_attribute())
+    #print("ft_value")
+    #print(user_obj.get_ft_value())
+    #print("ft_cluster")
+    #print(user_obj.get_ft_cluster())
+    #print("end print user "+str(user_obj.getId()))
+    #print("")
+    
 
     #compute query profile of the unvoted queries
     query_to_be_voted = list()
@@ -165,7 +135,7 @@ for index, v in utilityMatrix.iterrows():
         qobj = queryClass.Query(qdef)
 
         #computer query profile
-        qobj.computeQueryProfile(person, tupleFrequency, attributeFrequency, user_obj)
+        qobj.computeQueryProfile(person, expectedTupleFrequency, expectedAttributeFrequency, user_obj)
 
         query_to_be_voted.append(qobj)
 
@@ -191,23 +161,48 @@ for index, v in utilityMatrix.iterrows():
         #print("end print query "+str(qobj.getId()))
         #print("")
 
+    #compute content based recommendation for current user
+    #about the list of query objects stored in query_to_be_voted
     predictedVotes = user_obj.queryContentBasedEvaluation(person, query_def, query_to_be_voted)
 
-    print("")
-    print(f"USER[{user_obj.getId()}] predicted vote to unvoted queries")
-    print(predictedVotes)
-    print("")   
-
+    #print("")
+    #print(f"USER[{user_obj.getId()}] predicted votes")
+    #print(predictedVotes)
+    #print("")
+    
+    #store the user recommendation for the unvoted queries
+    for query_vote in predictedVotes:
+        user_recommendation[user_obj.getId()][query_vote] = predictedVotes[query_vote]
 ###
 
+###Write the output utility matrix
+for i, u in utilityMatrix.iterrows():
+    for q in u.keys():
+        if math.isnan(u[q]):
+            utilityMatrix.at[i, q] = user_recommendation[i][q]
+
+writeOutputUtilityMatrix(utilityMatrix, outputUtilityMatrixFileName)
+###
 
 ### Evaluate algorithm performance
+print("Quality Evaluation")
 
-for bo in utilityMatrix:
-    for i, v in utilityMatrix[bo].items():
-        if math.isnan(v):
-            utilityMatrix.at[i, bo] = 1
+#complete utility matrix
+completeUtilityMatrix = pd.read_csv(completeUtilityMatrixFileName)
 
-rmse = rmse(utilityMatrix, utilityMatrix)
+rmse = rmse(utilityMatrix, completeUtilityMatrix)
+me = me(utilityMatrix, completeUtilityMatrix)
+me_unvoted = me_unvoted(user_recommendation, completeUtilityMatrix)
+rmse_unvoted = rmse_unvoted(user_recommendation, completeUtilityMatrix)
 print("RMSE = "+str(rmse))
+print("ME = "+str(me))
+print("ME UNVOTED = "+str(me_unvoted))
+print("RMSE UNVOTED = "+str(rmse_unvoted))
+
+#average error for each query
+query_avg_error(user_recommendation, completeUtilityMatrix)
+
+#average vote for each user
+user_avg_error(user_recommendation, completeUtilityMatrix)
+
 ###
