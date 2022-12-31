@@ -68,7 +68,7 @@ def generate_village_utility_matrix():
         farmerRosalva = False #76
         farmerTara = False #17
         studentKerby = False #12
-        #otherAlexys = False #42
+        otherAlexys = False #42
         for index, tuple in query_result.iterrows():
             id = int(tuple['id'])
             name = tuple['name']
@@ -126,7 +126,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 1
-        vote = 50 + 60*retireeLeshay/len(query_result) + 30*otherAlexys/len(query_result)
+        vote = 50 + 60*retireeLeshay/len(query_result) + 60*otherAlexys/len(query_result)
         vote = vote-40*(farmerGraceanne/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty 
@@ -198,8 +198,8 @@ def generate_village_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
