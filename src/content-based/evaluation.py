@@ -150,3 +150,29 @@ def user_avg_error(userPredictedVotes, completeUtilityMatrix):
     plt.axhline(y=(error_sum/error_len), color='r', linestyle='-')
     plt.grid()
     plt.show()
+
+def userVoteCurve(targetUser, userPredictedVotes, completeUtilityMatrix):
+
+    query_ids = []
+    predicted_votes = []
+    ground_truth_votes = []
+
+    for query in userPredictedVotes[targetUser]:
+        predicted_v = userPredictedVotes[targetUser][query]
+        ground_truth = completeUtilityMatrix.at[targetUser, query]
+
+        query_ids.append(query)
+        predicted_votes.append(predicted_v)
+        ground_truth_votes.append(ground_truth)
+    
+    xpoints = np.array(query_ids)
+    ypoints_1 = np.array(predicted_votes)
+    ypoints_2 = np.array(ground_truth_votes)
+    
+    plt.plot(xpoints, ypoints_1, label = "predicted votes")
+    plt.plot(xpoints, ypoints_2, label = "true votes")
+
+    plt.legend()
+    plt.title("Vote behaviour user "+str(targetUser))
+    plt.grid()
+    plt.show()

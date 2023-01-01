@@ -1,0 +1,131 @@
+In order to evaluate the performance of our recommendation system,
+we prepared three datasets.
+The UNIVERSITY dataset and the VILLAGE dataset are relatively
+small but sophisticated. They are useful to test the quality of
+our solution due to their inherent explainability.
+On the other hand the BIG dataset is characterized by much
+simplier data correlations, but it can be populated with an
+arbitrary number of data. As a consequence, the purpose of this
+dataset is to test how well our solution scales considering
+larger amount of data.
+
+Each dataset contains the following files:
+ * relational_db.csv
+ | contains the tuples which populate the table
+ | of the relational database Person as described in the report.
+
+ * users.csv
+ | list of user identifiers.
+
+ * queries.csv
+ | list of queries that have been posed in the past.
+
+ * utility_matrix.csv
+ | utility matrix that has for certain combinations of user and
+ | query, a value from 1 to 100 indicating how happy that user
+ | is with the answer set of that query.
+
+ * utility_matrix_complete.csv
+ | this file is generated in order to evaluate the
+ | recommendation system. Unlike utility_matrix.csv, here the
+ | utility matrix has a value from 1 to 100 for every
+ | combinations of user and query, indicating how happy a user
+ | is with the answer set of a given query.
+
+The directory contains four folders:
+
+- university
+The dataset is about a University.
+
+Four occupations are taken into consideration:
+ : "student",
+ : "professor",
+ : "researcher",
+ : "other".
+It is not very likely to find two people who live in the same
+place or with the same name. 
+On the other hand it is highly probable to find two people
+with the same occupation.
+Most of the people in the relational table are students.
+Most of the students are young (age between 16 and 40).
+Most of the professors are medium-age (age between 41 and 60).
+Most of the researchers are young or medium-age.
+Most of the rest of the personnel is young or medium-age.
+
+There are 10 users who did queries on the database in the past.
+Each of the user has their own preferences, but in general
+everyone do not like professor Debralee except user "u4".
+More in depth descriptions of user preferences are written in
+the report, we omit them here for reasons of space.
+
+In the query log, the most frequently asked queries are:
+ : queries about professor Debralee
+ : queries about occupation="professor"
+ : queries about occupation="student"
+ : queries about occupation="other"
+ : queries about professor Royce
+ : queries about researcher Arisa
+
+- village
+
+- big
+The purpose of this dataset is to test how well our
+recommendation system scales considering larger amount
+of data. The dataset can be arbitrarily large. In the
+folder we propose an example characterized by:
+ : 1000 tuples in the table of the realational database Person,
+ : 500 queries in the query log,
+ : 100 users in the users.csv file.
+Once the relational database is generated randomly, we read
+through the tuples which populate the table Person in order to
+find the most frequent values which appear in the data
+collection. Then, we generate queries about these frequent
+values. These lasts ideally correspond to interesting topics
+of the data collection. Once all the queries are created, we
+partition the user set into clusters:
+ : different users are interested in different topics
+ : different users do not like different topics
+ : some users voted a lot of queries
+ : some users voted a medium-size amout of queries
+ : some users voted few queries
+ : some users tend to assign high votes to query resultsets
+ : some users tend to assign medum-high votes to query resultsets
+ : some users tend to assign low votes to query resultsets
+ Given this information about the peculiarities of each user,
+ we fill the utility matrix assigning a vote for each
+ user-query pair.
+
+- generator
+in this folder we store the source codes which were used to
+generate our datasets.
+    * dataset.py
+    |   
+    | this Python program includes all the procedures to
+    | generate our datasets.
+    | Write the following commands in the console to
+    | generate the desired dataset.
+    |
+    | command: python3 dataset.py -d "uni"
+    | generate UNIVERSITY dataset.
+    |
+    | command: python3 dataset.py -d "vil"
+    | generate VILLAGE dataset.
+    |
+    | command: python3 dataset.py -d "big"
+    | generate BIG dataset.
+
+    * relational_db.py
+    | functions called by dataset.py to generate the
+    | relational_db.csv files.
+
+    * user_set.py
+    | functions called by dataset.py to generate the
+    | users.csv files.
+
+    * query_set.py
+    | functions called by dataset.py to generate the
+    | queries.csv files.
+
+    * utility_matrix.py
+    | functions called by dataset.py to generate the
+    | utility_matrix.csv and utility_matrix_complete.csv files.

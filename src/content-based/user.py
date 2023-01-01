@@ -178,11 +178,17 @@ class User:
 
         #compute attribute avg importance
         for a in attribute_importance:
-            attribute_importance[a] = attribute_importance[a]/attribute_importance_size[a]
+            
+            #print(f"attribute_importance[{a}] = {attribute_importance[a]}")
+
+            #attribute_importance[a] = attribute_importance[a]/attribute_importance_size[a]
             attribute_avg_vote[a] = attribute_avg_vote[a]/attribute_importance_size[a]
 
         #compute value avg importance
         for v in value_importance:
+
+            #print(f"value_importance[{v}] = {value_importance[v]/value_importance_size[v]}")
+
             value_importance[v] = value_importance[v]/value_importance_size[v]
             value_avg_vote[v] = value_avg_vote[v]/value_importance_size[v]
 
@@ -203,11 +209,15 @@ class User:
         for i in range(0, min(1, len(attribute_importance_keys))):
             self.ft_attribute[attribute_importance_keys[i]] = attribute_avg_vote[attribute_importance_keys[i]]
 
+        #print(attribute_importance_keys)
+
         #update user profile with important with important values
         value_importance_keys = list(value_importance.keys())
         value_importance_keys.sort(key=lambda x: value_importance[x], reverse=True)
         for i in range(0, min(2, len(value_importance_keys))):
             self.ft_value[value_importance_keys[i]] = value_avg_vote[value_importance_keys[i]]
+
+        #print(value_importance_keys)
 
         #update user profile with important cluster
         cluster_importance_keys = list(cluster_importance.keys())
@@ -370,7 +380,10 @@ class User:
             #print(f"user {self.getId()} avg vote = {self.getAvgVote()}")
             notScaledVote = cosToVote(cosine_distance)
             #print(f"user {self.getId()} not scaled vote query {query_obj.getId()} = {notScaledVote}")
-            output[query_obj.getId()] = (notScaledVote-50)+self.getAvgVote()
+            prediction = (notScaledVote-50)+self.getAvgVote()
+            prediction = min(prediction, 100)
+            prediction = max(prediction, 1)
+            output[query_obj.getId()] = prediction
 
         return output
 

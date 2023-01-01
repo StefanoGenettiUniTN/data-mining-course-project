@@ -230,7 +230,7 @@ def cosToVote(cosine_distance):
         x = (cosine_distance+1)/(1+1)
     
     ii) Then we scale x in range [1,100]
-        mark = 4x + 1
+        mark = 99x + 1
     '''
     x = (cosine_distance+1)/2
     return round(99*x+1)
@@ -536,13 +536,14 @@ def k_means_clustering(person_db, k):
         if c not in selected_features:
             scaled_person_table.drop(c, axis=1, inplace=True)
     
-    #print(scaled_person_table)
+    pd.set_option('display.max_columns', None)
+    print(scaled_person_table)
 
     #now we can cluster the people who populate the table Person in a
     #reasonable way
 
     ## ELBOW METHOD EVALUATION
-    #elbow_evaluation(scaled_person_table)
+    elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(

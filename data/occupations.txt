@@ -2,147 +2,147 @@ Accountant
 Auditor
 Actor
 Actuary
-Adhesive Bonding Machine Operator
+AdhesiveBondingMachineOperator
 Tender
-Administrative Law Judge
-Administrative Services Manager
-Adult Basic and Secondary Education and Literacy Teacher
+AdministrativeLawJudge
+AdministrativeServicesManager
+AdultBasicandSecondaryEducationandLiteracyTeacher
 Instructor
-Advertising Sales Agent
-Advertising and Promotions Manager
-Aerospace Engineering and Operations Technician
-Aerospace Engineer
+AdvertisingSalesAgent
+AdvertisingandPromotionsManager
+AerospaceEngineeringandOperationsTechnician
+AerospaceEngineer
 Agent
-Business Managers of Artist
-Agricultural Engineer
-Agricultural Equipment Operator
-Agricultural Inspector
-Agricultural Sciences Teacher
-Agricultural Worker
-Agricultural and Food Science Technician
-Air Traffic Controller
-Aircraft Cargo Handling Supervisor
-Aircraft Mechanic
-Service Technician
-Aircraft Structure
-Airfield Operations Specialist
-Airline Pilot
-All Occupation
-Ambulance Driver
+BusinessManagersofArtist
+AgriculturalEngineer
+AgriculturalEquipmentOperator
+AgriculturalInspector
+AgriculturalSciencesTeacher
+AgriculturalWorker
+AgriculturalandFoodScienceTechnician
+AirTrafficController
+AircraftCargoHandlingSupervisor
+AircraftMechanic
+ServiceTechnician
+AircraftStructure
+AirfieldOperationsSpecialist
+AirlinePilot
+AllOccupation
+AmbulanceDriver
 Attendant
-Amusement and Recreation Attendant
+AmusementandRecreationAttendant
 Anesthesiologist
-Animal Breeder
-Animal Control Worker
-Animal Scientist
-Animal Trainer
+AnimalBreeder
+AnimalControlWorker
+AnimalScientist
+AnimalTrainer
 Anthropologist
 Archeologist
-Anthropology and Archeology Teacher
+AnthropologyandArcheologyTeacher
 Appraiser
-Assessors of Real Estate
+AssessorsofRealEstate
 Arbitrator
 Architect
-Architectural and Civil Drafter
-Architectural and Engineering Manager
-Architecture Teacher
-Architecture and Engineering Occupation
+ArchitecturalandCivilDrafter
+ArchitecturalandEngineeringManager
+ArchitectureTeacher
+ArchitectureandEngineeringOccupation
 Archivist
 Area
-Art Director
+ArtDirector
 Artist
 Assembler
 Fabricator
 Astronomer
 Athlete
-Sports Competitor
-Athletic Trainer
-Atmospheric and Space Scientist
+SportsCompetitor
+AthleticTrainer
+AtmosphericandSpaceScientist
 Atmospheric
-Audio and Video Equipment Technician
-Audio-Visual and Multimedia Collections Specialist
+AudioandVideoEquipmentTechnician
+AudioVisualandMultimediaCollectionsSpecialist
 Audiologist
-Automotive Body and Related Repairer
-Automotive Glass Installer
+AutomotiveBodyandRelatedRepairer
+AutomotiveGlassInstaller
 Repairer
-Automotive Service Technician
+AutomotiveServiceTechnician
 Mechanic
-Automotive and Watercraft Service Attendant
-Avionics Technicians 
-Baggage Porter
+AutomotiveandWatercraftServiceAttendant
+AvionicsTechnicians
+BaggagePorter
 Bellhop
 Bailiff
 Baker
 Barber
 Bartender
-Bicycle Repairer
-Bill and Account Collector
-Billing and Posting Clerk
+BicycleRepairer
+BillandAccountCollector
+BillingandPostingClerk
 Biochemist
 Biophysicist
-Biological Science Teacher
-Biological Scientist
-Biological Technician
-Biomedical Engineer
+BiologicalScienceTeacher
+BiologicalScientist
+BiologicalTechnician
+BiomedicalEngineer
 Boilermaker
 Bookkeeping
 Brickmason
 Blockmason
-Bridge and Lock Tender
-Broadcast News Analyst
-Broadcast Technician
-Brokerage Clerk
-Budget Analyst
-Building Cleaning Worker
-Building and Grounds Cleaning and Maintenance Occupation
-Bus Driver
-Bus Driver
+BridgeandLockTender
+BroadcastNewsAnalyst
+BroadcastTechnician
+BrokerageClerk
+BudgetAnalyst
+BuildingCleaningWorker
+BuildingandGroundsCleaningandMaintenanceOccupation
+BusDriver
+BusDriver
 Bu
-Truck Mechanic
-Diesel Engine Specialist
-Business Operations Specialist
-Business Teacher
+TruckMechanic
+DieselEngineSpecialist
+BusinessOperationsSpecialist
+BusinessTeacher
 Busines
-Financial Operations Occupation
+FinancialOperationsOccupation
 Butcher
-Meat Cutter
+MeatCutter
 Buyer
-Purchasing Agent
+PurchasingAgent
 Cabinetmaker
-Bench Carpenter
-Camera Operator
-Camera and Photographic Equipment Repairer
+BenchCarpenter
+CameraOperator
+CameraandPhotographicEquipmentRepairer
 Captain
-Cardiovascular Technologist
+CardiovascularTechnologist
 Technician
-Career/Technical Education Teacher
-Career/Technical Education Teacher
-Cargo and Freight Agent
+Career/TechnicalEducationTeacher
+Career/TechnicalEducationTeacher
+CargoandFreightAgent
 Carpenter
-Carpet Installer
+CarpetInstaller
 Cartographer
 Photogrammetrist
 Cashier
-Cement Mason
-Concrete Finisher
+CementMason
+ConcreteFinisher
 Chef
-Head Cook
-Chemical Engineer
-Chemical Equipment Operator
+HeadCook
+ChemicalEngineer
+ChemicalEquipmentOperator
 Tender
-Chemical Plant and System Operator
-Chemical Technician
-Chemistry Teacher
+ChemicalPlantandSystemOperator
+ChemicalTechnician
+ChemistryTeacher
 Chemist
-Chief Executive
+ChiefExecutive
 Child
-Childcare Worker
+ChildcareWorker
 Chiropractor
 Choreographer
-Civil Engineering Technician
-Civil Engineer
-Claims Adjuster
-Cleaners of Vehicle
+CivilEngineeringTechnician
+CivilEngineer
+ClaimsAdjuster
+CleanersofVehicle
 Equipment
 Cleaning
 Clergy
@@ -150,43 +150,43 @@ Clinical
 Coache
 Scout
 Coating
-Coil Winder
+CoilWinder
 Coin
-Combined Food Preparation and Serving Worker
-Commercial Diver
-Commercial Pilot
-Commercial and Industrial Designer
-Communications Equipment Operator
-Communications Teacher
-Community and Social Service Specialist
-Community and Social Service Occupation
-Compensation and Benefits Manager
+CombinedFoodPreparationandServingWorker
+CommercialDiver
+CommercialPilot
+CommercialandIndustrialDesigner
+CommunicationsEquipmentOperator
+CommunicationsTeacher
+CommunityandSocialServiceSpecialist
+CommunityandSocialServiceOccupation
+CompensationandBenefitsManager
 Compensation
-Compliance Officer
-Computer Hardware Engineer
-Computer Numerically Controlled Machine Tool Programmer
-Computer Occupation
-Computer Operator
-Computer Programmer
-Computer Science Teacher
-Computer Support Specialist
-Computer Systems Analyst
-Computer and Information Research Scientist
-Computer and Information Systems Manager
-Computer and Mathematical Occupation
+ComplianceOfficer
+ComputerHardwareEngineer
+ComputerNumericallyControlledMachineToolProgrammer
+ComputerOccupation
+ComputerOperator
+ComputerProgrammer
+ComputerScienceTeacher
+ComputerSupportSpecialist
+ComputerSystemsAnalyst
+ComputerandInformationResearchScientist
+ComputerandInformationSystemsManager
+ComputerandMathematicalOccupation
 Computer
-Computer-Controlled Machine Tool Operator
+ComputerControlledMachineToolOperator
 Concierge
-Conservation Scientist
-Construction Laborer
-Construction Manager
-Construction and Building Inspector
-Construction and Extraction Occupation
-Construction and Related Worker
-Continuous Mining Machine Operator
-Control and Valve Installer
+ConservationScientist
+ConstructionLaborer
+ConstructionManager
+ConstructionandBuildingInspector
+ConstructionandExtractionOccupation
+ConstructionandRelatedWorker
+ContinuousMiningMachineOperator
+ControlandValveInstaller
 Repairer
-Conveyor Operator
+ConveyorOperator
 Tender
 Cook
 Cook
@@ -194,283 +194,283 @@ Cook
 Cook
 Cook
 Cook
-Cooling and Freezing Equipment Operator
+CoolingandFreezingEquipmentOperator
 Tender
-Correctional Officer
+CorrectionalOfficer
 Jailer
-Correspondence Clerk
-Cost Estimator
-Costume Attendant
+CorrespondenceClerk
+CostEstimator
+CostumeAttendant
 Counselor
-Counter Attendant
-Counter and Rental Clerk
+CounterAttendant
+CounterandRentalClerk
 Courier
 Messenger
-Court Reporter
+CourtReporter
 Court
-Craft Artist
-Crane and Tower Operator
-Credit Analyst
-Credit Authorizer
-Credit Counselor
-Criminal Justice and Law Enforcement Teacher
-Crossing Guard
+CraftArtist
+CraneandTowerOperator
+CreditAnalyst
+CreditAuthorizer
+CreditCounselor
+CriminalJusticeandLawEnforcementTeacher
+CrossingGuard
 Crushing
 Curator
-Customer Service Representative
+CustomerServiceRepresentative
 Cutter
 Trimmer
-Cutting and Slicing Machine Setter
+CuttingandSlicingMachineSetter
 Cutting
 Dancer
-Data Entry Keyer
-Database Administrator
+DataEntryKeyer
+DatabaseAdministrator
 Demonstrator
-Product Promoter
-Dental Assistant
-Dental Hygienist
-Dental Laboratory Technician
+ProductPromoter
+DentalAssistant
+DentalHygienist
+DentalLaboratoryTechnician
 Dentist
 Dentist
-Derrick Operator
+DerrickOperator
 Designer
-Desktop Publisher
+DesktopPublisher
 Detective
-Criminal Investigator
-Diagnostic Medical Sonographer
-Dietetic Technician
+CriminalInvestigator
+DiagnosticMedicalSonographer
+DieteticTechnician
 Dietitian
 Nutritionist
-Dining Room and Cafeteria Attendant
-Bartender Helper
+DiningRoomandCafeteriaAttendant
+BartenderHelper
 Director
 Dishwasher
 Dispatcher
-Door-to-Door Sales Worker
+DoortoDoorSalesWorker
 Drafter
-Dredge Operator
-Drilling and Boring Machine Tool Setter
-Driver/Sales Worker
-Drywall and Ceiling Tile Installers 
-Earth Driller
-Economics Teacher
+DredgeOperator
+DrillingandBoringMachineToolSetter
+Driver/SalesWorker
+DrywallandCeilingTileInstallers
+EarthDriller
+EconomicsTeacher
 Economist
 Editor
-Education Administrator
-Education Administrator
-Education Administrator
-Education Administrator
-Education Teacher
+EducationAdministrator
+EducationAdministrator
+EducationAdministrator
+EducationAdministrator
+EducationTeacher
 Education
 Education
 Educational
-Electric Motor
-Electrical Engineer
-Electrical Power-Line Installer
+ElectricMotor
+ElectricalEngineer
+ElectricalPowerLineInstaller
 Repairer
-Electrical and Electronic Equipment Assembler
-Electrical and Electronics Drafter
-Electrical and Electronics Engineering Technician
-Electrical and Electronics Installer
+ElectricalandElectronicEquipmentAssembler
+ElectricalandElectronicsDrafter
+ElectricalandElectronicsEngineeringTechnician
+ElectricalandElectronicsInstaller
 Repairer
-Electrical and Electronics Repairer
-Electrical and Electronics Repairer
+ElectricalandElectronicsRepairer
+ElectricalandElectronicsRepairer
 Electrician
-Electro-Mechanical Technician
-Electromechanical Equipment Assembler
-Electronic Equipment Installer
+ElectroMechanicalTechnician
+ElectromechanicalEquipmentAssembler
+ElectronicEquipmentInstaller
 Repairer
-Electronic Home Entertainment Equipment Installer
+ElectronicHomeEntertainmentEquipmentInstaller
 Repairer
-Electronics Engineer
-Elementary School Teacher
-Elevator Installer
+ElectronicsEngineer
+ElementarySchoolTeacher
+ElevatorInstaller
 Repairer
-Eligibility Interviewer
+EligibilityInterviewer
 Embalmer
-Emergency Management Director
-Emergency Medical Technician
+EmergencyManagementDirector
+EmergencyMedicalTechnician
 Paramedic
-Engine and Other Machine Assembler
-Engineering Teacher
-Engineering Technician
+EngineandOtherMachineAssembler
+EngineeringTeacher
+EngineeringTechnician
 Engineer
-English Language and Literature Teacher
+EnglishLanguageandLiteratureTeacher
 Entertainer
 Performer
-Entertainment Attendant
-Related Worker
-Environmental Engineering Technician
-Environmental Engineer
-Environmental Science Teacher
-Environmental Science and Protection Technician
-Environmental Scientist
+EntertainmentAttendant
+RelatedWorker
+EnvironmentalEngineeringTechnician
+EnvironmentalEngineer
+EnvironmentalScienceTeacher
+EnvironmentalScienceandProtectionTechnician
+EnvironmentalScientist
 Specialist
 Epidemiologist
 Etcher
 Engraver
-Excavating and Loading Machine and Dragline Operator
-Executive Secretarie
-Executive Administrative Assistant
-Explosives Worker
-Extraction Worker
-Extruding and Drawing Machine Setter
-Extruding and Forming Machine Setter
+ExcavatingandLoadingMachineandDraglineOperator
+ExecutiveSecretarie
+ExecutiveAdministrativeAssistant
+ExplosivesWorker
+ExtractionWorker
+ExtrudingandDrawingMachineSetter
+ExtrudingandFormingMachineSetter
 Extruding
-Fabric Mender
-Fabric and Apparel Patternmaker
+FabricMender
+FabricandApparelPatternmaker
 Faller
-Family and General Practitioner
-Farm Equipment Mechanic
-Service Technician
-Farm Labor Contractor
-Farm and Home Management Advisor
+FamilyandGeneralPractitioner
+FarmEquipmentMechanic
+ServiceTechnician
+FarmLaborContractor
+FarmandHomeManagementAdvisor
 Farmer
 Farming
 Farmworker
 Laborer
 Farmworker
-Fashion Designer
-Fence Erector
-Fiberglass Laminator
+FashionDesigner
+FenceErector
+FiberglassLaminator
 Fabricator
-File Clerk
-Film and Video Editor
-Financial Analyst
-Financial Examiner
-Financial Manager
-Financial Specialist
-Fine Artist
-Fire Inspector
+FileClerk
+FilmandVideoEditor
+FinancialAnalyst
+FinancialExaminer
+FinancialManager
+FinancialSpecialist
+FineArtist
+FireInspector
 Investigator
 Firefighter
-First-Line Supervisors of Construction Trade
-Extraction Worker
-First-Line Supervisors of Correctional Officer
-First-Line Supervisors of Farming
-First-Line Supervisors of Fire Fighting and Prevention Worker
-First-Line Supervisors of Food Preparation and Serving Worker
-First-Line Supervisors of Helper
-First-Line Supervisors of Housekeeping and Janitorial Worker
-First-Line Supervisors of Landscaping
-First-Line Supervisors of Mechanic
-First-Line Supervisors of Non-Retail Sales Worker
-First-Line Supervisors of Office and Administrative Support Worker
-First-Line Supervisors of Personal Service Worker
-First-Line Supervisors of Police and Detective
-First-Line Supervisors of Production and Operating Worker
-First-Line Supervisors of Protective Service Worker
-First-Line Supervisors of Retail Sales Worker
-First-Line Supervisors of Transportation and Material-Moving Machine and Vehicle Operator
-Fish and Game Warden
+FirstLineSupervisorsofConstructionTrade
+ExtractionWorker
+FirstLineSupervisorsofCorrectionalOfficer
+FirstLineSupervisorsofFarming
+FirstLineSupervisorsofFireFightingandPreventionWorker
+FirstLineSupervisorsofFoodPreparationandServingWorker
+FirstLineSupervisorsofHelper
+FirstLineSupervisorsofHousekeepingandJanitorialWorker
+FirstLineSupervisorsofLandscaping
+FirstLineSupervisorsofMechanic
+FirstLineSupervisorsofNonRetailSalesWorker
+FirstLineSupervisorsofOfficeandAdministrativeSupportWorker
+FirstLineSupervisorsofPersonalServiceWorker
+FirstLineSupervisorsofPoliceandDetective
+FirstLineSupervisorsofProductionandOperatingWorker
+FirstLineSupervisorsofProtectiveServiceWorker
+FirstLineSupervisorsofRetailSalesWorker
+FirstLineSupervisorsofTransportationandMaterialMovingMachineandVehicleOperator
+FishandGameWarden
 Fisher
-Related Fishing Worker
-Fitness Trainer
-Aerobics Instructor
-Flight Attendant
-Floor Layer
-Floor Sander
+RelatedFishingWorker
+FitnessTrainer
+AerobicsInstructor
+FlightAttendant
+FloorLayer
+FloorSander
 Finisher
-Floral Designer
-Food Batchmaker
-Food Cooking Machine Operator
+FloralDesigner
+FoodBatchmaker
+FoodCookingMachineOperator
 Tender
-Food Preparation Worker
-Food Preparation and Serving Related Occupation
-Food Preparation and Serving Related Worker
-Food Scientist
+FoodPreparationWorker
+FoodPreparationandServingRelatedOccupation
+FoodPreparationandServingRelatedWorker
+FoodScientist
 Technologist
-Food Server
-Food Service Manager
-Food and Tobacco Roasting
-Foreign Language and Literature Teacher
-Forensic Science Technician
-Forest Fire Inspector
-Prevention Specialist
-Forest and Conservation Technician
-Forest and Conservation Worker
+FoodServer
+FoodServiceManager
+FoodandTobaccoRoasting
+ForeignLanguageandLiteratureTeacher
+ForensicScienceTechnician
+ForestFireInspector
+PreventionSpecialist
+ForestandConservationTechnician
+ForestandConservationWorker
 Forester
-Forestry and Conservation Science Teacher
-Forging Machine Setter
-Foundry Mold and Coremaker
-Funeral Attendant
-Funeral Service Manager
-Furniture Finisher
-Gaming Cage Worker
-Gaming Change Person
-Booth Cashier
-Gaming Dealer
-Gaming Manager
-Gaming Service Worker
-Gaming Supervisor
-Gaming Surveillance Officer
-Gaming Investigator
-Gaming and Sports Book Writer
+ForestryandConservationScienceTeacher
+ForgingMachineSetter
+FoundryMoldandCoremaker
+FuneralAttendant
+FuneralServiceManager
+FurnitureFinisher
+GamingCageWorker
+GamingChangePerson
+BoothCashier
+GamingDealer
+GamingManager
+GamingServiceWorker
+GamingSupervisor
+GamingSurveillanceOfficer
+GamingInvestigator
+GamingandSportsBookWriter
 Runner
-Gas Compressor and Gas Pumping Station Operator
-Gas Plant Operator
-General and Operations Manager
+GasCompressorandGasPumpingStationOperator
+GasPlantOperator
+GeneralandOperationsManager
 Geographer
-Geography Teacher
-Geological and Petroleum Technician
+GeographyTeacher
+GeologicalandPetroleumTechnician
 Geoscientist
 Glazier
 Grader
 Sorter
-Graduate Teaching Assistant
-Graphic Designer
-Grinding and Polishing Worker
+GraduateTeachingAssistant
+GraphicDesigner
+GrindingandPolishingWorker
 Grinding
-Grounds Maintenance Worker
+GroundsMaintenanceWorker
 Hairdresser
-Hazardous Materials Removal Worker
-Health Diagnosing and Treating Practitioner
-Health Educator
-Health Specialties Teacher
-Health Technologist
+HazardousMaterialsRemovalWorker
+HealthDiagnosingandTreatingPractitioner
+HealthEducator
+HealthSpecialtiesTeacher
+HealthTechnologist
 Technician
-Health and Safety Engineer
-Healthcare Practitioner
-Technical Occupation
-Healthcare Practitioner
-Technical Worker
-Healthcare Social Worker
-Healthcare Support Occupation
-Healthcare Support Worker
-Heat Treating Equipment Setter
-Heavy and Tractor-Trailer Truck Driver
-Highway Maintenance Worker
+HealthandSafetyEngineer
+HealthcarePractitioner
+TechnicalOccupation
+HealthcarePractitioner
+TechnicalWorker
+HealthcareSocialWorker
+HealthcareSupportOccupation
+HealthcareSupportWorker
+HeatTreatingEquipmentSetter
+HeavyandTractorTrailerTruckDriver
+HighwayMaintenanceWorker
 Historian
-History Teacher
-Hoist and Winch Operator
-Home Appliance Repairer
-Home Economics Teacher
-Home Health Aide
+HistoryTeacher
+HoistandWinchOperator
+HomeApplianceRepairer
+HomeEconomicsTeacher
+HomeHealthAide
 Host
 Hostess
-Human Resources Assistant
-Human Resources Manager
+HumanResourcesAssistant
+HumanResourcesManager
 Hunter
 Trapper
 Hydrologist
-Industrial Engineering Technician
-Industrial Engineer
-Industrial Machinery Mechanic
-Industrial Production Manager
-Industrial Truck and Tractor Operator
-Industrial-Organizational Psychologist
-Information Security Analyst
-Information and Record Clerk
+IndustrialEngineeringTechnician
+IndustrialEngineer
+IndustrialMachineryMechanic
+IndustrialProductionManager
+IndustrialTruckandTractorOperator
+IndustrialOrganizationalPsychologist
+InformationSecurityAnalyst
+InformationandRecordClerk
 Inspector
-Instructional Coordinator
-Insulation Worker
-Insulation Worker
-Insurance Appraiser
-Insurance Claim
-Policy Processing Clerk
-Insurance Sales Agent
-Insurance Underwriter
-Interior Designer
+InstructionalCoordinator
+InsulationWorker
+InsulationWorker
+InsuranceAppraiser
+InsuranceClaim
+PolicyProcessingClerk
+InsuranceSalesAgent
+InsuranceUnderwriter
+InteriorDesigner
 Internist
 Interpreter
 Translator
@@ -478,438 +478,438 @@ Interviewer
 Janitor
 Cleaner
 Jeweler
-Precious Stone and Metal Worker
+PreciousStoneandMetalWorker
 Judge
-Judicial Law Clerk
-Kindergarten Teacher
+JudicialLawClerk
+KindergartenTeacher
 Laborer
-Landscape Architect
-Landscaping and Groundskeeping Worker
-Lathe and Turning Machine Tool Setter
-Laundry and Dry-Cleaning Worker
-Law Teacher
+LandscapeArchitect
+LandscapingandGroundskeepingWorker
+LatheandTurningMachineToolSetter
+LaundryandDryCleaningWorker
+LawTeacher
 Lawyer
-Layout Worker
-Legal Occupation
-Legal Secretary
-Legal Support Worker
+LayoutWorker
+LegalOccupation
+LegalSecretary
+LegalSupportWorker
 Legislator
 Librarian
-Library Assistant
-Library Science Teacher
-Library Technician
-Licensed Practical and Licensed Vocational Nurse
-Life Scientist
+LibraryAssistant
+LibraryScienceTeacher
+LibraryTechnician
+LicensedPracticalandLicensedVocationalNurse
+LifeScientist
 Lifeguard
-Light Truck or Delivery Services Driver
-Loading Machine Operator
-Loan Interviewer
+LightTruckorDeliveryServicesDriver
+LoadingMachineOperator
+LoanInterviewer
 Clerk
-Loan Officer
+LoanOfficer
 Locksmith
-Safe Repairer
-Locomotive Engineer
-Locomotive Firer
-Lodging Manager
-Log Grader
+SafeRepairer
+LocomotiveEngineer
+LocomotiveFirer
+LodgingManager
+LogGrader
 Scaler
-Logging Equipment Operator
-Logging Worker
-Logisticians 
-Machine Feeder
+LoggingEquipmentOperator
+LoggingWorker
+Logisticians
+MachineFeeder
 Machinist
 Maid
-Housekeeping Cleaner
-Mail Clerk
-Mail Machine Operator
-Maintenance Worker
-Maintenance and Repair Worker
-Makeup Artist
-Management Analyst
-Management Occupation
+HousekeepingCleaner
+MailClerk
+MailMachineOperator
+MaintenanceWorker
+MaintenanceandRepairWorker
+MakeupArtist
+ManagementAnalyst
+ManagementOccupation
 Manager
 Manicurist
 Pedicurist
-Manufactured Building and Mobile Home Installer
-Marine Engineer
-Naval Architect
-Market Research Analyst
-Marketing Specialist
-Marketing Manager
-Marriage and Family Therapist
-Massage Therapist
-Material Moving Worker
-Materials Engineer
-Materials Scientist
-Mathematical Science Occupation
-Mathematical Science Teacher
-Mathematical Technician
+ManufacturedBuildingandMobileHomeInstaller
+MarineEngineer
+NavalArchitect
+MarketResearchAnalyst
+MarketingSpecialist
+MarketingManager
+MarriageandFamilyTherapist
+MassageTherapist
+MaterialMovingWorker
+MaterialsEngineer
+MaterialsScientist
+MathematicalScienceOccupation
+MathematicalScienceTeacher
+MathematicalTechnician
 Mathematician
-Mechanical Door Repairer
-Mechanical Drafter
-Mechanical Engineering Technician
-Mechanical Engineer
-Media and Communication Equipment Worker
-Media and Communication Worker
-Medical Appliance Technician
-Medical Assistant
-Medical Equipment Preparer
-Medical Equipment Repairer
-Health Information Technician
-Medical Scientist
-Medical Secretary
-Medical Transcriptionist
-Medical and Clinical Laboratory Technician
-Medical and Clinical Laboratory Technologist
-Medical and Health Services Manager
-Mental Health Counselor
-Mental Health and Substance Abuse Social Worker
-Merchandise Displayer
-Window Trimmer
-Metal Worker
-Plastic Worker
-Metal-Refining Furnace Operator
-Meter Reader
+MechanicalDoorRepairer
+MechanicalDrafter
+MechanicalEngineeringTechnician
+MechanicalEngineer
+MediaandCommunicationEquipmentWorker
+MediaandCommunicationWorker
+MedicalApplianceTechnician
+MedicalAssistant
+MedicalEquipmentPreparer
+MedicalEquipmentRepairer
+HealthInformationTechnician
+MedicalScientist
+MedicalSecretary
+MedicalTranscriptionist
+MedicalandClinicalLaboratoryTechnician
+MedicalandClinicalLaboratoryTechnologist
+MedicalandHealthServicesManager
+MentalHealthCounselor
+MentalHealthandSubstanceAbuseSocialWorker
+MerchandiseDisplayer
+WindowTrimmer
+MetalWorker
+PlasticWorker
+MetalRefiningFurnaceOperator
+MeterReader
 Microbiologist
-Middle School Teacher
-Milling and Planing Machine Setter
+MiddleSchoolTeacher
+MillingandPlaningMachineSetter
 Millwright
-Mine Cutting and Channeling Machine Operator
-Mine Shuttle Car Operator
-Mining Machine Operator
-Mining and Geological Engineer
-Mixing and Blending Machine Setter
-Mobile Heavy Equipment Mechanic
-Model Maker
+MineCuttingandChannelingMachineOperator
+MineShuttleCarOperator
+MiningMachineOperator
+MiningandGeologicalEngineer
+MixingandBlendingMachineSetter
+MobileHeavyEquipmentMechanic
+ModelMaker
 Molder
-Motion Picture Projectionist
-Motor Vehicle Operator
-Motorboat Mechanic
-Service Technician
-Motorboat Operator
-Motorcycle Mechanic
-Multimedia Artist
+MotionPictureProjectionist
+MotorVehicleOperator
+MotorboatMechanic
+ServiceTechnician
+MotorboatOperator
+MotorcycleMechanic
+MultimediaArtist
 Animator
-Multiple Machine Tool Setter
-Museum Technician
+MultipleMachineToolSetter
+MuseumTechnician
 Conservator
-Music Director
+MusicDirector
 Composer
-Musical Instrument Repairer
+MusicalInstrumentRepairer
 Tuner
 Musician
 Singer
-Natural Sciences Manager
-Network and Computer Systems Administrator
-New Accounts Clerk
-Nonfarm Animal Caretaker
-Nuclear Engineer
-Nuclear Medicine Technologist
-Nuclear Power Reactor Operator
-Nuclear Technician
-Nursing Aide
-Nursing Instructor
+NaturalSciencesManager
+NetworkandComputerSystemsAdministrator
+NewAccountsClerk
+NonfarmAnimalCaretaker
+NuclearEngineer
+NuclearMedicineTechnologist
+NuclearPowerReactorOperator
+NuclearTechnician
+NursingAide
+NursingInstructor
 Teacher
 Obstetrician
 Gynecologist
-Occupational Health and Safety Specialist
-Occupational Health and Safety Technician
-Occupational Therapist
-Occupational Therapy Aide
-Occupational Therapy Assistant
-Office Clerk
-Office Machine Operator
-Office and Administrative Support Worker
-Operating Engineer
-Other Construction Equipment Operator
-Operations Research Analyst
-Ophthalmic Laboratory Technician
+OccupationalHealthandSafetySpecialist
+OccupationalHealthandSafetyTechnician
+OccupationalTherapist
+OccupationalTherapyAide
+OccupationalTherapyAssistant
+OfficeClerk
+OfficeMachineOperator
+OfficeandAdministrativeSupportWorker
+OperatingEngineer
+OtherConstructionEquipmentOperator
+OperationsResearchAnalyst
+OphthalmicLaboratoryTechnician
 Optician
 Optometrist
-Oral and Maxillofacial Surgeon
-Order Clerk
+OralandMaxillofacialSurgeon
+OrderClerk
 Orthodontist
 Orthotist
 Prosthetist
-Outdoor Power Equipment and Other Small Engine Mechanic
-Packaging and Filling Machine Operator
+OutdoorPowerEquipmentandOtherSmallEngineMechanic
+PackagingandFillingMachineOperator
 Tender
 Packer
 Packager
 Painter
 Painter
 Painting
-Paper Goods Machine Setter
+PaperGoodsMachineSetter
 Paperhanger
 Paralegal
-Legal Assistant
-Parking Enforcement Worker
-Parking Lot Attendant
-Parts Salesperson
+LegalAssistant
+ParkingEnforcementWorker
+ParkingLotAttendant
+PartsSalesperson
 Patternmaker
 Patternmaker
 Paving
-Payroll and Timekeeping Clerk
+PayrollandTimekeepingClerk
 Pediatrician
-Personal Care Aide
-Personal Care and Service Occupation
-Personal Care and Service Worker
-Personal Financial Advisor
-Pest Control Worker
-Pesticide Handler
-Petroleum Engineer
-Petroleum Pump System Operator
+PersonalCareAide
+PersonalCareandServiceOccupation
+PersonalCareandServiceWorker
+PersonalFinancialAdvisor
+PestControlWorker
+PesticideHandler
+PetroleumEngineer
+PetroleumPumpSystemOperator
 Pharmacist
-Pharmacy Aide
-Pharmacy Technician
-Philosophy and Religion Teacher
+PharmacyAide
+PharmacyTechnician
+PhilosophyandReligionTeacher
 Photographer
-Photographic Process Worker
-Processing Machine Operator
-Physical Scientist
-Physical Therapist Aide
-Physical Therapist Assistant
-Physical Therapist
-Physician Assistant
+PhotographicProcessWorker
+ProcessingMachineOperator
+PhysicalScientist
+PhysicalTherapistAide
+PhysicalTherapistAssistant
+PhysicalTherapist
+PhysicianAssistant
 Physician
 Surgeon
 Physicist
-Physics Teacher
-Pile-Driver Operator
+PhysicsTeacher
+PileDriverOperator
 Pipelayer
-Plant and System Operator
+PlantandSystemOperator
 Plasterer
-Stucco Mason
-Plating and Coating Machine Setter
+StuccoMason
+PlatingandCoatingMachineSetter
 Plumber
 Podiatrist
-Police and Sheriff's Patrol Officer
-Political Science Teacher
-Political Scientist
-Postal Service Clerk
-Postal Service Mail Carrier
-Postal Service Mail Sorter
+PoliceandSheriffsPatrolOfficer
+PoliticalScienceTeacher
+PoliticalScientist
+PostalServiceClerk
+PostalServiceMailCarrier
+PostalServiceMailSorter
 Postmaster
-Mail Superintendent
-Postsecondary Teacher
+MailSuperintendent
+PostsecondaryTeacher
 Pourer
 Caster
-Power Distributor
+PowerDistributor
 Dispatcher
-Power Plant Operator
-Precision Instrument and Equipment Repairer
-Prepress Technician
-Preschool Teacher
+PowerPlantOperator
+PrecisionInstrumentandEquipmentRepairer
+PrepressTechnician
+PreschoolTeacher
 Presser
-Print Binding and Finishing Worker
-Printing Press Operator
-Private Detective
+PrintBindingandFinishingWorker
+PrintingPressOperator
+PrivateDetective
 Investigator
-Probation Officer
-Correctional Treatment Specialist
-Procurement Clerk
+ProbationOfficer
+CorrectionalTreatmentSpecialist
+ProcurementClerk
 Producer
 Director
-Production Occupation
-Production Worker
+ProductionOccupation
+ProductionWorker
 Production
 Proofreader
-Copy Marker
+CopyMarker
 Property
 Prosthodontist
-Protective Service Occupation
-Protective Service Worker
-Psychiatric Aide
-Psychiatric Technician
+ProtectiveServiceOccupation
+ProtectiveServiceWorker
+PsychiatricAide
+PsychiatricTechnician
 Psychiatrist
 Psychologist
-Psychology Teacher
-Public Address System and Other Announcer
-Public Relations Specialist
-Public Relation
-Fundraising Manager
-Pump Operator
-Purchasing Agent
-Purchasing Manager
-Radiation Therapist
-Radio Operator
-Radio and Television Announcer
-Radiologic Technologist
-Rail Car Repairer
-Rail Transportation Worker
-Rail Yard Engineer
-Rail-Track Laying and Maintenance Equipment Operator
-Railroad Brake
-Railroad Conductor
+PsychologyTeacher
+PublicAddressSystemandOtherAnnouncer
+PublicRelationsSpecialist
+PublicRelation
+FundraisingManager
+PumpOperator
+PurchasingAgent
+PurchasingManager
+RadiationTherapist
+RadioOperator
+RadioandTelevisionAnnouncer
+RadiologicTechnologist
+RailCarRepairer
+RailTransportationWorker
+RailYardEngineer
+RailTrackLayingandMaintenanceEquipmentOperator
+RailroadBrake
+RailroadConductor
 Yardmaster
-Real Estate Broker
-Real Estate Sales Agent
+RealEstateBroker
+RealEstateSalesAgent
 Receptionist
-Information Clerk
-Recreation Worker
-Recreation and Fitness Studies Teacher
-Recreational Therapist
-Recreational Vehicle Service Technician
-Refractory Materials Repairer
-Refuse and Recyclable Material Collector
-Registered Nurse
-Rehabilitation Counselor
-Reinforcing Iron and Rebar Worker
-Religious Worker
+InformationClerk
+RecreationWorker
+RecreationandFitnessStudiesTeacher
+RecreationalTherapist
+RecreationalVehicleServiceTechnician
+RefractoryMaterialsRepairer
+RefuseandRecyclableMaterialCollector
+RegisteredNurse
+RehabilitationCounselor
+ReinforcingIronandRebarWorker
+ReligiousWorker
 Reporter
 Correspondent
-Reservation and Transportation Ticket Agent
-Travel Clerk
-Residential Advisor
-Respiratory Therapist
-Respiratory Therapy Technician
-Retail Salesperson
+ReservationandTransportationTicketAgent
+TravelClerk
+ResidentialAdvisor
+RespiratoryTherapist
+RespiratoryTherapyTechnician
+RetailSalesperson
 Rigger
-Rock Splitter
-Rolling Machine Setter
-Roof Bolter
+RockSplitter
+RollingMachineSetter
+RoofBolter
 Roofer
-Rotary Drill Operator
+RotaryDrillOperator
 Roustabout
 Sailor
-Marine Oiler
-Sales Engineer
-Sales Manager
-Sales Representative
-Sawing Machine Setter
-Secondary School Teacher
+MarineOiler
+SalesEngineer
+SalesManager
+SalesRepresentative
+SawingMachineSetter
+SecondarySchoolTeacher
 Secretary
-Administrative Assistant
-Security Guard
-Security and Fire Alarm Systems Installer
-Segmental Paver
-Self-Enrichment Education Teacher
-Semiconductor Processor
-Septic Tank Servicer
-Sewer Pipe Cleaner
-Service Unit Operator
-Set and Exhibit Designer
+AdministrativeAssistant
+SecurityGuard
+SecurityandFireAlarmSystemsInstaller
+SegmentalPaver
+SelfEnrichmentEducationTeacher
+SemiconductorProcessor
+SepticTankServicer
+SewerPipeCleaner
+ServiceUnitOperator
+SetandExhibitDesigner
 Sewer
-Sewing Machine Operator
+SewingMachineOperator
 Shampooer
-Sheet Metal Worker
-Ship Engineer
+SheetMetalWorker
+ShipEngineer
 Shipping
-Shoe Machine Operator
+ShoeMachineOperator
 Tender
-Shoe and Leather Worker
+ShoeandLeatherWorker
 Repairer
-Signal and Track Switch Repairer
-Skincare Specialist
+SignalandTrackSwitchRepairer
+SkincareSpecialist
 Slaughterer
-Meat Packer
-Slot Supervisor
-Social Science Research Assistant
-Social Sciences Teacher
-Social Scientist
-Social Work Teacher
-Social Worker
-Social and Community Service Manager
-Social and Human Service Assistant
+MeatPacker
+SlotSupervisor
+SocialScienceResearchAssistant
+SocialSciencesTeacher
+SocialScientist
+SocialWorkTeacher
+SocialWorker
+SocialandCommunityServiceManager
+SocialandHumanServiceAssistant
 Sociologist
-Sociology Teacher
-Software Developer
-Soil and Plant Scientist
-Sound Engineering Technician
-Special Education Teacher
-Speech-Language Pathologist
-Stationary Engineer
-Boiler Operator
-Statistical Assistant
+SociologyTeacher
+SoftwareDeveloper
+SoilandPlantScientist
+SoundEngineeringTechnician
+SpecialEducationTeacher
+SpeechLanguagePathologist
+StationaryEngineer
+BoilerOperator
+StatisticalAssistant
 Statistician
-Stock Clerk
-Order Filler
+StockClerk
+OrderFiller
 Stonemason
-Structural Iron and Steel Worker
-Structural Metal Fabricator
+StructuralIronandSteelWorker
+StructuralMetalFabricator
 Fitter
-Substance Abuse and Behavioral Disorder Counselor
-Subway and Streetcar Operator
+SubstanceAbuseandBehavioralDisorderCounselor
+SubwayandStreetcarOperator
 Surgeon
-Surgical Technologist
-Survey Researcher
-Surveying and Mapping Technician
+SurgicalTechnologist
+SurveyResearcher
+SurveyingandMappingTechnician
 Surveyor
-Switchboard Operator
+SwitchboardOperator
 Tailor
-Tank Car
+TankCar
 Taper
-Tax Examiner
+TaxExaminer
 Collector
-Tax Preparer
-Taxi Driver
+TaxPreparer
+TaxiDriver
 Chauffeur
-Teacher Assistant
+TeacherAssistant
 Teacher
 Instructor
-Team Assembler
-Technical Writer
-Telecommunications Equipment Installer
+TeamAssembler
+TechnicalWriter
+TelecommunicationsEquipmentInstaller
 Repairer
-Telecommunications Line Installer
+TelecommunicationsLineInstaller
 Repairer
 Telemarketer
-Telephone Operator
+TelephoneOperator
 Teller
-Terrazzo Worker
+TerrazzoWorker
 Finisher
-Textile Bleaching and Dyeing Machine Operator
+TextileBleachingandDyeingMachineOperator
 Tender
-Textile Cutting Machine Setter
-Textile Knitting and Weaving Machine Setter
+TextileCuttingMachineSetter
+TextileKnittingandWeavingMachineSetter
 Therapist
-Tile and Marble Setter
-Timing Device Assembler
+TileandMarbleSetter
+TimingDeviceAssembler
 Adjuster
-Tire Builder
-Tire Repairer
+TireBuilder
+TireRepairer
 Changer
-Title Examiner
-Tool Grinder
-Tool and Die Maker
-Tour Guide
+TitleExaminer
+ToolGrinder
+ToolandDieMaker
+TourGuide
 Escort
-Traffic Technician
-Training and Development Manager
-Training and Development Specialist
-Transit and Railroad Police
-Transportation Attendant
-Transportation Inspector
-Transportation Security Screener
-Transportation Worker
-Travel Agent
-Travel Guide
-Tree Trimmer
+TrafficTechnician
+TrainingandDevelopmentManager
+TrainingandDevelopmentSpecialist
+TransitandRailroadPolice
+TransportationAttendant
+TransportationInspector
+TransportationSecurityScreener
+TransportationWorker
+TravelAgent
+TravelGuide
+TreeTrimmer
 Pruner
 Umpire
 Upholsterer
-Urban and Regional Planner
+UrbanandRegionalPlanner
 Usher
 Veterinarian
-Veterinary Assistant
-Laboratory Animal Caretaker
-Veterinary Technologist
+VeterinaryAssistant
+LaboratoryAnimalCaretaker
+VeterinaryTechnologist
 Technician
-Vocational Education Teacher
+VocationalEducationTeacher
 Waiter
 Waitress
-Watch Repairer
-Water and Wastewater Treatment Plant and System Operator
+WatchRepairer
+WaterandWastewaterTreatmentPlantandSystemOperator
 Weigher
 Welder
 Welding
-Wellhead Pumper
-Wholesale and Retail Buyer
+WellheadPumper
+WholesaleandRetailBuyer
 Woodworker
-Woodworking Machine Setter
-Word Processor
+WoodworkingMachineSetter
+WordProcessor
 Typist
 Writer
-Authors 
+Authors
 Zoologist
-Wildlife Biologist
+WildlifeBiologist

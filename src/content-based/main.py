@@ -41,6 +41,7 @@ from evaluation import me_unvoted
 from evaluation import rmse_unvoted
 from evaluation import query_avg_error
 from evaluation import user_avg_error
+from evaluation import userVoteCurve
 
 from file import getQueryDefinition
 from file import writeOutputUtilityMatrix
@@ -51,10 +52,10 @@ from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
 databaseFileName = Path("data/relational_db.csv")
-utilityMatrixFileName = Path("data/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/output.csv")
-queryFileName = Path("data/queries.csv")
+utilityMatrixFileName = Path("data/university/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/university/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/university/output.csv")
+queryFileName = Path("data/university/queries.csv")
 
 #Read database
 person = db.Person(databaseFileName)
@@ -75,7 +76,7 @@ expectedAttributeFrequency = expected_attribute_frequency(queryFileName)
 # Clustering of data in Person
 num_cluster_person = 5
 person.table = k_means_clustering(person, num_cluster_person)
-#plot_people_cluster(person.table, num_cluster_person)
+plot_people_cluster(person.table, num_cluster_person)
 
 ### Initialize user profiles and complete utility matrix with
 ### content based filtering
@@ -84,9 +85,9 @@ for index, v in utilityMatrix.iterrows():
     query_def = dict()  #query_def[q] = the definition of the query with id q
     sum_vote = 0
 
-    #print("")
-    #print("========================")
-    #print("USER "+user_obj.getId())
+    print("")
+    print("========================")
+    print("USER "+user_obj.getId())
 
     user_recommendation[user_obj.getId()] = dict()
 
@@ -111,18 +112,18 @@ for index, v in utilityMatrix.iterrows():
     #compute user profile
     user_obj.computeUserProfile(person, query_def)
 
-    #print("")
-    #print("Print user: "+str(user_obj.getId()))
-    #print("ft_tuple")
-    #print(user_obj.get_ft_tuple())
-    #print("ft_attribute")
-    #print(user_obj.get_ft_attribute())
-    #print("ft_value")
-    #print(user_obj.get_ft_value())
-    #print("ft_cluster")
-    #print(user_obj.get_ft_cluster())
-    #print("end print user "+str(user_obj.getId()))
-    #print("")
+    print("")
+    print("Print user: "+str(user_obj.getId()))
+    print("ft_tuple")
+    print(user_obj.get_ft_tuple())
+    print("ft_attribute")
+    print(user_obj.get_ft_attribute())
+    print("ft_value")
+    print(user_obj.get_ft_value())
+    print("ft_cluster")
+    print(user_obj.get_ft_cluster())
+    print("end print user "+str(user_obj.getId()))
+    print("")
     
 
     #compute query profile of the unvoted queries
@@ -205,4 +206,6 @@ query_avg_error(user_recommendation, completeUtilityMatrix)
 #average vote for each user
 user_avg_error(user_recommendation, completeUtilityMatrix)
 
+for u in user_recommendation:
+    userVoteCurve(u, user_recommendation, completeUtilityMatrix)
 ###

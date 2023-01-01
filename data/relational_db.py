@@ -1,13 +1,14 @@
 '''
-Function to produce a relational table populated with tuples.
+Functions to produce a relational table populated with tuples.
 The table is expressed as a CSV file, where each row is a
 tuple, and the first row contains the names of the fields
-(attributes). You can assume that there are no
+(attributes). We assume that there are no
 NULL values. All the fields of all the tuples have a value. 
 '''
 
 import csv
 import random
+from pathlib import Path
 
 def generate_person_database(numPerson):
     '''
@@ -286,7 +287,6 @@ def generate_university_database(num_people):
     old_min = 61
     old_max = 100
 
-
     # open the file in the write mode
     f = open('relational_db.csv', 'w')
 
@@ -350,4 +350,62 @@ def generate_university_database(num_people):
     f.close()
     
 
-generate_university_database(100)
+def generate_arbitrarily_size_relational_table(numTuple, numName, numAddress, minAge, maxAge, numOccupation, addressFileName, nameFileName, occupationFileName):
+    '''
+    Generate a relational table with #numTuples tuples
+
+    numTuple = how many tuples we want in the output relational table
+    numName = the cardinality of the universal set of names
+    numAddress = the cardinality of the universal set of addresses
+    minAge = min age value
+    maxAge = max age value
+    numOccupation = the cardinality of the universal set of occupations
+    addressFileName = name of the file which contains the address to choose
+    nameFileName = name of the file which contains the possible names to choose
+    occupationFileName = name of the file which contains the possible occupations to choose
+    '''
+    name_set = load_names(int(numName))
+    address_set = load_addresses(int(numAddress))
+    occupation_set = load_occupations(int(numOccupation))
+
+    # open the file in the write mode
+    relationalDbPath = Path("big/relational_db_big.csv")
+    f = open(relationalDbPath, 'w')
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    header = ['id', 'name', 'address', 'age', 'occupation']
+
+    # write the header
+    writer.writerow(header)
+
+    # generate numTuple tuples
+    data = []
+    autoincrement_id = 0
+    for i in range(numTuple):
+        tuple = []
+        p_name = random.sample(name_set, 1)[0]
+        p_address = random.sample(address_set, 1)[0]
+        p_occupation = random.sample(occupation_set, 1)[0]
+        p_age = random.randint(minAge, maxAge)        
+
+        p_id = autoincrement_id
+        
+        tuple.append(p_id)
+        tuple.append(p_name)
+        tuple.append(p_address)
+        tuple.append(p_age)
+        tuple.append(p_occupation)
+
+        data.append(tuple)
+
+        autoincrement_id += 1
+
+    writer.writerows(data)
+
+    # close the file
+    f.close()
+
+
+generate_arbitrarily_size_relational_table(100, 1000, 1000, 0, 100, 5, "addresses.txt", "names.txt", "occupations.txt")
