@@ -121,6 +121,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -135,6 +138,9 @@ def generate_village_utility_matrix():
 
         if vote < 1:
             vote = 1
+
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
 
         user_votes[user_id].append(int(vote))
 
@@ -151,6 +157,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -165,6 +174,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -178,6 +190,9 @@ def generate_village_utility_matrix():
 
         if vote < 1:
             vote = 1
+
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
 
         user_votes[user_id].append(int(vote))
 
@@ -201,6 +216,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -215,6 +233,9 @@ def generate_village_utility_matrix():
 
         if vote < 1:
             vote = 1
+
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
 
         user_votes[user_id].append(int(vote))
 
@@ -231,6 +252,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -246,6 +270,9 @@ def generate_village_utility_matrix():
         if vote < 1:
             vote = 1
 
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -260,6 +287,9 @@ def generate_village_utility_matrix():
 
         if vote < 1:
             vote = 1
+
+        if(query_id==utilityMatrixQueries[-1]):
+            vote=0
 
         user_votes[user_id].append(int(vote))
     
@@ -285,13 +315,13 @@ def generate_village_utility_matrix():
     
     #dictionary such that user_vote_probability[u] = the probability with which user u voted a query
     user_vote_probability = dict()
-    user_vote_probability[0] = 0.8
+    user_vote_probability[0] = 0.2
     user_vote_probability[1] = 0.5
     user_vote_probability[2] = 0.5
     user_vote_probability[3] = 0.8
     user_vote_probability[4] = 0.5
     user_vote_probability[5] = 0
-    user_vote_probability[6] = 0.8
+    user_vote_probability[6] = 0.2
     user_vote_probability[7] = 0.8
     user_vote_probability[8] = 0.5
     user_vote_probability[9] = 0.5

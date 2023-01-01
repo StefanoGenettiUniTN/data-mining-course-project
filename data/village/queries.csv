@@ -1,28 +1,28 @@
-q1,address=20122 MICCA P. (Via),id=92,age=66,name=Kiyonna,occupation=retiree
-q2,age=97,occupation=retiree,id=86
-q3,occupation=student
-q4,name=Huston,address=20122 MICCA P. (Via),id=99,occupation=student,age=29
-q5,age=84,address=20121 BAGUTTA (Via),id=52
-q6,age=34
-q7,address=20152 MOSCA A. (Via),age=100,id=81
-q8,occupation=retiree,id=86,address=20154 GRUBICY DE DRAGON Fratelli (Via),age=97,name=Davarius
-q9,occupation=retiree,id=58,name=Agapito
-q10,name=Chrsitopher,address=20121 BAGUTTA (Via),id=66,age=56,occupation=farmer
-q11,name=Graceanne,occupation=farmer
-q12,name=Graceanne
+q1,age=35,name=Tara
+q2,id=45,occupation=retiree,age=90,name=Nadira
+q3,age=33,address=20137 INSUBRIA (Piazza)
+q4,age=58,address=20137 INSUBRIA (Piazza)
+q5,occupation=student,age=37
+q6,id=71,occupation=farmer
+q7,id=95,occupation=student,name=Mattia
+q8,address=20154 GRUBICY DE DRAGON Fratelli (Via)
+q9,address=20136 SFORZA Cardinale A. (Via),name=Alexandrea,age=35
+q10,address=20121 BAGUTTA (Via),name=Blima,id=33
+q11,name=Graceanne
+q12,name=Graceanne,occupation=farmer
 q13,name=Graceanne
-q14,name=Graceanne
+q14,name=Graceanne,occupation=farmer
 q15,name=Graceanne
-q16,name=Graceanne,occupation=farmer
-q17,name=Graceanne,occupation=farmer
-q18,name=Graceanne,occupation=farmer
-q19,name=Graceanne
-q20,name=Graceanne
-q21,occupation=retiree
-q22,occupation=retiree
-q23,occupation=retiree
-q24,occupation=retiree
-q25,occupation=retiree
+q16,name=Tara
+q17,name=Tara,occupation=farmer
+q18,name=Tara,occupation=farmer
+q19,name=Tara
+q20,name=Tara
+q21,name=Tara,occupation=farmer
+q22,name=Tara,occupation=farmer
+q23,name=Tara
+q24,name=Tara,occupation=farmer
+q25,name=Tara
 q26,occupation=retiree
 q27,occupation=retiree
 q28,occupation=retiree
@@ -33,23 +33,35 @@ q32,occupation=retiree
 q33,occupation=retiree
 q34,occupation=retiree
 q35,occupation=retiree
-q36,name=Milam,occupation=student
-q37,name=Milam
-q38,name=Milam,occupation=student
-q39,name=Milam,occupation=student
-q40,name=Milam
-q41,occupation=student
-q42,occupation=student
-q43,occupation=student
-q44,occupation=other
-q45,occupation=other
-q46,occupation=other
-q47,occupation=other
-q48,name=Leshay
-q49,name=Leshay
-q50,name=Leshay,occupation=retiree
-q51,name=Leshay,occupation=retiree
-q52,name=Leshay,occupation=retiree
-q53,name=Leshay,occupation=retiree
-q54,name=Leshay,occupation=retiree
-q55,name=Leshay,occupation=retiree
+q36,occupation=farmer
+q37,occupation=farmer
+q38,occupation=farmer
+q39,occupation=farmer
+q40,occupation=farmer
+q41,occupation=farmer
+q42,occupation=farmer
+q43,occupation=farmer
+q44,occupation=farmer
+q45,occupation=farmer
+q46,name=Milam
+q47,name=Milam,occupation=student
+q48,name=Milam
+q49,name=Milam
+q50,name=Milam,occupation=student
+q51,occupation=student
+q52,occupation=student
+q53,occupation=student
+q54,occupation=other
+q55,occupation=other
+q56,occupation=other
+q57,occupation=other
+q58,name=Leshay,occupation=retiree
+q59,name=Leshay
+q60,name=Leshay,occupation=retiree
+q61,name=Leshay
+q62,name=Rosalva
+q63,name=Rosalva,occupation=farmer
+q64,name=Kerby
+q65,name=Kerby
+q66,name=Alexys,occupation=other
+q67,name=Alexys,occupation=other

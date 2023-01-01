@@ -41,7 +41,7 @@ def writeOutputUtilityMatrix(utilityMatrix, outputFileName):
         data.append(user_line)
     
     # open the utlity matrix file in the write mode
-    utilityMatrixFile = open(outputFileName, 'w')
+    utilityMatrixFile = open(outputFileName, 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(utilityMatrixFile)

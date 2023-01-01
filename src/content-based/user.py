@@ -95,7 +95,7 @@ class User:
             self.mostImportantQueries.append(votedQueries_keys[i])
 
         #print(votedQueries_keys)
-        #print(f"Most important query user [{self.getId()}] = {str(self.mostImportantQueries)}")
+        print(f"Most important query user [{self.getId()}] = {str(self.mostImportantQueries)}")
 
         attribute_importance = dict()           #attribute_importance[a] = avg TF of attribute a
         attribute_importance_size = dict()      #attribute_importance_size[a] = number of occurences of attribute a
@@ -202,6 +202,8 @@ class User:
         attribute_importance_keys.sort(key=lambda x: attribute_importance[x], reverse=True)
         for i in range(0, min(1, len(attribute_importance_keys))):
             self.ft_attribute[attribute_importance_keys[i]] = attribute_avg_vote[attribute_importance_keys[i]]
+
+        print(attribute_importance_keys)
 
         #update user profile with important with important values
         value_importance_keys = list(value_importance.keys())
@@ -370,7 +372,10 @@ class User:
             #print(f"user {self.getId()} avg vote = {self.getAvgVote()}")
             notScaledVote = cosToVote(cosine_distance)
             #print(f"user {self.getId()} not scaled vote query {query_obj.getId()} = {notScaledVote}")
-            output[query_obj.getId()] = (notScaledVote-50)+self.getAvgVote()
+            prediction = (notScaledVote-50)+self.getAvgVote()
+            prediction = min(prediction,100)
+            prediction = max(prediction,1)
+            output[query_obj.getId()] = prediction
 
         return output
 

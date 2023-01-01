@@ -58,8 +58,8 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #ii)    10 queries are about farmer "Graceanne"
-    for i in range(10):
+    #ii) 5 queries are about farmer "Graceanne"
+    for i in range(5):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
 
@@ -75,8 +75,25 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #iii)   15 queries are occupation="retiree"
-    for i in range(15):
+    #iii) 10 queries are about farmer "Tara"
+    for i in range(10):
+        query_id = "q"+str(autoincrement_id)
+        query = [query_id]
+
+        random_alternative = random.randint(1, 2)
+        
+        if random_alternative == 1:
+            query.append("name=Tara")
+        else:
+            query.append("name=Tara")
+            query.append("occupation=farmer")
+        
+        data.append(query)
+
+        autoincrement_id += 1
+
+    #iv)   10 queries are occupation="retiree"
+    for i in range(10):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
         
@@ -86,7 +103,18 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #iv)    5 queries are about student "Milam"
+    #v) 10 queries are about occupation="farmer"
+    for i in range(10):
+        query_id = "q"+str(autoincrement_id)
+        query = [query_id]
+        
+        query.append("occupation=farmer")
+        
+        data.append(query)
+
+        autoincrement_id += 1
+
+    #vi) 5 queries are about student "Milam"
     for i in range(5):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
@@ -103,7 +131,7 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #v)    3 queries about occupation = "student"
+    #vii) 3 queries about occupation = "student"
     for i in range(3):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
@@ -114,7 +142,7 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #vi)   4 queries about occupation ="other"
+    #viii)   4 queries about occupation ="other"
     for i in range(4):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
@@ -125,8 +153,8 @@ def generate_village_query_set():
 
         autoincrement_id += 1
 
-    #viii)  8 queries about retiree "Leshay"
-    for i in range(8):
+    #ix)  4 queries about retiree "Leshay"
+    for i in range(4):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
 
@@ -137,6 +165,57 @@ def generate_village_query_set():
         else:
             query.append("name=Leshay")
             query.append("occupation=retiree")
+        
+        data.append(query)
+
+        autoincrement_id += 1
+
+    #x) 2 queries about farmer "Rosalva"
+    for i in range(2):
+        query_id = "q"+str(autoincrement_id)
+        query = [query_id]
+
+        random_alternative = random.randint(1, 2)
+        
+        if random_alternative == 1:
+            query.append("name=Rosalva")
+        else:
+            query.append("name=Rosalva")
+            query.append("occupation=farmer")
+        
+        data.append(query)
+
+        autoincrement_id += 1
+
+    #xi) 2 queries about student "Kerby"
+    for i in range(2):
+        query_id = "q"+str(autoincrement_id)
+        query = [query_id]
+
+        random_alternative = random.randint(1, 2)
+        
+        if random_alternative == 1:
+            query.append("name=Kerby")
+        else:
+            query.append("name=Kerby")
+            query.append("occupation=student")
+        
+        data.append(query)
+
+        autoincrement_id += 1
+
+    #xii) 2 queries about other "Alexys"
+    for i in range(2):
+        query_id = "q"+str(autoincrement_id)
+        query = [query_id]
+
+        random_alternative = random.randint(1, 2)
+        
+        if random_alternative == 1:
+            query.append("name=Alexys")
+        else:
+            query.append("name=Alexys")
+            query.append("occupation=other")
         
         data.append(query)
 
