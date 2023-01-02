@@ -310,7 +310,7 @@ class User:
                     ft_value_query[tuple_age] += norm_vote
                     ft_value_query_size[tuple_age] += 1
 
-                if tuple_cluster in ft_value_query:
+                if tuple_cluster in ft_cluster_query:
                     ft_cluster_query[tuple_cluster] += norm_vote
                     ft_cluster_query_size[tuple_cluster] += 1
 
@@ -329,7 +329,7 @@ class User:
         
         for c in ft_cluster_query:
             if ft_cluster_query_size[c]>0:
-                ft_cluster_query[c] = ft_cluster_query[c]/ft_value_query_size[c]
+                ft_cluster_query[c] = ft_cluster_query[c]/ft_cluster_query_size[c]
         #---
 
         #print(f"user[{self.getId()}] ft_tuple_query = {ft_tuple_query}")

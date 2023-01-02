@@ -17,7 +17,7 @@ def generate_person_database(numPerson):
     '''
 
     # open the file in the write mode
-    f = open('relational_db.csv', 'w')
+    f = open('relational_db.csv', 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(f)
@@ -148,7 +148,7 @@ def generate_mock_database():
     '''
 
     # open the file in the write mode
-    f = open('relational_db.csv', 'w')
+    f = open('relational_db.csv', 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(f)
@@ -209,7 +209,7 @@ def generate_mock_database1(num_people):
 
 
     # open the file in the write mode
-    f = open('relational_db.csv', 'w')
+    f = open('relational_db.csv', 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(f)
@@ -288,7 +288,7 @@ def generate_university_database(num_people):
     old_max = 100
 
     # open the file in the write mode
-    f = open('relational_db.csv', 'w')
+    f = open('relational_db.csv', 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(f)
@@ -370,7 +370,7 @@ def generate_arbitrarily_size_relational_table(numTuple, numName, numAddress, mi
 
     # open the file in the write mode
     relationalDbPath = Path("big/relational_db_big.csv")
-    f = open(relationalDbPath, 'w')
+    f = open(relationalDbPath, 'w', newline='')
 
     # create the csv writer
     writer = csv.writer(f)
@@ -407,5 +407,99 @@ def generate_arbitrarily_size_relational_table(numTuple, numName, numAddress, mi
     # close the file
     f.close()
 
+def generate_village_database(num_people):
+    '''
+    Create a CSV file populated with data about
+    people according to some probability distribution.
+    We set probabilities simulating a small village
+    social environment
+    '''
+
+    #p(person1.name == person2.name)
+    p_equal_name = 0.02
+    card_names = (2/p_equal_name)-1
+    name_set = load_names(int(card_names))
+
+    #p(person1.address == person2.address)
+    p_equal_address = 0.2 #By using the following formula, we will have 5 addresses, the right amount of addresses in a small village
+    card_address = (2/p_equal_address)-1
+    address_set = load_addresses(int(card_address))
+
+    #we consider this occupations
+    occupation_cat = ["student", "retiree", "farmer", "other"]
+    occupation_cat_probability = [0.15, 0.4, 0.25, 0.2]
+
+    # age ranges
+    baby_min = 0
+    baby_max = 15
+    young_min = 16
+    young_max= 40
+    medium_min = 41
+    medium_max = 60
+    old_min = 61
+    old_max = 100
+
+    # open the file in the write mode
+    databasePath = Path('village/relational_db.csv')
+    f = open(databasePath, 'w', newline='')
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    header = ['id', 'name', 'address', 'age', 'occupation']
+
+    # write the header
+    writer.writerow(header)
+
+    # generate num_people tuples
+    data = []
+    autoincrement_id = 0
+    for i in range(num_people):
+        tuple = []
+        p_name = random.sample(name_set, 1)[0]
+        p_address = random.sample(address_set, 1)[0]
+        p_occupation = random.choices(occupation_cat, occupation_cat_probability)[0]
+
+        age_cat = ["baby", "young", "medium", "old"]
+
+        #age probability depends on the occupation
+        if p_occupation == "student":
+            age_cat_probability = [0., 0.98, 0.02, 0.]
+        
+        if p_occupation == "retiree":
+            age_cat_probability = [0., 0., 0.02, 0.98]
+
+        if p_occupation == "farmer":
+            age_cat_probability = [0., 0.05, 0.8, 0.15]
+
+        if p_occupation == "other":
+            age_cat_probability = [0., 0.4, 0.55, 0.05]
+
+        p_age_category = random.choices(age_cat, age_cat_probability)[0]
+        if p_age_category == "baby":
+            p_age = random.randint(baby_min, baby_max)
+        if p_age_category == "young":
+            p_age = random.randint(young_min, young_max)
+        if p_age_category == "medium":
+            p_age = random.randint(medium_min, medium_max)
+        if p_age_category == "old":
+            p_age = random.randint(old_min, old_max)    
+            
+        p_id = autoincrement_id
+        
+        tuple.append(p_id)
+        tuple.append(p_name)
+        tuple.append(p_address)
+        tuple.append(p_age)
+        tuple.append(p_occupation)
+
+        data.append(tuple)
+
+        autoincrement_id += 1
+
+    writer.writerows(data)
+
+    # close the file
+    f.close()
 
 generate_arbitrarily_size_relational_table(100, 1000, 1000, 0, 100, 5, "addresses.txt", "names.txt", "occupations.txt")
