@@ -181,4 +181,6 @@ def generate_university_query_set():
     # close the file
     f.close()
 
+
+
 generate_university_query_set()

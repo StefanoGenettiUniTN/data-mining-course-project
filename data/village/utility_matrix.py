@@ -111,213 +111,163 @@ def generate_village_utility_matrix():
         user_id = 0
 
         #user 0
-        if(not(studentMilam^studentKerby)):
-            vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) + 60*retireeLeshay/len(query_result)
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) + 60*retireeLeshay/len(query_result)
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 1
-        if(not studentKerby or studentMilam):
-            vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) - 60*studentMilam/len(query_result)
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) - 60*studentMilam/len(query_result)
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 2
-        if(not studentKerby or studentMilam):
-            vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) - 60*studentMilam/len(query_result)
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result) - 60*studentMilam/len(query_result)
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 3
-        if(not(studentMilam^studentKerby)):
-            vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result)
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
+        vote = 50 - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result)) + 60*farmerGraceanne/len(query_result)
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
 
-            if vote > 100:
-                vote = 100
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 4
-        if(not(studentMilam^studentKerby)):
-            vote = 50 + 60*farmerGraceanne/len(query_result) - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 + 60*farmerGraceanne/len(query_result) - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 5
-        user_votes[user_id].append("0")
+        vote = 50 + 60*farmerGraceanne/len(query_result) - 40*((farmerSize-farmerGraceanne)/len(query_result)) + 60*(retireeSize/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
+
+        if vote < 1:
+            vote = 1
+
+        user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 6
-        if(not(studentMilam^studentKerby)):
-            vote = 50 + 40*(otherSize/len(query_result)) + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty
+        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty
 
-            vote = vote-40*(farmerGraceanne/len(query_result))
+        vote = vote-40*(farmerGraceanne/len(query_result))
 
-            if vote > 100:
-                vote = 100
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 7
-        if(not(studentMilam^studentKerby)):
-            vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*farmerRosalva/len(query_result) + 60*farmerTara/len(query_result)
-            vote = vote-40*(farmerGraceanne/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*farmerRosalva/len(query_result) + 60*farmerTara/len(query_result)
+        vote = vote-40*(farmerGraceanne/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1            
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-                vote=0
+        if vote < 1:
+            vote = 1            
                 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 8
-        if(not studentMilam or studentKerby):
-            vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) - 60*studentKerby/len(query_result)
-            vote = vote-40*(farmerGraceanne/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
+        vote = vote-40*(farmerGraceanne/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-        
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 9
-        if(not studentMilam or studentKerby):
-            vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) - 60*studentKerby/len(query_result)
-            vote = vote-40*(farmerGraceanne/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
+        vote = vote-40*(farmerGraceanne/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
 
         user_votes[user_id].append(int(vote))
 
         user_id += 1
 
         #user 10
-        if(not(studentMilam^studentKerby)):
-            vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
-            vote = vote-40*(farmerGraceanne/len(query_result))
-            uncertainty = random.randint(-5, 5)
-            vote += uncertainty 
-            if vote > 100:
-                vote = 100
+        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
+        vote = vote-40*(farmerGraceanne/len(query_result))
+        uncertainty = random.randint(-5, 5)
+        vote += uncertainty 
+        if vote > 100:
+            vote = 100
 
-            if vote < 1:
-                vote = 1
-        else:
-            vote = 0
-
-        if(query_id==utilityMatrixQueries[-1]):
-            vote=0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
     
@@ -364,14 +314,20 @@ def generate_village_utility_matrix():
 
     for i in range(11):
         utilityMatrixRow = [user_votes[i][0]]
-        for v in range(1, len(user_votes[i])):
-            if(user_votes[i][v]==0): #if user vote is 0, they didn't voted for that query, so we must cancel it out
-                utilityMatrixRow.append("")   
+        for v in range(1, len(user_votes[i])-1):
+            if(((i!=1 and i!=2) and (v==17 or v==18))):
+                #print("user "+str(i)+" - unique query "+str(v))
+                utilityMatrixRow.append("")
             else:
-                if random.random() < user_vote_probability[i]:
-                    utilityMatrixRow.append(user_votes[i][v])
-                else:
+                if(((i!=8 and i!=9) and (v==25 or v==26))):
+                    #print("user "+str(i)+" - unique query "+str(v))
                     utilityMatrixRow.append("")
+                else:
+                    if random.random() < user_vote_probability[i]:
+                        utilityMatrixRow.append(user_votes[i][v])
+                    else:
+                        utilityMatrixRow.append("")
+        utilityMatrixRow.append("") #Last query isn't voted by anyone
         writer.writerow(utilityMatrixRow)
 
     utilityMatrixFile.close()
