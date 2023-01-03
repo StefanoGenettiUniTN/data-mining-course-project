@@ -43,7 +43,7 @@ def generate_big_user_set(numUsers):
     '''
 
     # open the file in the write mode
-    pathFile = Path("big/users_big.csv")
+    pathFile = Path("big/users.csv")
     f = open(pathFile, 'w', newline='')
 
     # create the csv writer
@@ -83,7 +83,7 @@ def generate_user_village_set(numUsers):
 
     # write the header
     writer.writerow(header)
-    
+
     data = []
     autoincrement_id = 0
     for i in range(numUsers+1):
@@ -97,4 +97,4 @@ def generate_user_village_set(numUsers):
     # close the file
     f.close()
 
-generate_big_user_set(1000)
+#generate_big_user_set(1000)

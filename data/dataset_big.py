@@ -14,24 +14,6 @@ from user_set import generate_big_user_set
 from user_set import generate_user_set
 from utility_matrix import generate_big_utility_matrix
 
-def university():
-    '''
-    Generate UNIVERSITY dataset
-    '''
-    print("generating UNIVERSITY dataset")
-
-    
-
-
-    print("done")
-
-def village():
-    '''
-    Generate VILLAGE dataset
-    '''
-    print("generate VILLAGE dataset")
-    print("done")
-
 def big(in_numTuple, in_numQuery, in_numUser):
     '''
     Generate BIG dataset
@@ -40,10 +22,10 @@ def big(in_numTuple, in_numQuery, in_numUser):
 
     #generate Person relational database table
     _numTuple = in_numTuple
-    _numName = 500
-    _numAddress = 500
+    _numName = 5000
+    _numAddress = 5000
     _minAge = 1
-    _maxAge = 100
+    _maxAge = 10000
     _numOccupation = 5
     _addressFileName = "address.txt"
     _nameFileName = "names.txt"
@@ -65,7 +47,7 @@ def big(in_numTuple, in_numQuery, in_numUser):
 
     #generate query log
     numTopics = 5
-    relationalTablePath = Path("big/relational_db_big.csv")
+    relationalTablePath = Path("big/relational_db.csv")
     relationalTable = pd.read_csv(relationalTablePath)
 
     singletonCounter = dict()   #singletonCounter[c] = how many times value c appears in the relational table
@@ -113,23 +95,18 @@ def big(in_numTuple, in_numQuery, in_numUser):
     print("done")
 
 #input arguments parsing
+'''
 parser = ArgumentParser()
 parser.add_argument("-d", "--dataset", dest="dataset",
                     help="uni - generate university dataset | vil - generate small village dataset | big - generate big dataset")
 
 args = parser.parse_args()
 selectedDataset = args.dataset
+'''
 #---
 
-if selectedDataset == "uni":
-    university()
-elif selectedDataset == "vil":
-    village()
-elif selectedDataset == "big":
-    personTuple = 100    #how many tuple populate table Person
-    queryNumber = 50     #how many query to insert in the query log
-    userNumber = 5       #how many users to take into account
+personTuple = 1000    #how many tuple populate table Person
+queryNumber = 500     #how many query to insert in the query log
+userNumber = 100      #how many users to take into account
 
-    big(personTuple, queryNumber, userNumber)
-else:
-    print("Wrong argument. \n Instruction: python3 dataset.py -d [dataset_name] \n Available datasets: \n 'uni': university dataset \n 'vil': village dataset \n 'big': big dataset \n --- \n python3 dataset.py -h \n for further help.\n")
+big(personTuple, queryNumber, userNumber)

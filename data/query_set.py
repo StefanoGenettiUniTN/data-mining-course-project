@@ -274,10 +274,10 @@ def generate_big_query_set(num_query, topics):
     num_concepts = interesting things to search 
     '''
 
-    queryFilePath = Path("big/queries_big.csv")                 #name of the file where we write the queries
-    databaseFilePath = Path("big/relational_db_big.csv")        #name of the file which contains the relational table of the database
-    relationalTable = pd.read_csv(databaseFilePath)             #dataframe which contains the relational table of the database
-    attributeSet = list(relationalTable.columns)                #columns of the relation table of interest
+    queryFilePath = Path("big/queries.csv")                 #name of the file where we write the queries
+    databaseFilePath = Path("big/relational_db.csv")        #name of the file which contains the relational table of the database
+    relationalTable = pd.read_csv(databaseFilePath)         #dataframe which contains the relational table of the database
+    attributeSet = list(relationalTable.columns)            #columns of the relation table of interest
 
     # open the file in the write mode
     f = open(queryFilePath, 'w', newline='')
@@ -569,4 +569,4 @@ def generate_village_query_set():
     # close the file
     f.close()
 
-generate_university_query_set()
+#generate_university_query_set()

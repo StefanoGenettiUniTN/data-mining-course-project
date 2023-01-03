@@ -369,7 +369,7 @@ def generate_arbitrarily_size_relational_table(numTuple, numName, numAddress, mi
     occupation_set = load_occupations(int(numOccupation))
 
     # open the file in the write mode
-    relationalDbPath = Path("big/relational_db_big.csv")
+    relationalDbPath = Path("big/relational_db.csv")
     f = open(relationalDbPath, 'w', newline='')
 
     # create the csv writer
@@ -465,7 +465,7 @@ def generate_village_database(num_people):
         #age probability depends on the occupation
         if p_occupation == "student":
             age_cat_probability = [0., 0.98, 0.02, 0.]
-            
+
         if p_occupation == "retiree":
             age_cat_probability = [0., 0., 0.02, 0.98]
 
@@ -502,4 +502,4 @@ def generate_village_database(num_people):
     # close the file
     f.close()
 
-generate_arbitrarily_size_relational_table(100, 1000, 1000, 0, 100, 5, "addresses.txt", "names.txt", "occupations.txt")
+#generate_arbitrarily_size_relational_table(100, 1000, 1000, 0, 100, 5, "addresses.txt", "names.txt", "occupations.txt")

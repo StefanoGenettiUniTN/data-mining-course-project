@@ -51,11 +51,11 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = Path("data/university/relational_db.csv")
-utilityMatrixFileName = Path("data/university/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/university/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/university/output.csv")
-queryFileName = Path("data/university/queries.csv")
+databaseFileName = Path("data/big/relational_db.csv")
+utilityMatrixFileName = Path("data/big/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/big/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/big/output.csv")
+queryFileName = Path("data/big/queries.csv")
 
 #Read database
 person = db.Person(databaseFileName)
@@ -76,7 +76,7 @@ expectedAttributeFrequency = expected_attribute_frequency(queryFileName)
 # Clustering of data in Person
 num_cluster_person = 5
 person.table = k_means_clustering(person, num_cluster_person)
-#plot_people_cluster(person.table, num_cluster_person)
+plot_people_cluster(person.table, num_cluster_person)
 
 ### Initialize user profiles and complete utility matrix with
 ### content based filtering

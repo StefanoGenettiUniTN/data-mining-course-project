@@ -543,7 +543,7 @@ def k_means_clustering(person_db, k):
     #reasonable way
 
     ## ELBOW METHOD EVALUATION
-    #elbow_evaluation(scaled_person_table)
+    elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(
@@ -730,10 +730,6 @@ def plot_people_cluster(labeledPeople, numCluster):
     plt.legend()
     plt.show()
     #===
-
-    for column in labeledPeople:
-        print(column)
-
     ###
 
 def elbow_evaluation(validation_set):

@@ -461,13 +461,13 @@ def generate_big_utility_matrix(topics):
     arbitrarily dimensions. Use this function to create an input
     utility matrix and a complete utility matrix.
     '''
-    queryFileName = Path("big/queries_big.csv")
+    queryFileName = Path("big/queries.csv")
     queryFile = open(queryFileName, 'r')
 
-    userFileName = Path("big/users_big.csv")
+    userFileName = Path("big/users.csv")
     userFile = pd.read_csv(userFileName)
 
-    dbFileName = Path("big/relational_db_big.csv")
+    dbFileName = Path("big/relational_db.csv")
     relationalTable = pd.read_csv(dbFileName)
 
     frequentVoters = set()  #set of users who vote with high probability
@@ -529,6 +529,33 @@ def generate_big_utility_matrix(topics):
             mediumValueVoters.add(user_id)
         if randomDecision == 3:
             lowValueVoters.add(user_id)
+
+    '''
+    print("userHatedTopics")
+    print(userHatedTopics)
+    print("")
+    print("userInterestingTopics")
+    print(userInterestingTopics)
+    print("")
+    print("frequentVoters")
+    print(frequentVoters)
+    print("")
+    print("mediumVoters")
+    print(mediumVoters)
+    print("")
+    print("rareVoters")
+    print(rareVoters)
+    print("")
+    print("highValueVoters")
+    print(highValueVoters)
+    print("")
+    print("mediumValueVoters")
+    print(mediumValueVoters)
+    print("")
+    print("lowValueVoters")
+    print(lowValueVoters)
+    print("")
+    '''
 
     #utility matrix queries
     utilityMatrixQueries = []
@@ -596,7 +623,7 @@ def generate_big_utility_matrix(topics):
             vote = userStartVote
 
             for t in userInterestingTopics[user_id]:
-                vote = vote + 40*topicCardinality[t]/len(query_result)
+                vote = vote + 40*(topicCardinality[t]/len(query_result))
             
             for t in userHatedTopics[user_id]:
                 vote = vote - 40*(topicCardinality[t]/len(query_result))
@@ -620,7 +647,7 @@ def generate_big_utility_matrix(topics):
         data.append(user_votes[user_id])
 
     # open the utlity matrix file in write mode
-    utilityMatrixCompletePath = Path('big/utility_matrix_complete_big.csv')
+    utilityMatrixCompletePath = Path('big/utility_matrix_complete.csv')
     utilityMatrixFile = open(utilityMatrixCompletePath, 'w', newline='')
 
     # create the csv writer
@@ -635,7 +662,7 @@ def generate_big_utility_matrix(topics):
     # Build input utility_matrix
     #
     #open the utlity matrix file in write mode
-    utilityMatrixPath = Path('big/utility_matrix_big.csv')
+    utilityMatrixPath = Path('big/utility_matrix.csv')
     utilityMatrixFile = open(utilityMatrixPath, 'w', newline='')
 
     #create the csv writer
@@ -651,7 +678,7 @@ def generate_big_utility_matrix(topics):
         if user_id in mediumVoters:
             user_vote_probability = 0.5
         if user_id in rareVoters:
-            user_vote_probability = 0.2
+            user_vote_probability = 0.1
 
         for v in range(1, len(user_votes[user_id])):
             if random.random() < user_vote_probability:
@@ -661,9 +688,6 @@ def generate_big_utility_matrix(topics):
         writer.writerow(utilityMatrixRow)
 
     utilityMatrixFile.close()
-
-    print(userInterestingTopics)
-    print(userHatedTopics)
 
 def generate_village_utility_matrix():
     '''
@@ -1038,4 +1062,4 @@ def queryResult(relationalTable, query):
 
 ############################################
 
-generate_university_utility_matrix()
+#generate_village_utility_matrix()

@@ -71,6 +71,45 @@ In the query log, the most frequently asked queries are:
  : queries about student Rakia
 
 - village
+The dataset is about a small Village.
+
+Four occupations are taken into consideration:
+ : "student",
+ : "retiree",
+ : "farmer",
+ : "other".
+It is not very likely to find two people with the same name.
+On the other hand it is highly probable to find two people
+that live in the same place (since the village is small)
+or with the same occupation.
+Most of the people in the relation table are retiree.
+Most of the retiree are old (age between 61 and 100).
+Most of the farmer are medium-age (age between 41 and 60).
+Most of the students are young or medium-age.
+Most of the rest of the people who lives in the village is medium-age.
+
+There are 11 users who did queries on the database in the past.
+They can be divided into 2 main categories:
+ : one that likes the retirees, but hates the farmers
+ : one that likes the farmers, but hates the retirees
+These two categories contains some differences, like some users
+likes also students, or they hate them, or are interested in
+some people in particular.
+The quirk of these users is that only one person has voted
+very much. All the others users have voted only for few queries.
+
+In the query log, the most frequently asked queries are:
+ : queries about farmer Graceanne
+ : queries about farmer Tara
+ : queries about occupation="retiree"
+ : queries about occuptation="farmer"
+ : queries about student Milam
+ : queries aboutstudent Kerby
+ : queries about occupation="student"
+ : queries about occupation="other"
+ : queries about retiree Leshay
+ : queries about farmer Rosalva
+ : queries about other Alexys
 
 - big
 The purpose of this dataset is to test how well our
@@ -102,34 +141,76 @@ partition the user set into clusters:
 - generator
 in this folder we store the source codes which were used to
 generate our datasets.
-    * dataset.py
-    |   
-    | this Python program includes all the procedures to
-    | generate our datasets.
-    | Write the following commands in the console to
-    | generate the desired dataset.
+    * dataset_big.py
+    | this Python program includes the procedures to
+    | generate the BIG dataset.
     |
-    | command: python3 dataset.py -d "uni"
-    | generate UNIVERSITY dataset.
-    |
-    | command: python3 dataset.py -d "vil"
-    | generate VILLAGE dataset.
-    |
-    | command: python3 dataset.py -d "big"
+    | command: python3 dataset_big.py
     | generate BIG dataset.
 
     * relational_db.py
-    | functions called by dataset.py to generate the
-    | relational_db.csv files.
-
+    | functions implemented in order to
+    | generate the relational_db.csv files
+    | of each dataset.
+    |
+    |** generate_university_database
+    |   function used to generate table Person of
+    |   UNIVERSITY dataset
+    |** generate_arbitrarily_size_relational_table
+    |   function used to generate table Person of
+    |   BIG dataset
+    |** generate_village_database
+    |   function used to generate table Person of
+    |   VILLAGE dataset
+       
     * user_set.py
-    | functions called by dataset.py to generate the
-    | users.csv files.
+    | functions implemented in order to
+    | generate the user.csv files
+    | of each dataset.
+    |
+    |** generate_user_set
+    |   function used to generate table users.csv of
+    |   UNIVERSITY dataset
+    |** generate_big_user_set
+    |   function used to generate users.csv of
+    |   BIG dataset
+    |** generate_user_village_set
+    |   function used to generate users.csv of
+    |   VILLAGE dataset
 
     * query_set.py
-    | functions called by dataset.py to generate the
-    | queries.csv files.
+    | functions implemented in order to
+    | generate the queries.csv files
+    | of each dataset.
+    |
+    |** generate_university_query_set
+    |   function used to generate table queries.csv of
+    |   UNIVERSITY dataset
+    |** generate_big_query_set
+    |   function used to generate queries.csv of
+    |   BIG dataset
+    |** generate_village_query_set
+    |   function used to generate queries.csv of
+    |   VILLAGE dataset
 
     * utility_matrix.py
-    | functions called by dataset.py to generate the
-    | utility_matrix.csv and utility_matrix_complete.csv files.
+    | functions implemented in order to
+    | generate the utility_matrix.csv
+    | and utility_matrix_complete.csv files
+    | of each dataset.
+    |
+    |** generate_university_utility_matrix
+    |   function used to generate
+    |   utility_matrix.csv and
+    |   utility_matrix_complete.csv of
+    |   UNIVERSITY dataset
+    |** generate_big_utility_matrix
+    |   function used to generate
+    |   utility_matrix.csv and
+    |   utility_matrix_complete.csv of
+    |   BIG dataset
+    |** generate_village_utility_matrix
+    |   function used to generate
+    |   utility_matrix.csv and
+    |   utility_matrix_complete.csv of
+    |   VILLAGE dataset
