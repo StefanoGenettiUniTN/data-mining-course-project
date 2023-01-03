@@ -150,10 +150,10 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
-        user_votes[user_id].append(vote)
+        user_votes[user_id].append(int(vote))
 
         user_id += 1
 
@@ -164,8 +164,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -177,8 +177,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -194,8 +194,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -211,8 +211,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -225,8 +225,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -239,8 +239,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -256,8 +256,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -273,8 +273,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -290,8 +290,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -307,8 +307,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -324,8 +324,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -341,8 +341,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -358,8 +358,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -375,8 +375,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
 
@@ -392,8 +392,8 @@ def generate_university_utility_matrix():
         if vote > 100:
             vote = 100
 
-        if vote < 0:
-            vote = 0
+        if vote < 1:
+            vote = 1
 
         user_votes[user_id].append(int(vote))
     
@@ -673,25 +673,20 @@ def generate_village_utility_matrix():
     queryFileName = Path("village/queries.csv")
     queryFile = open(queryFileName, 'r')
 
-    #create a set of queries without duplicates
+    #utility matrix queries
     utilityMatrixQueries = []
     utilityMatrixQueriesDefinition = dict()
-    uniqueQuerySet = set()
-
     for query in queryFile:
         query = query[:-1] #otherwise each query ends with \n
         query_id = retriveQueryId(query)
         query_parser = query.split(",")
         query_definition = query_parser[1:]
-        query_definition.sort()
         query_definition_str = ""
         for attr in query_definition:
             query_definition_str += str(attr)
 
-        if query_definition_str not in uniqueQuerySet:
-            uniqueQuerySet.add(query_definition_str)
-            utilityMatrixQueries.append(query_id)
-            utilityMatrixQueriesDefinition[query_id] = query
+        utilityMatrixQueries.append(query_id)
+        utilityMatrixQueriesDefinition[query_id] = query
 
     queryFile.close()
 
