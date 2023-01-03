@@ -247,7 +247,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 7
-        vote = 50 - 60*professorRoise + 40*(researcherSize/len(query_result)) + 60*researcherArisa/len(query_result)
+        vote = 50 - 60*(professorRoise/len(query_result)) + 40*(researcherSize/len(query_result)) + 60*researcherArisa/len(query_result)
         uncertainty = random.randint(-5, 5)
         vote += uncertainty
 
@@ -264,7 +264,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 8
-        vote = 50 - 60*professorRoise + 40*(researcherSize/len(query_result)) + 60*researcherArisa/len(query_result)
+        vote = 50 - 60*(professorRoise/len(query_result)) + 40*(researcherSize/len(query_result)) + 60*researcherArisa/len(query_result)
         uncertainty = random.randint(-5, 5)
         vote += uncertainty
 
@@ -315,7 +315,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 11
-        vote = 50 + 40*((studentSize-studentTelina-studentRakia)/len(query_result)) - 40*studentRakia/len(query_result) - 40*studentTelina/len(query_result) -40*professorDerryl/len(query_result) -40*professorWill/len(query_result) -40*professorTalmage + 40*((professorSize-professorDerryl-professorWill-professorTalmage)/len(query_result)) + 40*(otherSize/len(query_result)) - 40*(researcherSize/len(query_result))
+        vote = 50 + 40*((studentSize-studentTelina-studentRakia)/len(query_result)) - 50*studentRakia/len(query_result) - 50*studentTelina/len(query_result) + 40*((professorSize-professorDebralee)/len(query_result)) + 40*(otherSize/len(query_result)) - 40*(researcherSize/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty
 
@@ -332,7 +332,7 @@ def generate_university_utility_matrix():
         user_id += 1
 
         #user 12
-        vote = 50 + 40*((studentSize-studentTelina-studentRakia)/len(query_result)) - 40*studentRakia/len(query_result) - 40*studentTelina/len(query_result) -40*professorDerryl/len(query_result) -40*professorWill/len(query_result) -40*professorTalmage + 40*((professorSize-professorDerryl-professorWill-professorTalmage)/len(query_result)) + 40*(otherSize/len(query_result)) - 40*(researcherSize/len(query_result))
+        vote = 50 + 40*((studentSize-studentTelina-studentRakia)/len(query_result)) - 50*studentRakia/len(query_result) - 50*studentTelina/len(query_result) + 40*((professorSize-professorDebralee)/len(query_result)) + 40*(otherSize/len(query_result)) - 40*(researcherSize/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty
 
