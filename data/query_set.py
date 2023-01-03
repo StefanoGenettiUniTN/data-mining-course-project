@@ -396,7 +396,7 @@ def generate_village_query_set():
             if a != first_attribute:
                 query_string = f"{a}={relationalTable[a][random_index]}"
                 query.append(query_string)
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -407,13 +407,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Graceanne")
         else:
             query.append("name=Graceanne")
             query.append("occupation=farmer")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -424,13 +424,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Tara")
         else:
             query.append("name=Tara")
             query.append("occupation=farmer")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -439,9 +439,9 @@ def generate_village_query_set():
     for i in range(10):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
-        
+
         query.append("occupation=retiree")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -450,9 +450,9 @@ def generate_village_query_set():
     for i in range(10):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
-        
+
         query.append("occupation=farmer")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -463,13 +463,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Milam")
         else:
             query.append("name=Milam")
             query.append("occupation=student")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -478,9 +478,9 @@ def generate_village_query_set():
     for i in range(3):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
-        
+
         query.append("occupation=student")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -489,9 +489,9 @@ def generate_village_query_set():
     for i in range(4):
         query_id = "q"+str(autoincrement_id)
         query = [query_id]
-        
+
         query.append("occupation=other")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -502,13 +502,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Leshay")
         else:
             query.append("name=Leshay")
             query.append("occupation=retiree")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -519,13 +519,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Rosalva")
         else:
             query.append("name=Rosalva")
             query.append("occupation=farmer")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -536,13 +536,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Kerby")
         else:
             query.append("name=Kerby")
             query.append("occupation=student")
-        
+
         data.append(query)
 
         autoincrement_id += 1
@@ -553,13 +553,13 @@ def generate_village_query_set():
         query = [query_id]
 
         random_alternative = random.randint(1, 2)
-        
+
         if random_alternative == 1:
             query.append("name=Alexys")
         else:
             query.append("name=Alexys")
             query.append("occupation=other")
-        
+
         data.append(query)
 
         autoincrement_id += 1

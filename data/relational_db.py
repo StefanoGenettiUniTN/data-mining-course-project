@@ -465,7 +465,7 @@ def generate_village_database(num_people):
         #age probability depends on the occupation
         if p_occupation == "student":
             age_cat_probability = [0., 0.98, 0.02, 0.]
-        
+            
         if p_occupation == "retiree":
             age_cat_probability = [0., 0., 0.02, 0.98]
 
@@ -484,9 +484,9 @@ def generate_village_database(num_people):
             p_age = random.randint(medium_min, medium_max)
         if p_age_category == "old":
             p_age = random.randint(old_min, old_max)    
-            
+
         p_id = autoincrement_id
-        
+
         tuple.append(p_id)
         tuple.append(p_name)
         tuple.append(p_address)

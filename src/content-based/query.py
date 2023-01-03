@@ -78,7 +78,7 @@ class Query:
         '''
         query_def = str(self)
         query_result = db.query(query_def)
-
+        
         #print(f"[{self.id}] : {str(self)}")
         #print(query_result)
 

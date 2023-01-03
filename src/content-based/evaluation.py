@@ -56,12 +56,12 @@ def me_unvoted(predictedVotes, completeUtilityMatrix):
     me = 0
     card_votes = 0
     for user in predictedVotes:
-        print("User "+str(user))
+        #print("User "+str(user))
         for query in predictedVotes[user]:
             predicted_v = predictedVotes[user][query]
             ground_truth = completeUtilityMatrix.at[user, query]
-            print(f"Query[{query}] = {predicted_v}")
-            print("Ground truth = "+str(ground_truth))
+            #print(f"Query[{query}] = {predicted_v}")
+            #print("Ground truth = "+str(ground_truth))
 
             me += abs(predicted_v-ground_truth)
             card_votes+=1
@@ -157,6 +157,10 @@ def userVoteCurve(targetUser, userPredictedVotes, completeUtilityMatrix):
     predicted_votes = []
     ground_truth_votes = []
 
+    predictedAvgVote = 0
+    trueAvgVote = 0
+    numVotes = 0
+
     for query in userPredictedVotes[targetUser]:
         predicted_v = userPredictedVotes[targetUser][query]
         ground_truth = completeUtilityMatrix.at[targetUser, query]
@@ -164,13 +168,22 @@ def userVoteCurve(targetUser, userPredictedVotes, completeUtilityMatrix):
         query_ids.append(query)
         predicted_votes.append(predicted_v)
         ground_truth_votes.append(ground_truth)
+
+        predictedAvgVote += predicted_v
+        trueAvgVote += ground_truth
+        numVotes += 1
     
     xpoints = np.array(query_ids)
     ypoints_1 = np.array(predicted_votes)
     ypoints_2 = np.array(ground_truth_votes)
     
-    plt.plot(xpoints, ypoints_1, label = "predicted votes")
-    plt.plot(xpoints, ypoints_2, label = "true votes")
+    plt.plot(xpoints, ypoints_1, label = "predicted votes", color='r')
+    if numVotes > 0:
+        plt.axhline(y=(predictedAvgVote/numVotes), color='r', linestyle='--', label = "predicted average vote")
+
+    plt.plot(xpoints, ypoints_2, label = "true votes", color='g')
+    if numVotes > 0:
+        plt.axhline(y=(trueAvgVote/numVotes), color='g', linestyle='--', label = "true average vote")
 
     plt.legend()
     plt.title("Vote behaviour user "+str(targetUser))

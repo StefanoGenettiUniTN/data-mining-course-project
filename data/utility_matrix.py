@@ -712,7 +712,7 @@ def generate_village_utility_matrix():
     for query_id in utilityMatrixQueries:
         query = utilityMatrixQueriesDefinition[query_id]
         query_result = queryResult(relationalTable, query)
-        
+
         #count relevant aspect of the result
         studentSize = 0
         farmerSize = 0
@@ -733,7 +733,7 @@ def generate_village_utility_matrix():
 
             if occupation=="student":
                 studentSize += 1
-            
+
             if occupation=="farmer":
                 farmerSize += 1
 
@@ -742,7 +742,7 @@ def generate_village_utility_matrix():
 
             if occupation=="retiree":
                 retireeSize += 1
-            
+
             if id == 18:
                 farmerGraceanne = True
 
@@ -754,10 +754,10 @@ def generate_village_utility_matrix():
 
             if id == 76:
                 farmerRosalva = True
-            
+
             if id == 17:
                 farmerTara = True
-            
+
             if id == 12:
                 studentKerby = True
 
@@ -878,7 +878,7 @@ def generate_village_utility_matrix():
 
         if vote < 1:
             vote = 1            
-                
+
         user_votes[user_id].append(int(vote))
 
         user_id += 1
@@ -926,7 +926,7 @@ def generate_village_utility_matrix():
             vote = 1
 
         user_votes[user_id].append(int(vote))
-    
+
     #
     # Build the complete utility matrix
     #
@@ -948,7 +948,7 @@ def generate_village_utility_matrix():
     #
     # Build input utility_matrix
     #
-    
+
     #dictionary such that user_vote_probability[u] = the probability with which user u voted a query
     user_vote_probability = dict()
     user_vote_probability[0] = 0.2

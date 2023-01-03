@@ -537,13 +537,13 @@ def k_means_clustering(person_db, k):
             scaled_person_table.drop(c, axis=1, inplace=True)
     
     pd.set_option('display.max_columns', None)
-    print(scaled_person_table)
+    #print(scaled_person_table)
 
     #now we can cluster the people who populate the table Person in a
     #reasonable way
 
     ## ELBOW METHOD EVALUATION
-    elbow_evaluation(scaled_person_table)
+    #elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(
