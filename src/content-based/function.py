@@ -543,7 +543,7 @@ def k_means_clustering(person_db, k):
     #reasonable way
 
     ## ELBOW METHOD EVALUATION
-    elbow_evaluation(scaled_person_table)
+    #elbow_evaluation(scaled_person_table)
     #######
 
     kmeans = KMeans(

@@ -871,7 +871,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 6
-        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
+        vote = 50 + 60*((farmerSize-farmerGraceanne)/len(query_result)) - 40*(retireeSize/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty
 
@@ -888,7 +888,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 7
-        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*farmerRosalva/len(query_result) + 60*farmerTara/len(query_result)
+        vote = 50 + 60*((farmerSize-farmerGraceanne)/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*farmerRosalva/len(query_result) + 60*farmerTara/len(query_result)
         vote = vote-40*(farmerGraceanne/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty 
@@ -903,7 +903,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 8
-        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
+        vote = 50 + 60*((farmerSize-farmerGraceanne)/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
         vote = vote-40*(farmerGraceanne/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty 
@@ -918,7 +918,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 9
-        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
+        vote = 50 + 60*((farmerSize-farmerGraceanne)/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
         vote = vote-40*(farmerGraceanne/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty 
@@ -934,7 +934,7 @@ def generate_village_utility_matrix():
         user_id += 1
 
         #user 10
-        vote = 50 + 60*(farmerSize/len(query_result)) - 40*(retireeSize/len(query_result))
+        vote = 50 + 60*((farmerSize-farmerGraceanne)/len(query_result)) - 40*(retireeSize/len(query_result)) + 60*studentKerby/len(query_result)
         vote = vote-40*(farmerGraceanne/len(query_result))
         uncertainty = random.randint(-5, 5)
         vote += uncertainty 
@@ -970,16 +970,16 @@ def generate_village_utility_matrix():
 
     #dictionary such that user_vote_probability[u] = the probability with which user u voted a query
     user_vote_probability = dict()
-    user_vote_probability[0] = 0.2
+    user_vote_probability[0] = 0.1
     user_vote_probability[1] = 0.2
-    user_vote_probability[2] = 0.2
+    user_vote_probability[2] = 0.1
     user_vote_probability[3] = 0.2
-    user_vote_probability[4] = 0.2
+    user_vote_probability[4] = 0.1
     user_vote_probability[5] = 0
     user_vote_probability[6] = 0.2
-    user_vote_probability[7] = 0.2
+    user_vote_probability[7] = 0.1
     user_vote_probability[8] = 0.2
-    user_vote_probability[9] = 0.2
+    user_vote_probability[9] = 0.1
     user_vote_probability[10] = 0.8
 
     # open the utlity matrix file in write mode
@@ -991,12 +991,14 @@ def generate_village_utility_matrix():
 
     for i in range(11):
         utilityMatrixRow = [user_votes[i][0]]
+
         for v in range(1, len(user_votes[i])-1):
-            if(((i!=1 and i!=2) and (v==17 or v==18))):
+
+            if(((i!=1 and i!=2) and (v>=46 and v<=50))):    #only user 1 and user 2 voted queries about Milam
                 #print("user "+str(i)+" - unique query "+str(v))
                 utilityMatrixRow.append("")
             else:
-                if(((i!=8 and i!=9) and (v==25 or v==26))):
+                if(((i!=8 and i!=9 and i!=10) and (v==64 or v==65))): #only user 1, user 2 and user 10 voted queries about Kerby
                     #print("user "+str(i)+" - unique query "+str(v))
                     utilityMatrixRow.append("")
                 else:
@@ -1062,4 +1064,4 @@ def queryResult(relationalTable, query):
 
 ############################################
 
-#generate_village_utility_matrix()
+generate_village_utility_matrix()
