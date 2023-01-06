@@ -9,6 +9,7 @@ import database as db
 import query as queryClass
 import user as userClass
 import hash_table as hashTableClass
+import cluster as clusterClass
 
 import pandas as pd
 import math
@@ -51,11 +52,12 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = Path("data/village/relational_db.csv")
-utilityMatrixFileName = Path("data/village/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/village/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/village/output.csv")
-queryFileName = Path("data/village/queries.csv")
+databaseFileName = Path("data/university/relational_db.csv")
+utilityMatrixFileName = Path("data/university/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/university/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/university/output.csv")
+queryFileName = Path("data/university/queries.csv")
+userFileName = Path("data/university/users.csv")
 
 #Read database
 person = db.Person(databaseFileName)
@@ -67,17 +69,64 @@ utilityMatrix = pd.read_csv(utilityMatrixFileName)
 #vote recommended by the system for the user-query couple (u,q1)
 user_recommendation = dict()
 
-#Compute tuple importance, a tuple is important if it appears in a lot of results
-expectedTupleFrequency = expected_tuple_frequency(person, queryFileName)
+#u_completed[u] = true iff the user u voted every query in the utility matrix
+u_completed = dict()
 
-#Compute search attribute importance, an attribute is important if it appears in a lot of queries
-expectedAttributeFrequency = expected_attribute_frequency(queryFileName)
+#u_cluster[u] = the identifier of the cluster where user u is located
+u_cluster = dict()
 
-# Clustering of data in Person
-num_cluster_person = 5
-person.table = k_means_clustering(person, num_cluster_person)
-#plot_people_cluster(person.table, num_cluster_person)
+#q_cluster[q] = the identifier of the cluster where query q is located
+q_cluster = dict()
 
+#cluser autoincrement unique identifier
+cluster_id = 0
+
+#u_cluster_list[c] = user cluster object with identifier c
+u_cluster_list = dict()
+
+#q_cluster_list[c] = query cluster object with identifier c
+q_cluster_list = dict()
+
+###initialization of
+# - dictionary u_completed
+# - dictionary u_cluster
+# - dictionary u_cluster_list
+userFile = pd.read_csv(userFileName)
+for u in userFile["user_id"]:
+    u_completed[u] = False
+    
+    u_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
+
+    u_cluster[u] = cluster_id
+    u_cluster_list[cluster_id].addComponent(u)
+
+    cluster_id += 1
+###end initialization of dictionary user data structures
+
+###initialization of
+# - dictionary q_cluster
+# - dictionary q_cluster_list
+queryFile = open(queryFileName, 'r')
+for q in queryFile:
+    query = q[:-1] #otherwise each query ends with \n
+    query_id = retriveQueryId(query)
+
+    q_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
+
+    q_cluster[query_id] = cluster_id
+    q_cluster_list[cluster_id].addComponent(query_id)
+
+    cluster_id += 1
+queryFile.close()
+###end initialization of dictionary query data structures
+
+for cluster in u_cluster_list:
+    print(u_cluster_list[cluster])
+
+for cluster in q_cluster_list:
+    print(q_cluster_list[cluster])
+
+exit(0)
 ### Initialize user profiles and complete utility matrix with
 ### content based filtering
 for index, v in utilityMatrix.iterrows():
