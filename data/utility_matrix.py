@@ -1064,4 +1064,4 @@ def queryResult(relationalTable, query):
 
 ############################################
 
-generate_village_utility_matrix()
+#generate_village_utility_matrix()

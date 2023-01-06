@@ -119,6 +119,7 @@ folder we propose an example characterized by:
  : 1000 tuples in the table of the realational database Person,
  : 500 queries in the query log,
  : 100 users in the users.csv file.
+In the following we briefly explain how we generated this dataset.
 Once the relational database is generated randomly, we read
 through the tuples which populate the table Person in order to
 find the most frequent values which appear in the data

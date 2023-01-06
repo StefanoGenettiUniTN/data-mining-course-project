@@ -1,0 +1,101 @@
+id,name,address,age,occupation
+0,Shady,20136 GORIZIA (Viale),16,student
+1,Debralee,20135 ISONZO (Viale),39,student
+2,Terriann,20141 TIRSO (Via),33,student
+3,Fabrice,20148 FINALE LIGURE (Via),31,student
+4,Hung,20122 STRASBURGO (Galleria),37,student
+5,Antwoin,20146 ZANZUR (Via),59,researcher
+6,Rakia,20162 CATTARO (Via),21,researcher
+7,Raya,20129 MASERA G. (Via),19,student
+8,Illana,20148 AGRIGENTO (Via),46,other
+9,Micale,20122 S. SOFIA (Via),30,student
+10,Ruy,20143 FARADAY M. (Via privata),55,other
+11,Durell,20148 PARMIGIANINO Mazzola detto il (Via),34,student
+12,Lalita,20148 ERIZZO (Via degli),33,student
+13,Tanja,20128 AMALFI (Via),24,other
+14,Nikkolas,20161 BERNARDINO DA NOVATE (Via),23,student
+15,Niraj,20124 FINOCCHIARO APRILE C. (Via),43,researcher
+16,Sai,20143 AUTARI (Via privata),30,student
+17,Sabra,20142 DE RUGGIERO G. (Via),16,researcher
+18,Simmie,20157 BELGIOIOSO C. (Via),40,student
+19,Ervin,20154 S. GALDINO (Via),55,researcher
+20,Levis,20153 TOFANO 5. (Via),37,student
+21,Doanld,20154 MARUSSIG P. (Via privata),34,student
+22,Tanja,20154 S. GALDINO (Via),16,student
+23,Will,20157 BELGIOIOSO C. (Via),51,professor
+24,Marketta,20153 SILLA LUCIO CORNELIO (Via),57,researcher
+25,Will,20122 CAPPUCCINI (Via),55,other
+26,Sarahann,20153 TOFANO 5. (Via),49,other
+27,Ervin,20125 DE GRADA R. (Via),31,student
+28,Grete,20143 AUTARI (Via privata),43,other
+29,Kaylor,20159 BITONTO (Via privata),40,student
+30,Quin,20144 MOTTAE. (Via),41,other
+31,Magdalen,20125 TARRA G. (Via),26,student
+32,Tashawna,20146 FRA BARTOLOMEO (Via),49,researcher
+33,Hamzah,20158 SCALVINI G. (Via),30,student
+34,Nichoals,20137 VARSAVIA (Via),27,researcher
+35,Derryl,20124 MARCO POLO (Via),23,student
+36,Milford,20123 LEOPARDI G. (Via),52,researcher
+37,Jeremie,20159 LONGONI E. (Via),49,researcher
+38,Ebony,20149 ARMENIA (Via),27,student
+39,Shanteria,20159 VALTELLINA (Via),29,student
+40,Candice,20125 XIMENES E. (Via),23,student
+41,Ebony,20132 PUSIANO (Via),40,researcher
+42,Shalisha,20134 CIMA C. E O. (Via),37,student
+43,Markeith,20139 BRENTA (Viale),35,student
+44,Cyndel,20157 DE PISIS F. (Via),58,other
+45,Jestin,20128 ERACLITO (Via),59,other
+46,Nickolaos,20147 LABUS G. (Via),38,researcher
+47,Shereese,20156 PIOPPI (Viale dei),31,other
+48,Niraj,20124 TARAMELLI T. (Via),20,student
+49,Nickolaos,20122 MICCA P. (Via),41,professor
+50,Esequiel,20129 HAJECH C. (Via),60,other
+51,Debralee,20123 LEOPARDI G. (Via),48,professor
+52,Elgin,20121 S. ERASMO (Piazza),17,student
+53,Arisa,20146 CARRIERA R. (Via privata),24,researcher
+54,Ryann,20141 MONTEGANI L. (Via),19,student
+55,Anival,20129 GOZZI G. (Via),51,researcher
+56,Nikkolas,20129 SCIPIONI (Via degli),23,student
+57,Ebony,20122 BORGAZZI G. (Via),31,student
+58,Sabra,20146 VOLTERRA (Via),38,other
+59,Khalisha,20142 BELDILETTO (Via),33,other
+60,Virgie,20141 MONTEGANI L. (Via),20,student
+61,Talisa,20139 RAVENNA (Via),72,researcher
+62,Derryl,20122 CORSO (Galleria del),28,professor
+63,Isom,20129 RISORGIMENTO (Piazza),31,student
+64,Tarica,20132 DERUTA (Via),32,researcher
+65,Shelton,20121 SENATO (Via),49,other
+66,Ryley,20128 ERACLITO (Via),52,other
+67,Niraj,20124 TUNISIA (Viale),20,student
+68,Marketta,20161 BIVONA (Via),18,student
+69,Nickolaos,20144 CERANO G. B. detto Il Crespi (Via),18,student
+70,Arnetra,20122 QUADRONNO (Via),38,student
+71,Kati,20147 CASCINA CORBA (Via),25,student
+72,Telina,20143 TOSI F. (Via),26,student
+73,Lalita,20127 ROVETTA G. (Via),38,other
+74,Shady,20132 BENADIR (Via privata),38,student
+75,Rakia,20143 FUSETTI M. (Via),60,student
+76,Arisa,20154 MANTEGNA A. (Via),19,other
+77,Will,20152 VALDAGNO (Via),27,student
+78,Niraj,20147 PERRUCCHETTI G. (Piazzale),54,other
+79,Nichlos,20161 CAMERINO (Via),17,student
+80,Khalisha,20100 FARUFFINI F. (Via),38,researcher
+81,Shereese,20144 MONFERRATO (Via),25,student
+82,Khalisha,20162 CATTARO (Via),52,researcher
+83,Levis,20149 MONTORFANO D. (Via privata),33,student
+84,Roderick,20148 SORANZO (Via dei),22,student
+85,Shanteria,20137 TERTULLIANO Settimio Fiorente detto (Via),38,student
+86,Kati,20123 LEOPARDI G. (Via),30,other
+87,Royce,20154 GADDA C.E. (Largo),48,professor
+88,Shaan,20128 VAL Dl FIEMME (Via),39,student
+89,Virgie,20141 LEONI P. (Via),56,other
+90,Micale,20123 BORELLA G. (Galleria),55,student
+91,Arisa,20155 CARACCIOLO F. (Via),22,other
+92,Wilhelm,20161 SALISU. (Via),50,student
+93,Roderick,20132 DERUTA (Via),58,other
+94,Tenielle,20129 ERBA Carlo (Piazza),45,other
+95,Shakeia,20127 BELLJG. (Via),43,researcher
+96,Suong,20159 LONGONI E. (Via),17,student
+97,Roderick,20139 CODOGNO (Via),35,student
+98,Talmage,20132 BOVES (Via),40,professor
+99,Tarica,20146 S. GIMIGNANO (Viale),38,student
