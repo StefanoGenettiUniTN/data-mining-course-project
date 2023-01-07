@@ -21,7 +21,7 @@ def merge(c1, c2, newClusterId):
     return outputCluster
 
 
-def user_pearson_similarity_computation(u1, u2):
+def user_pearson_similarity(u1, u2):
     '''
     Return person similarity between user u1 and user u2 according to
     their row in the utility matrix
@@ -47,5 +47,32 @@ def user_pearson_similarity_computation(u1, u2):
         return 0
     
     return numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))
-        
+
+def query_tuple_similarity(q1, q2, db):
+    '''
+    Intersection over union among the tuples in the resultsets
+    of the two queries
+    '''
+    tuple_q1 = set()
+    tuple_q2 = set()
+
+    def_q1 = q1.definition
+    def_q2 = q2.definition
+
+    query_result = db.query(def_q1)   
+
+    for tuple_index, tuple_value in query_result.iterrows():
+        tuple_id = int(tuple_value['id'])
+        tuple_q1.add(tuple_id)
+
+    query_result = db.query(def_q2)   
+
+    for tuple_index, tuple_value in query_result.iterrows():
+        tuple_id = int(tuple_value['id'])
+        tuple_q2.add(tuple_id)
+
+    intersection = tuple_q1.intersection(tuple_q2)
+    union = tuple_q1.union(tuple_q2)
+
+    return len(intersection)/len(union)
     
