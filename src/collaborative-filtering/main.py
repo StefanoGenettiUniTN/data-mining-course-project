@@ -10,6 +10,7 @@ import query as queryClass
 import user as userClass
 import hash_table as hashTableClass
 import cluster as clusterClass
+import cf_user as collaborativeFilteringUserClass
 
 import pandas as pd
 import math
@@ -59,21 +60,18 @@ outputUtilityMatrixFileName = Path("data/university/output.csv")
 queryFileName = Path("data/university/queries.csv")
 userFileName = Path("data/university/users.csv")
 
-#Read database
+#read database
 person = db.Person(databaseFileName)
 
-#Utility matrix
+#utility matrix
 utilityMatrix = pd.read_csv(utilityMatrixFileName)
 
 #user_recommendation[u] = dictionary such that user_recommendation[u][q1] is the
 #vote recommended by the system for the user-query couple (u,q1)
 user_recommendation = dict()
 
-#u_completed[u] = true iff the user u voted every query in the utility matrix
-u_completed = dict()
-
-#u_cluster[u] = the identifier of the cluster where user u is located
-u_cluster = dict()
+#collaborativeFilteringUser[u] = collaborative filtering user object
+collaborativeFilteringUser = dict()
 
 #q_cluster[q] = the identifier of the cluster where query q is located
 q_cluster = dict()
@@ -97,18 +95,36 @@ numQuery = 0
 # - dictionary u_completed
 # - dictionary u_cluster
 # - dictionary u_cluster_list
-userFile = pd.read_csv(userFileName)
-for u in userFile["user_id"]:
-    u_completed[u] = False
+# - collaborativeFilteringUser
+for u, col in utilityMatrix.iterrows():
+    #create new collaborative filtering user
+    cfUser = collaborativeFilteringUserClass.CollaborativeFilteringUser(u)
     
+    #insert the new user into a new cluster
     u_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
-
-    u_cluster[u] = cluster_id
     u_cluster_list[cluster_id].addComponent(u)
-
+    cfUser.setCluster(cluster_id)
     cluster_id += 1
 
+    #initialize user recommendation dictionary for the current user
+    user_recommendation[u] = dict()
+
+    sum_vote = 0
+    for q in col.keys():
+        if math.isnan(col[q]):
+            #add the query which the target user did not vote to the unvoted query list
+            cfUser.addUnvotedEntity(q)
+        else:
+            #add the query which the target user voted to the voted query list
+            cfUser.addVotedEntity(q, col[q])
+            sum_vote += col[q]
+
+    #compute vote average
+    cfUser.computeAvgVote()
+
+    collaborativeFilteringUser[u] = cfUser
     numUser += 1
+
 ###end initialization of dictionary user data structures
 
 ###initialization of
