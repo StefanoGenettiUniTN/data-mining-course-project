@@ -87,6 +87,12 @@ u_cluster_list = dict()
 #q_cluster_list[c] = query cluster object with identifier c
 q_cluster_list = dict()
 
+#number of users
+numUser = 0
+
+#number of queries
+numQuery = 0
+
 ###initialization of
 # - dictionary u_completed
 # - dictionary u_cluster
@@ -101,6 +107,8 @@ for u in userFile["user_id"]:
     u_cluster_list[cluster_id].addComponent(u)
 
     cluster_id += 1
+
+    numUser += 1
 ###end initialization of dictionary user data structures
 
 ###initialization of
@@ -117,6 +125,8 @@ for q in queryFile:
     q_cluster_list[cluster_id].addComponent(query_id)
 
     cluster_id += 1
+
+    numQuery += 1
 queryFile.close()
 ###end initialization of dictionary query data structures
 
