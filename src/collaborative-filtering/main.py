@@ -48,6 +48,8 @@ from evaluation import userVoteCurve
 from file import getQueryDefinition
 from file import writeOutputUtilityMatrix
 
+from clustering import user_pearson_similarity_computation
+
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
@@ -127,6 +129,9 @@ for u, col in utilityMatrix.iterrows():
 
 ###end initialization of dictionary user data structures
 
+for user1, user2 in itertools.product(collaborativeFilteringUser.keys(), collaborativeFilteringUser.keys()):
+    print(f"similarity between user {user1} and user {user2} = {user_pearson_similarity_computation(collaborativeFilteringUser[user1], collaborativeFilteringUser[user2])}")
+
 ###initialization of
 # - dictionary q_cluster
 # - dictionary q_cluster_list
@@ -145,12 +150,6 @@ for q in queryFile:
     numQuery += 1
 queryFile.close()
 ###end initialization of dictionary query data structures
-
-for cluster in u_cluster_list:
-    print(u_cluster_list[cluster])
-
-for cluster in q_cluster_list:
-    print(q_cluster_list[cluster])
 
 exit(0)
 ### Initialize user profiles and complete utility matrix with
