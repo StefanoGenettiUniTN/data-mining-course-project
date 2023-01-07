@@ -54,6 +54,9 @@ from file import writeOutputUtilityMatrix
 
 from clustering import user_pearson_similarity
 from clustering import query_tuple_similarity
+from clustering import cluster_similarity
+from clustering import query_cluster_similarity
+from clustering import merge
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -109,7 +112,7 @@ for u, col in utilityMatrix.iterrows():
     
     #insert the new user into a new cluster
     u_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
-    u_cluster_list[cluster_id].addComponent(u)
+    u_cluster_list[cluster_id].addComponent(cfUser)
     cfUser.setCluster(cluster_id)
     cluster_id += 1
 
@@ -132,6 +135,9 @@ for u, col in utilityMatrix.iterrows():
     collaborativeFilteringUser[u] = cfUser
     numUser += 1
 
+    if len(cfUser.unvotedEntities) == 0:
+        cfUser.completeEntity()
+
 ###end initialization of dictionary user data structures
 
 #for user1, user2 in itertools.product(collaborativeFilteringUser.keys(), collaborativeFilteringUser.keys()):
@@ -150,7 +156,7 @@ for q in queryFile:
 
     #insert the new query into a new cluster
     q_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
-    q_cluster_list[cluster_id].addComponent(query_id)
+    q_cluster_list[cluster_id].addComponent(cfQuery)
     cfQuery.setCluster(cluster_id)
     cluster_id += 1
 
@@ -159,8 +165,30 @@ for q in queryFile:
 queryFile.close()
 ###end initialization of dictionary query data structures
 
-for query1, query2 in itertools.combinations(collaborativeFilteringQuery.keys(),2):
-    print(f"similarity between query {query1} and query {query2} = {query_tuple_similarity(collaborativeFilteringQuery[query1], collaborativeFilteringQuery[query2], person)}")
+###cluster queries according to tuple similarity
+numCluster = numQuery
+
+#first of all, agglomerate identical queries
+thereAreDuplicates = True
+while thereAreDuplicates:
+    thereAreDuplicates = False
+    clusterCouples = itertools.combinations(q_cluster_list.keys(),2)
+    for cluster1_id, cluster2_id in clusterCouples:
+        if cluster1_id in q_cluster_list and cluster2_id in q_cluster_list:
+            cluster1 = q_cluster_list[cluster1_id]
+            cluster2 = q_cluster_list[cluster2_id]
+            clusterSimilarity = query_cluster_similarity(cluster1, cluster2, person)
+            if clusterSimilarity == 1:
+                q_cluster_list[cluster_id] = merge(cluster1, cluster2, cluster_id)
+                q_cluster_list.pop(cluster1_id, None)
+                q_cluster_list.pop(cluster2_id, None)
+                cluster_id += 1
+                numCluster -= 1
+                thereAreDuplicates = True
+###end cluster queries according to tuple similarity
+
+for cluster in q_cluster_list:
+    print(q_cluster_list[cluster])
 
 exit(0)
 ### Initialize user profiles and complete utility matrix with

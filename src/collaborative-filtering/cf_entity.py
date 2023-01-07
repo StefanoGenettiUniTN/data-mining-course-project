@@ -21,6 +21,9 @@ class Entity:
 
         #each entity belongs to a certain cluster
         self.cluster = -1
+    
+    def __str__(self):
+        return str(self.id)
 
     def computeAvgVote(self):
         sum = 0
@@ -40,6 +43,8 @@ class Entity:
         self.votedEntities[_entityId] = _vote
         if _entityId in self.unvotedEntities:
             self.unvotedEntities.remove(_entityId)
+            if len(self.unvotedEntities)==0:
+                self.completeEntity()
     
     def addUnvotedEntity(self, _entityId):
         self.unvotedEntities.add(_entityId)

@@ -3,6 +3,7 @@ Functions to deal with clustering tasks
 '''
 import math
 import cluster as clusterClass
+import itertools
 
 def merge(c1, c2, newClusterId):
     '''
@@ -10,16 +11,42 @@ def merge(c1, c2, newClusterId):
     Output: the new cluster object
     '''
     outputCluster = clusterClass.Cluster(newClusterId)
-    outputCluster.cardinality = c1.cardinality + c2.cardinality
-
+    
     for c in c1.components:
         outputCluster.addComponent(c)
+        c.setCluster(newClusterId)
 
     for c in c2.components:
         outputCluster.addComponent(c)
+        c.setCluster(newClusterId)
 
     return outputCluster
 
+def cluster_similarity(c1, c2, similarityMetric):
+    '''
+    Compute average distance between points
+    in the cluster according to the input
+    similarityMetric
+    '''
+    similaritySum = 0
+    similarityCard = 0
+    for entity1, entity2 in itertools.product(c1.components, c2.components):
+        similaritySum += similarityMetric(entity1, entity2)
+        similarityCard += 1
+    return similaritySum/similarityCard
+
+def query_cluster_similarity(c1, c2, db):
+    '''
+    Compute average distance between points
+    in the cluster of queries according to
+    query_tuple_similarity metric
+    '''
+    similaritySum = 0
+    similarityCard = 0
+    for entity1, entity2 in itertools.product(c1.components, c2.components):
+        similaritySum += query_tuple_similarity(entity1, entity2, db)
+        similarityCard += 1
+    return similaritySum/similarityCard
 
 def user_pearson_similarity(u1, u2):
     '''
