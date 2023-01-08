@@ -11,7 +11,7 @@ def merge(c1, c2, newClusterId):
     Output: the new cluster object
     '''
     outputCluster = clusterClass.Cluster(newClusterId)
-    
+
     for c in c1.components:
         outputCluster.addComponent(c)
         c.setCluster(newClusterId)
@@ -55,7 +55,7 @@ def user_pearson_similarity(u1, u2):
     '''
     avg_u1 = u1.computeAvgVote()
     avg_u2 = u2.computeAvgVote()
-
+    
     commonItem = 0
 
     numerator = 0
@@ -73,6 +73,7 @@ def user_pearson_similarity(u1, u2):
     if commonItem==0:
         return 0
     
+    #print(f"similarity user {u1} and user {u2} = {numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))}")
     return numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))
 
 def query_tuple_similarity(q1, q2, db):
@@ -85,6 +86,9 @@ def query_tuple_similarity(q1, q2, db):
 
     def_q1 = q1.definition
     def_q2 = q2.definition
+
+    if def_q1 == def_q2:
+        return 1
 
     query_result = db.query(def_q1)   
 
@@ -102,4 +106,42 @@ def query_tuple_similarity(q1, q2, db):
     union = tuple_q1.union(tuple_q2)
 
     return len(intersection)/len(union)
+
+def condense(clusterList, similarityMetric, newClusterId):
+    '''
+    Merge the couple of clusters with the lowest similarityMetric
+
+    clusterList: collection of clusters
+    similarityMetric: function used to measure the similarity between two clusters
+    '''
+    if len(clusterList)<2:
+        print("Error function condense: cannot call function condense if the number of clusters is lower than 2.")
+        return -1
+
+    clusterCouples = itertools.combinations(clusterList.keys(), 2)
+    bestC1 = -1
+    bestC2 = -1
+    bestSimilarity = float('-inf')
+    for c1, c2 in clusterCouples:
+        c1_obj = clusterList[c1]
+        c2_obj = clusterList[c2]
+
+        currentSimilarity = cluster_similarity(c1_obj, c2_obj, similarityMetric)
+
+        if currentSimilarity>bestSimilarity:
+            bestC1 = c1
+            bestC2 = c2
+            bestSimilarity = currentSimilarity
+    
+    if bestC1!=-1 and bestC2!=-1:
+        #print(f"function condense. merging cluster {bestC1} and cluster {bestC2}")
+        clusterList[newClusterId] =  merge(clusterList[bestC1], clusterList[bestC2], newClusterId)
+        clusterList.pop(bestC1, None)
+        clusterList.pop(bestC2, None)
+        #print("merge completed")
+    else:
+        return -1
+
+
+
     

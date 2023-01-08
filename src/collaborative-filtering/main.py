@@ -41,6 +41,8 @@ from function import expected_value_frequency
 from function import expected_tuple_frequency
 from function import expected_attribute_frequency
 
+from cf_function import updateUtilityMatrixVotes
+
 from evaluation import rmse
 from evaluation import me
 from evaluation import me_unvoted
@@ -57,6 +59,7 @@ from clustering import query_tuple_similarity
 from clustering import cluster_similarity
 from clustering import query_cluster_similarity
 from clustering import merge
+from clustering import condense
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -146,27 +149,78 @@ for u, col in utilityMatrix.iterrows():
 ###initialization of
 # - dictionary q_cluster
 # - dictionary q_cluster_list
+duplicates = dict()
 queryFile = open(queryFileName, 'r')
 for q in queryFile:
     query = q[:-1] #otherwise each query ends with \n
     query_id = retriveQueryId(query)
+    query_definition = query.split(",")[1:]
+    query_definition.sort()
 
     #create new collaborative filtering query
-    cfQuery = collaborativeFilteringQueryClass.CollaborativeFilteringQuery(query_id, query)
+    cfQuery = collaborativeFilteringQueryClass.CollaborativeFilteringQuery(query_id, str(query_definition))
 
-    #insert the new query into a new cluster
-    q_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
-    q_cluster_list[cluster_id].addComponent(cfQuery)
-    cfQuery.setCluster(cluster_id)
-    cluster_id += 1
+    #check if there is a duplicate of this query
+    if str(query_definition) in duplicates:
+        duplicateCluster = duplicates[str(query_definition)]
+        q_cluster_list[duplicateCluster].addComponent(cfQuery)
+        cfQuery.setCluster(duplicateCluster)
+    else:
+        #insert the new query into a new cluster
+        q_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
+        q_cluster_list[cluster_id].addComponent(cfQuery)
+        cfQuery.setCluster(cluster_id)
+        duplicates[str(query_definition)] = cluster_id
+        cluster_id += 1
 
     collaborativeFilteringQuery[query_id] = cfQuery
     numQuery += 1
 queryFile.close()
 ###end initialization of dictionary query data structures
 
+#Debug: print query clusters
+#for cluster in q_cluster_list:
+#    print(q_cluster_list[cluster])
+
+#update utility matrix votes
+updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
+
+#cluster users until the number of user clusters is
+#equal to the number of users divided by two
+numUserCluster = numUser
+while numUserCluster>(numUser/2):
+    resultCondense = condense(u_cluster_list, user_pearson_similarity, cluster_id)
+    if resultCondense==-1:
+        print("Fatal error. Function condense returned -1.")
+        exit(-1)
+    numUserCluster -= 1
+    cluster_id += 1
+
+#Debug print specific user
+#for q in collaborativeFilteringUser["u8"].votedEntities:
+#    if q in collaborativeFilteringUser["u7"].votedEntities:
+#        print(f"user u8 vote query {q} = {collaborativeFilteringUser['u8'].votedEntities[q]}")
+#        print(f"user u7 vote query {q} = {collaborativeFilteringUser['u7'].votedEntities[q]}")
+
+#Debug: print user clusters
+for cluster in u_cluster_list:
+    print(u_cluster_list[cluster])
+
+#Debug: print user recommendations
+#for u in collaborativeFilteringUser:
+#    print(f"user {u} recommendations")
+#    print(user_recommendation[u])
+#    if collaborativeFilteringUser[u].completed:
+#        print(f"user {u} completed")
+###
+
+exit(0)
+
 ###cluster queries according to tuple similarity
 numCluster = numQuery
+
+for cluster in q_cluster_list:
+    print(q_cluster_list[cluster])
 
 #first of all, agglomerate identical queries
 thereAreDuplicates = True
@@ -190,7 +244,6 @@ while thereAreDuplicates:
 for cluster in q_cluster_list:
     print(q_cluster_list[cluster])
 
-exit(0)
 ### Initialize user profiles and complete utility matrix with
 ### content based filtering
 for index, v in utilityMatrix.iterrows():
