@@ -34,4 +34,5 @@ def updateUtilityMatrixVotes(user_recommendation, user_cluster, query_cluster, u
                 if voteSize>0:
                     avgVote = voteSum/voteSize
                     user_obj.addVotedEntity(uq, avgVote)
+                    query_obj.addVotedEntity(u_index, avgVote)
                     user_recommendation[u_index][uq] = int(avgVote)

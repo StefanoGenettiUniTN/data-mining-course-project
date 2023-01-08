@@ -48,7 +48,7 @@ def query_cluster_similarity(c1, c2, db):
         similarityCard += 1
     return similaritySum/similarityCard
 
-def user_pearson_similarity(u1, u2):
+def pearson_similarity(u1, u2):
     '''
     Return person similarity between user u1 and user u2 according to
     their row in the utility matrix
@@ -142,6 +142,31 @@ def condense(clusterList, similarityMetric, newClusterId):
     else:
         return -1
 
+def clusterQuality(cluster, similarityMetric):
+    '''
+    Compute the quality of a cluster with respect to a given
+    a given similairty metric
+    '''
+    if len(cluster.components)==1:
+        return 1
 
+    similaritySum = 0
+    similaritySize = 0
+    for c1, c2 in itertools.combinations(cluster.components, 2):
+        componentSimilarity = similarityMetric(c1,c2)
+        similaritySum += componentSimilarity
+        similaritySize += 1
+    return similaritySum/similaritySize
 
+def avgClusterQuality(clusterList, similarityMetric):
+    '''
+    Compute the average quality of the clusters which belong
+    to the input clusterList
+    '''
+    qualitySum = 0
+    qualitySize = 0
+    for cluster in clusterList:
+        qualitySum += clusterQuality(clusterList[cluster], similarityMetric)
+        qualitySize += 1
+    return qualitySum/qualitySize
     

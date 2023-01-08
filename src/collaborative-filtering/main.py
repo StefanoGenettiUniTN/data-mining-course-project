@@ -54,12 +54,13 @@ from evaluation import userVoteCurve
 from file import getQueryDefinition
 from file import writeOutputUtilityMatrix
 
-from clustering import user_pearson_similarity
+from clustering import pearson_similarity
 from clustering import query_tuple_similarity
 from clustering import cluster_similarity
 from clustering import query_cluster_similarity
 from clustering import merge
 from clustering import condense
+from clustering import avgClusterQuality
 
 from sklearn.datasets import make_blobs
 from sklearn.cluster import KMeans
@@ -105,48 +106,6 @@ numUser = 0
 numQuery = 0
 
 ###initialization of
-# - dictionary u_completed
-# - dictionary u_cluster
-# - dictionary u_cluster_list
-# - collaborativeFilteringUser
-for u, col in utilityMatrix.iterrows():
-    #create new collaborative filtering user
-    cfUser = collaborativeFilteringUserClass.CollaborativeFilteringUser(u)
-    
-    #insert the new user into a new cluster
-    u_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
-    u_cluster_list[cluster_id].addComponent(cfUser)
-    cfUser.setCluster(cluster_id)
-    cluster_id += 1
-
-    #initialize user recommendation dictionary for the current user
-    user_recommendation[u] = dict()
-
-    sum_vote = 0
-    for q in col.keys():
-        if math.isnan(col[q]):
-            #add the query which the target user did not vote to the unvoted query list
-            cfUser.addUnvotedEntity(q)
-        else:
-            #add the query which the target user voted to the voted query list
-            cfUser.addVotedEntity(q, col[q])
-            sum_vote += col[q]
-
-    #compute vote average
-    cfUser.computeAvgVote()
-
-    collaborativeFilteringUser[u] = cfUser
-    numUser += 1
-
-    if len(cfUser.unvotedEntities) == 0:
-        cfUser.completeEntity()
-
-###end initialization of dictionary user data structures
-
-#for user1, user2 in itertools.product(collaborativeFilteringUser.keys(), collaborativeFilteringUser.keys()):
-#    print(f"similarity between user {user1} and user {user2} = {user_pearson_similarity(collaborativeFilteringUser[user1], collaborativeFilteringUser[user2])}")
-
-###initialization of
 # - dictionary q_cluster
 # - dictionary q_cluster_list
 duplicates = dict()
@@ -178,6 +137,46 @@ for q in queryFile:
 queryFile.close()
 ###end initialization of dictionary query data structures
 
+###initialization of
+# - dictionary u_completed
+# - dictionary u_cluster
+# - dictionary u_cluster_list
+# - collaborativeFilteringUser
+for u, col in utilityMatrix.iterrows():
+    #create new collaborative filtering user
+    cfUser = collaborativeFilteringUserClass.CollaborativeFilteringUser(u)
+    
+    #insert the new user into a new cluster
+    u_cluster_list[cluster_id] = clusterClass.Cluster(cluster_id)
+    u_cluster_list[cluster_id].addComponent(cfUser)
+    cfUser.setCluster(cluster_id)
+    cluster_id += 1
+
+    #initialize user recommendation dictionary for the current user
+    user_recommendation[u] = dict()
+
+    for q in col.keys():
+        if math.isnan(col[q]):
+            #add the query which the target user did not vote to the unvoted query list
+            cfUser.addUnvotedEntity(q)
+
+            #add the user which dit not vote the query to the unvoted user list
+            collaborativeFilteringQuery[q].addUnvotedEntity(cfUser.id)
+        else:
+            #add the query which the target user voted to the voted query list
+            cfUser.addVotedEntity(q, col[q])
+            
+            #add the target user which voted the query
+            collaborativeFilteringQuery[q].addVotedEntity(cfUser.id, col[q])
+
+    collaborativeFilteringUser[u] = cfUser
+    numUser += 1
+
+    if len(cfUser.unvotedEntities) == 0:
+        cfUser.completeEntity()
+
+###end initialization of dictionary user data structures
+
 #Debug: print query clusters
 #for cluster in q_cluster_list:
 #    print(q_cluster_list[cluster])
@@ -189,34 +188,126 @@ updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, co
 #equal to the number of users divided by two
 numUserCluster = numUser
 while numUserCluster>(numUser/2):
-    resultCondense = condense(u_cluster_list, user_pearson_similarity, cluster_id)
+    resultCondense = condense(u_cluster_list, pearson_similarity, cluster_id)
     if resultCondense==-1:
         print("Fatal error. Function condense returned -1.")
         exit(-1)
     numUserCluster -= 1
     cluster_id += 1
 
-#Debug print specific user
-#for q in collaborativeFilteringUser["u8"].votedEntities:
-#    if q in collaborativeFilteringUser["u7"].votedEntities:
-#        print(f"user u8 vote query {q} = {collaborativeFilteringUser['u8'].votedEntities[q]}")
-#        print(f"user u7 vote query {q} = {collaborativeFilteringUser['u7'].votedEntities[q]}")
+#cluster queries until the number of query clusters is
+#equal to the number of queries divided by two
+numQueryCluster = len(q_cluster_list)
+while numQueryCluster>(numQuery/2):
+    resultCondense = condense(q_cluster_list, pearson_similarity, cluster_id)
+    if resultCondense==-1:
+        print("Fatal error. Function condense returned -1.")
+        exit(-1)
+    numQueryCluster -= 1
+    cluster_id += 1
+
+#update utility matrix votes
+updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
+
+###keep merging until the utility matrix is not complete
+done = False    #done==True IFF all the queries are voted by all the users
+while not done:
+    done = True
+
+    #compute user clusters quality and query clusters quality
+    userClusterQuality = avgClusterQuality(u_cluster_list, pearson_similarity)
+    queryClusterQuality = avgClusterQuality(q_cluster_list, pearson_similarity)
+
+    print(f"userClusterQuality = {userClusterQuality}")
+    print(f"queryClusterQuality = {queryClusterQuality}")
+    print(f"query clusters: {len(q_cluster_list)}")
+    print(f"user clusters: {len(u_cluster_list)}")
+
+    if userClusterQuality > queryClusterQuality:
+        #merge user clusters because their quality is better
+        uncompletedUser = -1
+        for user_id in collaborativeFilteringUser:
+            user_obj = collaborativeFilteringUser[user_id]
+            if not user_obj.completed:
+                done=False
+                uncompletedUser = user_id
+                break
+        
+        if not done:
+            uncompletedUserObj = collaborativeFilteringUser[uncompletedUser]
+            clusterUncompleteUser = u_cluster_list[uncompletedUserObj.cluster]
+
+            #find the best cluster to be merged with the cluster of the uncompleted user
+            bestClusterId = -1
+            bestSimilarity = float('-inf')
+            for cluster in u_cluster_list:
+                if cluster != clusterUncompleteUser.id:
+                    cluster_obj = u_cluster_list[cluster]
+
+                    currentSimilarity = cluster_similarity(clusterUncompleteUser, cluster_obj, pearson_similarity)
+
+                    if currentSimilarity>bestSimilarity:
+                        bestClusterId = cluster
+                        bestSimilarity = currentSimilarity
+            
+            if bestClusterId!=-1:
+                u_cluster_list[cluster_id] =  merge(clusterUncompleteUser, u_cluster_list[bestClusterId], cluster_id)
+                u_cluster_list.pop(clusterUncompleteUser.id, None)
+                u_cluster_list.pop(bestClusterId, None)
+                cluster_id += 1
+    else:
+        #merge query clusters because their quality is better
+        uncompletedQuery = -1
+        for query_id in collaborativeFilteringQuery:
+            query_obj = collaborativeFilteringQuery[query_id]
+            if not query_obj.completed:
+                done=False
+                uncompletedQuery = query_id
+                break
+        
+        if not done:
+            uncompletedQueryObj = collaborativeFilteringQuery[uncompletedQuery]
+            clusterUncompleteQuery = q_cluster_list[uncompletedQueryObj.cluster]
+
+            #find the best cluster to be merged with the cluster of the uncompleted query
+            bestClusterId = -1
+            bestSimilarity = float('-inf')
+            for cluster in q_cluster_list:
+                if cluster != clusterUncompleteQuery.id:
+                    cluster_obj = q_cluster_list[cluster]
+
+                    currentSimilarity = cluster_similarity(clusterUncompleteQuery, cluster_obj, pearson_similarity)
+
+                    if currentSimilarity>bestSimilarity:
+                        bestClusterId = cluster
+                        bestSimilarity = currentSimilarity
+            
+            if bestClusterId!=-1:
+                q_cluster_list[cluster_id] =  merge(clusterUncompleteQuery, q_cluster_list[bestClusterId], cluster_id)
+                q_cluster_list.pop(clusterUncompleteQuery.id, None)
+                q_cluster_list.pop(bestClusterId, None)
+                cluster_id += 1
+
+    if not done:
+        #update utility matrix votes
+        updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
+
+##########
 
 #Debug: print user clusters
 for cluster in u_cluster_list:
     print(u_cluster_list[cluster])
 
 #Debug: print user recommendations
-#for u in collaborativeFilteringUser:
-#    print(f"user {u} recommendations")
-#    print(user_recommendation[u])
-#    if collaborativeFilteringUser[u].completed:
-#        print(f"user {u} completed")
+for u in collaborativeFilteringUser:
+    print(f"user {u} recommendations")
+    print(user_recommendation[u])
+    if collaborativeFilteringUser[u].completed:
+        print(f"user {u} completed")
 ###
 
-exit(0)
-
 ###cluster queries according to tuple similarity
+'''
 numCluster = numQuery
 
 for cluster in q_cluster_list:
@@ -239,109 +330,8 @@ while thereAreDuplicates:
                 cluster_id += 1
                 numCluster -= 1
                 thereAreDuplicates = True
+'''
 ###end cluster queries according to tuple similarity
-
-for cluster in q_cluster_list:
-    print(q_cluster_list[cluster])
-
-### Initialize user profiles and complete utility matrix with
-### content based filtering
-for index, v in utilityMatrix.iterrows():
-    user_obj = userClass.User(index)
-    query_def = dict()  #query_def[q] = the definition of the query with id q
-    sum_vote = 0
-
-    #print("")
-    #print("========================")
-    #print("USER "+user_obj.getId())
-
-    user_recommendation[user_obj.getId()] = dict()
-
-    for q in v.keys():
-        if math.isnan(v[q]):
-            #add the query which the target user did not vote to the unvoted query list
-            user_obj.addUnVotedQuery(q)
-            query_def[q] = getQueryDefinition(queryFileName, q)
-        else:
-            #add the query which the target user voted to the voted query list
-            user_obj.addVotedQuery(q, v[q])
-            sum_vote += v[q]
-            query_def[q] = getQueryDefinition(queryFileName, q)
-
-    #compute vote average
-    num_votes = len(user_obj.getVotedQueries())
-    if num_votes > 0:
-        user_obj.setAvgVote(sum_vote/num_votes)
-    else:
-        user_obj.setAvgVote(-1)
-   
-    #compute user profile
-    user_obj.computeUserProfile(person, query_def)
-
-    '''
-    print("")
-    print("Print user: "+str(user_obj.getId()))
-    print("ft_tuple")
-    print(user_obj.get_ft_tuple())
-    print("ft_attribute")
-    print(user_obj.get_ft_attribute())
-    print("ft_value")
-    print(user_obj.get_ft_value())
-    print("ft_cluster")
-    print(user_obj.get_ft_cluster())
-    print("end print user "+str(user_obj.getId()))
-    print("")
-    '''
-
-    #compute query profile of the unvoted queries
-    query_to_be_voted = list()
-    for q in user_obj.getUnVotedQueries():
-        #get query definition
-        qdef = query_def[q]
-        
-        #instantiate query object
-        qobj = queryClass.Query(qdef)
-
-        #computer query profile
-        qobj.computeQueryProfile(person, expectedTupleFrequency, expectedAttributeFrequency, user_obj)
-
-        query_to_be_voted.append(qobj)
-
-        #print("")
-        #print("Print query: "+str(qobj.getId()))
-        #print("ft_tuple")
-        #print(qobj.get_ft_tuple())
-        #print("ft_attribute")
-        #print(qobj.get_ft_attribute())
-        #print("ft_value")
-        #print(qobj.get_ft_value())
-        #print("ft_cluster")
-        #print(qobj.get_ft_cluster())
-        #print("ft_tuple_user")
-        #print(qobj.get_ft_tuple_user())
-        #print("ft_attribute_user")
-        #print(qobj.get_ft_attribute_user())
-        #print("ft_value_user")
-        #print(qobj.get_ft_value_user())
-        #print("ft_cluster_user")
-        #print(qobj.get_ft_cluster_user())
-
-        #print("end print query "+str(qobj.getId()))
-        #print("")
-
-    #compute content based recommendation for current user
-    #about the list of query objects stored in query_to_be_voted
-    predictedVotes = user_obj.queryContentBasedEvaluation(person, query_def, query_to_be_voted)
-
-    #print("")
-    #print(f"USER[{user_obj.getId()}] predicted votes")
-    #print(predictedVotes)
-    #print("")
-    
-    #store the user recommendation for the unvoted queries
-    for query_vote in predictedVotes:
-        user_recommendation[user_obj.getId()][query_vote] = predictedVotes[query_vote]
-###
 
 ###Write the output utility matrix
 for i, u in utilityMatrix.iterrows():
