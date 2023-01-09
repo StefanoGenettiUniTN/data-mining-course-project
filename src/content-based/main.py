@@ -51,11 +51,11 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = Path("data/village/relational_db.csv")
-utilityMatrixFileName = Path("data/village/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/village/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/village/output.csv")
-queryFileName = Path("data/village/queries.csv")
+databaseFileName = Path("data/village2/relational_db.csv")
+utilityMatrixFileName = Path("data/village2/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/village2/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/village2/output.csv")
+queryFileName = Path("data/village2/queries.csv")
 
 #Read database
 person = db.Person(databaseFileName)

@@ -20,6 +20,7 @@ import pandas as pd
 import math
 import itertools
 from pathlib import Path
+import random
 
 from function import retriveQuerySearchAttributes
 from function import retriveQueryId
@@ -67,12 +68,12 @@ from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 
-databaseFileName = Path("data/university/relational_db.csv")
-utilityMatrixFileName = Path("data/university/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/university/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/university/output.csv")
-queryFileName = Path("data/university/queries.csv")
-userFileName = Path("data/university/users.csv")
+databaseFileName = Path("data/village/relational_db.csv")
+utilityMatrixFileName = Path("data/village/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/village/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/village/output.csv")
+queryFileName = Path("data/village/queries.csv")
+userFileName = Path("data/village/users.csv")
 
 #read database
 person = db.Person(databaseFileName)
@@ -117,7 +118,7 @@ for q in queryFile:
     query_definition.sort()
 
     #create new collaborative filtering query
-    cfQuery = collaborativeFilteringQueryClass.CollaborativeFilteringQuery(query_id, str(query_definition))
+    cfQuery = collaborativeFilteringQueryClass.CollaborativeFilteringQuery(query_id, query)
 
     #check if there is a duplicate of this query
     if str(query_definition) in duplicates:
@@ -184,6 +185,30 @@ for u, col in utilityMatrix.iterrows():
 #update utility matrix votes
 updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
 
+'''
+for q in collaborativeFilteringUser['u9'].votedEntities:
+    if q in collaborativeFilteringUser['u4'].votedEntities:
+        print(f"query {q}:")
+        print("user4")
+        print(collaborativeFilteringUser['u4'].votedEntities[q])
+        print("user9")
+        print(collaborativeFilteringUser['u9'].votedEntities[q])
+        print("===")
+print("")
+for q in collaborativeFilteringUser['u8'].votedEntities:
+    if q in collaborativeFilteringUser['u2'].votedEntities:
+        print(f"query {q}:")
+        print("user2")
+        print(collaborativeFilteringUser['u2'].votedEntities[q])
+        print("user8")
+        print(collaborativeFilteringUser['u8'].votedEntities[q])
+        print("===")
+
+for u1, u2 in itertools.combinations(collaborativeFilteringUser, 2):
+    print(f"[{u1}][{u2}] = {pearson_similarity(collaborativeFilteringUser[u1], collaborativeFilteringUser[u2])}")
+
+'''
+
 #cluster users until the number of user clusters is
 #equal to the number of users divided by two
 numUserCluster = numUser
@@ -194,6 +219,10 @@ while numUserCluster>(numUser/2):
         exit(-1)
     numUserCluster -= 1
     cluster_id += 1
+
+#Debug: print user clusters
+for cluster in u_cluster_list:
+    print(u_cluster_list[cluster])
 
 #cluster queries until the number of query clusters is
 #equal to the number of queries divided by two
@@ -209,6 +238,10 @@ while numQueryCluster>(numQuery/2):
 #update utility matrix votes
 updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
 
+#Debug: print query clusters
+#for cluster in q_cluster_list:
+#    print(q_cluster_list[cluster])
+
 ###keep merging until the utility matrix is not complete
 done = False    #done==True IFF all the queries are voted by all the users
 while not done:
@@ -222,11 +255,27 @@ while not done:
     print(f"queryClusterQuality = {queryClusterQuality}")
     print(f"query clusters: {len(q_cluster_list)}")
     print(f"user clusters: {len(u_cluster_list)}")
+    print(f"query clusters/num_query: {len(q_cluster_list)/numQuery}")
+    print(f"user clusters/num_query: {len(u_cluster_list)/numUser}")
+
+    #with probability p, change the decision
+    p = 0.33
+    if random.random() < p:
+        if userClusterQuality > queryClusterQuality:
+            userClusterQuality = queryClusterQuality-1
+        else:
+            queryClusterQuality = userClusterQuality-1
+
+    #avoid single user cluster
+    if len(u_cluster_list) == 2:
+        queryClusterQuality = userClusterQuality+100
 
     if userClusterQuality > queryClusterQuality:
         #merge user clusters because their quality is better
         uncompletedUser = -1
-        for user_id in collaborativeFilteringUser:
+        collaborativeFilteringUserList = list(collaborativeFilteringUser.keys())
+        random.shuffle(collaborativeFilteringUserList)
+        for user_id in collaborativeFilteringUserList:
             user_obj = collaborativeFilteringUser[user_id]
             if not user_obj.completed:
                 done=False
@@ -246,6 +295,9 @@ while not done:
 
                     currentSimilarity = cluster_similarity(clusterUncompleteUser, cluster_obj, pearson_similarity)
 
+                    #if clusterUncompleteUser.id == collaborativeFilteringUser['u9'].cluster:
+                    #    print(f"similarity cluster {clusterUncompleteUser.id} con {cluster} = {currentSimilarity}")
+
                     if currentSimilarity>bestSimilarity:
                         bestClusterId = cluster
                         bestSimilarity = currentSimilarity
@@ -255,10 +307,17 @@ while not done:
                 u_cluster_list.pop(clusterUncompleteUser.id, None)
                 u_cluster_list.pop(bestClusterId, None)
                 cluster_id += 1
+                #Debug: print user clusters
+                for cluster in u_cluster_list:
+                    print(u_cluster_list[cluster])
+                print("---")
+                print("merge user")
     else:
         #merge query clusters because their quality is better
         uncompletedQuery = -1
-        for query_id in collaborativeFilteringQuery:
+        collaborativeFilteringQueryList = list(collaborativeFilteringQuery.keys())
+        random.shuffle(collaborativeFilteringQueryList)
+        for query_id in collaborativeFilteringQueryList:
             query_obj = collaborativeFilteringQuery[query_id]
             if not query_obj.completed:
                 done=False
@@ -287,6 +346,7 @@ while not done:
                 q_cluster_list.pop(clusterUncompleteQuery.id, None)
                 q_cluster_list.pop(bestClusterId, None)
                 cluster_id += 1
+                print("merge query")
 
     if not done:
         #update utility matrix votes
@@ -295,15 +355,15 @@ while not done:
 ##########
 
 #Debug: print user clusters
-for cluster in u_cluster_list:
-    print(u_cluster_list[cluster])
+#for cluster in u_cluster_list:
+#    print(u_cluster_list[cluster])
 
 #Debug: print user recommendations
-for u in collaborativeFilteringUser:
-    print(f"user {u} recommendations")
-    print(user_recommendation[u])
-    if collaborativeFilteringUser[u].completed:
-        print(f"user {u} completed")
+#for u in collaborativeFilteringUser:
+#    print(f"user {u} recommendations")
+#    print(user_recommendation[u])
+#    if collaborativeFilteringUser[u].completed:
+#        print(f"user {u} completed")
 ###
 
 ###cluster queries according to tuple similarity

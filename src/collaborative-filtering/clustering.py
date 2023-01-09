@@ -61,6 +61,7 @@ def pearson_similarity(u1, u2):
     numerator = 0
     denominator1 = 0
     denominator2 = 0
+    voteDistance = 0
 
     for i in u1.votedEntities:
         if i in u2.votedEntities:
@@ -68,12 +69,30 @@ def pearson_similarity(u1, u2):
             denominator1 += (u1.votedEntities[i]-avg_u1)**2
             denominator2 += (u2.votedEntities[i]-avg_u2)**2
 
+            voteDistance += abs((u1.votedEntities[i]-avg_u1)-(u2.votedEntities[i]-avg_u2))
+
             commonItem += 1
 
     if commonItem==0:
         return 0
     
-    #print(f"similarity user {u1} and user {u2} = {numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))}")
+    #if numerator=0 or denominator1=0 or denominator2=0 it is not possible to
+    #compute pearson correlation since the standard deviation is 0
+    #we return the normalized average distance between the votes of the two
+    #entities
+    if numerator==0 or denominator1==0 or denominator2==0:
+        avgDistance = voteDistance/commonItem
+        normalizedAvgDistance = avgDistance/99  #value from 0 to 1
+        if u1.id=='u9' or u2.id=='u9':
+            print(f"similarity user {u1} and user {u2} = {1-normalizedAvgDistance}")
+        return 1-normalizedAvgDistance
+
+    #if (u1.id=='u9' and u2.id=='u4') or (u1.id=='u4' and u2.id=='u9'):
+    #    print(f"{u1.id} voted queries = {u1.votedEntities}")
+    #    print(f"{u2.id} voted queries = {u2.votedEntities}")
+
+    #if u1.id=='u9' or u2.id=='u9':
+    #    print(f"similarity user {u1} and user {u2} = {numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))}")
     return numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))
 
 def query_tuple_similarity(q1, q2, db):
