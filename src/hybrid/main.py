@@ -11,6 +11,7 @@ from pathlib import Path
 import math
 
 from recommendation import content_based
+from recommendation import collaborative_filtering
 
 from evaluation import rmse
 from evaluation import me
@@ -76,10 +77,23 @@ content_based(  databaseFileName,                       #database file name
                 frequentVoters                          #frequent voters list
             )
 
+print("content based done")
+
 #process rare voters with collaborative filtering
+collaborative_filtering(    databaseFileName,                       #database file name
+                            utilityMatrixFileName,                  #utility matrix file name
+                            completeUtilityMatrixFileName,          #complete utility matrix file name
+                            outputUtilityMatrixFileName,            #output utility matrix file name
+                            queryFileName,                          #query log file name
+                            userFileName,                           #user list file name
+                            user_recommendation,                    #user recommendation obj
+                            frequentVoters,                         #frequent voters list
+                            coldStartUsers                          #frequent voters list
+                        )
+
+print("collaborative filtering done")
 
 #solve people who did not vote anything
-
 
 ### Evaluate algorithm performance
 print("Quality Evaluation")
