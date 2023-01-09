@@ -10,6 +10,8 @@ import itertools
 from pathlib import Path
 import math
 
+from recommendation import content_based
+
 from evaluation import rmse
 from evaluation import me
 from evaluation import me_unvoted
@@ -62,16 +64,23 @@ print("")
 print("RARE VOTERS")
 print(rareVoters)
 print("")
-
 ###
 
 #process frequent voters with content based filtering
+content_based(  databaseFileName,                       #database file name
+                utilityMatrixFileName,                  #utility matrix file name
+                completeUtilityMatrixFileName,          #complete utility matrix file name
+                outputUtilityMatrixFileName,            #output utility matrix file name
+                queryFileName,                          #query log file name
+                user_recommendation,                    #user recommendation obj
+                frequentVoters                          #frequent voters list
+            )
 
 #process rare voters with collaborative filtering
 
 #solve people who did not vote anything
 
-exit(1)
+
 ### Evaluate algorithm performance
 print("Quality Evaluation")
 
