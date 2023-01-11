@@ -199,7 +199,6 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
 
             #initialize user recommendation dictionary for the current user
             if u not in user_recommendation:
-                print("user: "+u)
                 user_recommendation[u] = dict()
 
             if u in frequentVoters: 
@@ -239,10 +238,6 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
                 cfUser.completeEntity()
 
     ###end initialization of dictionary user data structures
-
-    for user in collaborativeFilteringUser:
-        if collaborativeFilteringUser[user].completed:
-            print(f"user {user} completd")
 
     #update utility matrix votes
     updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)

@@ -25,12 +25,12 @@ from evaluation import userVoteCurve
 from function import retriveQueryId
 import cluster as clusterClass
 
-databaseFileName = Path("data/village2/relational_db.csv")
-utilityMatrixFileName = Path("data/village2/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/village2/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/village2/output.csv")
-queryFileName = Path("data/village2/queries.csv")
-userFileName = Path("data/village2/users.csv")
+databaseFileName = Path("data/big/relational_db.csv")
+utilityMatrixFileName = Path("data/big/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/big/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/big/output.csv")
+queryFileName = Path("data/big/queries.csv")
+userFileName = Path("data/big/users.csv")
 
 #user_recommendation[u] = dictionary such that user_recommendation[u][q1] is the
 #vote recommended by the system for the user-query couple (u,q1)
@@ -84,6 +84,13 @@ content_based(  databaseFileName,                       #database file name
                 user_recommendation,                    #user recommendation obj
                 frequentVoters                          #frequent voters list
             )
+#Uncomment to measure conly collaborative filtering performance
+#for user, votes in utilityMatrix.iterrows():
+#    if user in frequentVoters:
+#        user_recommendation[user] = dict()
+#        for query in votes.keys():
+#            if math.isnan(votes[query]):
+#                user_recommendation[user][query] = 50
 
 ##############################################################################
 

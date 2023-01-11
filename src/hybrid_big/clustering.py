@@ -2,6 +2,7 @@
 Functions to deal with clustering tasks
 '''
 import math
+import random
 import cluster as clusterClass
 import itertools
 
@@ -32,6 +33,25 @@ def cluster_similarity(c1, c2, similarityMetric):
     similarityCard = 0
     for entity1, entity2 in itertools.product(c1.components, c2.components):
         similaritySum += similarityMetric(entity1, entity2)
+        similarityCard += 1
+    return similaritySum/similarityCard
+
+def cluster_similarity_big(c1, c2, similarityMetric):
+    '''
+    Compute average distance between points
+    in the cluster according to the input
+    similarityMetric.
+    For the big dataset we do not consider all the components
+    of the two clusters but only a random sample.
+    '''
+    similaritySum = 0
+    similarityCard = 0
+
+    c1ComponentsSample = random.sample(c1.components, min(10, len(c1.components)))
+    c2ComponentsSample = random.sample(c2.components, min(10, len(c2.components)))
+
+    for entity1, entity2 in itertools.product(c1ComponentsSample, c2ComponentsSample):
+        similaritySum += pearson_similarity_big(entity1, entity2)
         similarityCard += 1
     return similaritySum/similarityCard
 
@@ -83,16 +103,52 @@ def pearson_similarity(u1, u2):
     if numerator==0 or denominator1==0 or denominator2==0:
         avgDistance = voteDistance/commonItem
         normalizedAvgDistance = avgDistance/99  #value from 0 to 1
-        if u1.id=='u9' or u2.id=='u9':
-            print(f"similarity user {u1} and user {u2} = {1-normalizedAvgDistance}")
+
         return 1-normalizedAvgDistance
 
-    #if (u1.id=='u9' and u2.id=='u4') or (u1.id=='u4' and u2.id=='u9'):
-    #    print(f"{u1.id} voted queries = {u1.votedEntities}")
-    #    print(f"{u2.id} voted queries = {u2.votedEntities}")
+    return numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))
 
-    #if u1.id=='u9' or u2.id=='u9':
-    #    print(f"similarity user {u1} and user {u2} = {numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))}")
+def pearson_similarity_big(u1, u2):
+    '''
+    Return person similarity between user u1 and user u2 according to
+    their row in the utility matrix.
+    For the big dataset we consider only a random sample of the voted queries of each user.
+    '''
+    avg_u1 = u1.computeAvgVote()
+    avg_u2 = u2.computeAvgVote()
+    
+    commonItem = 0
+
+    numerator = 0
+    denominator1 = 0
+    denominator2 = 0
+    voteDistance = 0
+
+    u1SampleVotedEntities = random.sample(u1.votedEntities.keys(), min(10, len(u1.votedEntities)))
+    u2SampleVotedEntities = random.sample(u2.votedEntities.keys(), min(10, len(u2.votedEntities)))
+
+    for i in u1SampleVotedEntities:
+        if i in u2SampleVotedEntities:
+            numerator += (u1.votedEntities[i]-avg_u1)*(u2.votedEntities[i]-avg_u2)
+            denominator1 += (u1.votedEntities[i]-avg_u1)**2
+            denominator2 += (u2.votedEntities[i]-avg_u2)**2
+
+            voteDistance += abs((u1.votedEntities[i]-avg_u1)-(u2.votedEntities[i]-avg_u2))
+
+            commonItem += 1
+
+    if commonItem==0:
+        return 0
+    
+    #if numerator=0 or denominator1=0 or denominator2=0 it is not possible to
+    #compute pearson correlation since the standard deviation is 0
+    #we return the normalized average distance between the votes of the two
+    #entities
+    if numerator==0 or denominator1==0 or denominator2==0:
+        avgDistance = voteDistance/commonItem
+        normalizedAvgDistance = avgDistance/99  #value from 0 to 1
+        return 1-normalizedAvgDistance
+
     return numerator/(math.sqrt(denominator1)*math.sqrt(denominator2))
 
 def query_tuple_similarity(q1, q2, db):
@@ -137,7 +193,12 @@ def condense(clusterList, similarityMetric, newClusterId):
         print("Error function condense: cannot call function condense if the number of clusters is lower than 2.")
         return -1
 
-    clusterCouples = itertools.combinations(clusterList.keys(), 2)
+    #consider a sample of clusters for big dataset in order to reduce computational complexity
+    randomClusterSample = random.sample(clusterList.keys(), min(50, len(clusterList)))
+    print(len(clusterList))
+    print(randomClusterSample)
+    #clusterCouples = itertools.combinations(clusterList.keys(), 2)
+    clusterCouples = itertools.combinations(randomClusterSample, 2)
     bestC1 = -1
     bestC2 = -1
     bestSimilarity = float('-inf')
@@ -145,7 +206,7 @@ def condense(clusterList, similarityMetric, newClusterId):
         c1_obj = clusterList[c1]
         c2_obj = clusterList[c2]
 
-        currentSimilarity = cluster_similarity(c1_obj, c2_obj, similarityMetric)
+        currentSimilarity = cluster_similarity_big(c1_obj, c2_obj, similarityMetric)
 
         if currentSimilarity>bestSimilarity:
             bestC1 = c1
