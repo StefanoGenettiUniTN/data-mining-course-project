@@ -22,7 +22,6 @@ from evaluation import query_avg_error
 from evaluation import user_avg_error
 from evaluation import userVoteCurve
 
-#ricordarsi di togliere le seguenti funzioni
 from function import retriveQueryId
 import cluster as clusterClass
 
@@ -143,11 +142,6 @@ for q in queryFile:
         cluster_autoincrement_id += 1
 queryFile.close()
 
-#Debug print query cluster
-for cluster_id in query_cluster_list:
-    print(query_cluster_list[cluster_id])
-    print("===")
-
 # iii. assign an approximate average vote to each query cluster
 query_cluster_vote = dict() #query_cluster_vote[c] = expected vote for queries belonging to cluster c
 for cluster_id in query_cluster_list:
@@ -155,8 +149,7 @@ for cluster_id in query_cluster_list:
 
     #sample a random component from the cluster
     cluster_component = sample(cluster_obj.components, 1)[0]
-    print(f"Random component of cluster {cluster_id} = {cluster_component}")
-
+    
     #compute user average vote
     sumVote = 0
     numVote = 0
@@ -175,11 +168,6 @@ for cluster_id in query_cluster_list:
     
     avgVote = sumVote/numVote
     query_cluster_vote[cluster_id] = avgVote
-
-#Debug print query cluster vote
-for cluster_id in query_cluster_list:
-    print(query_cluster_vote[cluster_id])
-    print("===")   
 
 #complete utility matrix rows for cold start users
 for u in coldStartUsers:
@@ -203,14 +191,10 @@ print("Quality Evaluation")
 #complete utility matrix
 completeUtilityMatrix = pd.read_csv(completeUtilityMatrixFileName)
 
-rmse = rmse(utilityMatrix, completeUtilityMatrix)
-me = me(utilityMatrix, completeUtilityMatrix)
 me_unvoted = me_unvoted(user_recommendation, completeUtilityMatrix)
 rmse_unvoted = rmse_unvoted(user_recommendation, completeUtilityMatrix)
-print("RMSE = "+str(rmse))
-print("ME = "+str(me))
-print("ME UNVOTED = "+str(me_unvoted))
-print("RMSE UNVOTED = "+str(rmse_unvoted))
+print("ME = "+str(me_unvoted))
+print("RMSE = "+str(rmse_unvoted))
 
 #average error for each query
 query_avg_error(user_recommendation, completeUtilityMatrix)
