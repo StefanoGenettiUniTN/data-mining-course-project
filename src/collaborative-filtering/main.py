@@ -22,25 +22,7 @@ import itertools
 from pathlib import Path
 import random
 
-from function import retriveQuerySearchAttributes
 from function import retriveQueryId
-from function import getPersonProfile
-from function import cosineDistance
-from function import featureDict_to_featureList
-from function import cosToVote
-from function import frequent_value
-from function import important_tuples
-from function import frequent_attribute
-from function import k_means_clustering
-from function import plot_people_cluster
-from function import clusterFrequency
-from function import ageGroup
-from function import tuples_frequencies
-from function import attribute_frequency
-from function import value_frequency
-from function import expected_value_frequency
-from function import expected_tuple_frequency
-from function import expected_attribute_frequency
 
 from cf_function import updateUtilityMatrixVotes
 
@@ -62,11 +44,6 @@ from clustering import query_cluster_similarity
 from clustering import merge
 from clustering import condense
 from clustering import avgClusterQuality
-
-from sklearn.datasets import make_blobs
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import StandardScaler
 
 databaseFileName = Path("data/village/relational_db.csv")
 utilityMatrixFileName = Path("data/village/utility_matrix.csv")

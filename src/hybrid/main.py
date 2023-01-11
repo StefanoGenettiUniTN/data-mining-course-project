@@ -26,12 +26,12 @@ from evaluation import userVoteCurve
 from function import retriveQueryId
 import cluster as clusterClass
 
-databaseFileName = Path("data/university/relational_db.csv")
-utilityMatrixFileName = Path("data/university/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/university/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/university/output.csv")
-queryFileName = Path("data/university/queries.csv")
-userFileName = Path("data/university/users.csv")
+databaseFileName = Path("data/village2/relational_db.csv")
+utilityMatrixFileName = Path("data/village2/utility_matrix.csv")
+completeUtilityMatrixFileName = Path("data/village2/utility_matrix_complete.csv")
+outputUtilityMatrixFileName = Path("data/village2/output.csv")
+queryFileName = Path("data/village2/queries.csv")
+userFileName = Path("data/village2/users.csv")
 
 #user_recommendation[u] = dictionary such that user_recommendation[u][q1] is the
 #vote recommended by the system for the user-query couple (u,q1)
