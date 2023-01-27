@@ -321,9 +321,9 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
                     u_cluster_list.pop(clusterUncompleteUser.id, None)
                     u_cluster_list.pop(bestClusterId, None)
                     cluster_id += 1
-                    for c in u_cluster_list:
-                        print(u_cluster_list[c])
-                    print("---")
+                    #for c in u_cluster_list:
+                    #    print(u_cluster_list[c])
+                    #print("---")
         else:
             #merge query clusters because their quality is better
             uncompletedQuery = -1

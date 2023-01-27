@@ -195,8 +195,8 @@ def condense(clusterList, similarityMetric, newClusterId):
 
     #consider a sample of clusters for big dataset in order to reduce computational complexity
     randomClusterSample = random.sample(clusterList.keys(), min(50, len(clusterList)))
-    print(len(clusterList))
-    print(randomClusterSample)
+    #print(len(clusterList))
+    #print(randomClusterSample)
     #clusterCouples = itertools.combinations(clusterList.keys(), 2)
     clusterCouples = itertools.combinations(randomClusterSample, 2)
     bestC1 = -1

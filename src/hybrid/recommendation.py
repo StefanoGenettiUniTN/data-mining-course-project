@@ -199,7 +199,7 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
 
             #initialize user recommendation dictionary for the current user
             if u not in user_recommendation:
-                print("user: "+u)
+                #print("user: "+u)
                 user_recommendation[u] = dict()
 
             if u in frequentVoters: 
@@ -239,10 +239,11 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
                 cfUser.completeEntity()
 
     ###end initialization of dictionary user data structures
-
+    '''
     for user in collaborativeFilteringUser:
         if collaborativeFilteringUser[user].completed:
             print(f"user {user} completd")
+    '''
 
     #update utility matrix votes
     updateUtilityMatrixVotes(user_recommendation, u_cluster_list, q_cluster_list, collaborativeFilteringUser, collaborativeFilteringQuery)
@@ -326,9 +327,9 @@ def collaborative_filtering(_databaseFileName, _utilityMatrixFileName, _complete
                     u_cluster_list.pop(clusterUncompleteUser.id, None)
                     u_cluster_list.pop(bestClusterId, None)
                     cluster_id += 1
-                    for c in u_cluster_list:
-                        print(u_cluster_list[c])
-                    print("---")
+                    #for c in u_cluster_list:
+                    #    print(u_cluster_list[c])
+                    #print("---")
         else:
             #merge query clusters because their quality is better
             uncompletedQuery = -1

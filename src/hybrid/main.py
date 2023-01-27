@@ -10,6 +10,8 @@ import itertools
 from pathlib import Path
 from random import sample
 import math
+import argparse
+import sys
 
 from recommendation import content_based
 from recommendation import collaborative_filtering
@@ -25,12 +27,23 @@ from evaluation import userVoteCurve
 from function import retriveQueryId
 import cluster as clusterClass
 
-databaseFileName = Path("data/village2/relational_db.csv")
-utilityMatrixFileName = Path("data/village2/utility_matrix.csv")
-completeUtilityMatrixFileName = Path("data/village2/utility_matrix_complete.csv")
-outputUtilityMatrixFileName = Path("data/village2/output.csv")
-queryFileName = Path("data/village2/queries.csv")
-userFileName = Path("data/village2/users.csv")
+def set_dataset_dir(directory):
+    if directory.dataset == None:
+        directory.dataset = "university"
+    return "data/"+str(directory.dataset)
+
+parser = argparse.ArgumentParser(description='Predict votes.')
+parser.add_argument('-d', '--dataset', help="specify name of the dataset folder. The dataset folder must a subfolder of data. [default=university]")
+param = sys.argv[1:]
+namespace = parser.parse_args(param)
+dataset_dir = set_dataset_dir(namespace)
+
+databaseFileName = Path(str(dataset_dir+"/relational_db.csv"))
+utilityMatrixFileName = Path(str(dataset_dir+"/utility_matrix.csv"))
+completeUtilityMatrixFileName = Path(str(dataset_dir+"/utility_matrix_complete.csv"))
+outputUtilityMatrixFileName = Path(str(dataset_dir+"/output.csv"))
+queryFileName = Path(str(dataset_dir+"/queries.csv"))
+userFileName = Path(str(dataset_dir+"/users.csv"))
 
 #user_recommendation[u] = dictionary such that user_recommendation[u][q1] is the
 #vote recommended by the system for the user-query couple (u,q1)
@@ -57,10 +70,12 @@ for user, votes in utilityMatrix.iterrows():
     
     if votedQueries==0:
         coldStartUsers.add(user)
+        #frequentVoters.add(user)
     elif votedQueries > totQueries/2:
         frequentVoters.add(user)
     else:
         rareVoters.add(user)
+        #frequentVoters.add(user)
 
 print("USER WHO DID NOT VOTE ANY QUERY")
 print(coldStartUsers)
@@ -74,7 +89,7 @@ print("")
 ###
 
 ##############################################################################
-#process frequent voters with content based filtering
+#process frequent voters with content based recommendation
 ##############################################################################
 content_based(  databaseFileName,                       #database file name
                 utilityMatrixFileName,                  #utility matrix file name
